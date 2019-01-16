@@ -1,0 +1,48 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+#games, .info, .scores, .state {
+  margin: 20px auto;
+}
+
+.info, .state {
+  height: 20px;
+}
+
+.scores {
+  display: flex;
+}
+
+.score {
+  padding: 0 20px;
+  font-size: 1.5em;
+  color: #ea8d87;
+}
+
+.btn-restart {
+  width: 150px;
+  height: 40px;
+  border: 0;
+  background-color: #8BC34A;
+  color: white;
+  margin: 10px auto;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: 0.3s all ease;
+  outline: 0;
+}
+
+.btn-restart:hover {
+  background-color: #607d8b;
+}
