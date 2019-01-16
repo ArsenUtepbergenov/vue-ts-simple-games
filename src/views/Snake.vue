@@ -1,6 +1,6 @@
 <template>
   <div class="snake">
-    <canvas ref="games"></canvas>
+    <!-- <canvas ref="games"></canvas> -->
     <button type="button" class="btn-restart" @click="restart()">Restart</button>
   </div>
 </template>

@@ -16,7 +16,7 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
   private currentDirection = Directions.LEFT;
   private headX: number = 220;
   private headY: number = 220;
-  private food: any = null;
+  private food: any;
   private globalState: string = 'start';
   private previousScore: number = 0;
   private currentScore: number = 0;
@@ -54,14 +54,21 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
   }
 
   public restart(): void {
-    this.globalState = 'start';
-    this._drawBoard();
-    this.currentScore = 0;
+    this._reset();
     this.run();
   }
 
   public mounted() {
     this.run();
+  }
+
+  private _reset(): void {
+    this.globalState = 'over';
+    this.currentScore = 0;
+    this.headX = 220;
+    this.headY = 220;
+    this.snake = [];
+    this._drawBoard();
   }
 
   private _initCanvas(): void {
@@ -80,9 +87,7 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
     this.placeFoodX = this.width / Piece.size - 1;
     this.placeFoodY = this.height / Piece.size - 1;
 
-    this.food = {
-      radius: 10,
-    };
+    this.food = { radius: 10, x: 0, y: 0 };
 
     this._setNewFood();
   }

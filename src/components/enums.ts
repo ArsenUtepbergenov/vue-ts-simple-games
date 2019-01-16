@@ -6,5 +6,11 @@ export const enum Directions {
 }
 
 export const enum State {
+  START,
+  PLAY,
+  OVER,
+}
+
+export const enum Control {
   RESTART = 82,
 }
