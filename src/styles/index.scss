@@ -10,6 +10,10 @@ body {
   height: 100vh;
 }
 
+canvas {
+  outline: 0;
+}
+
 #games, .info, .scores, .state {
   margin: 20px auto;
 }

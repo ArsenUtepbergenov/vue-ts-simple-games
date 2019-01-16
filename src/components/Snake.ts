@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { IGameStatic, IGameDynamic } from './interfaces';
-import { Directions, State } from './enums';
+import { Directions, State, Control } from './enums';
 import Piece from './Piece';
 import Canvas from './Canvas';
 
@@ -16,8 +16,8 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
   private currentDirection = Directions.LEFT;
   private headX: number = 220;
   private headY: number = 220;
-  private food: any = null;
-  private globalState: string = 'start';
+  private food: any;
+  private globalState: State = State.START;
   private previousScore: number = 0;
   private currentScore: number = 0;
   private isInitCanvas = false;
@@ -25,17 +25,19 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
   private placeFoodY: number = 0;
 
   public run(): void {
-    this._initInstance();
+    if (this._initInstance() === false) {
+      return;
+    }
 
     const keyListener = (event: any) => {
       this._handleKey(event);
     };
     this.canvas.addEventListener('keydown', keyListener);
 
-    this.globalState = 'play';
+    this.globalState = State.PLAY;
 
     const timerId = setInterval(() => {
-      if (this.globalState === 'over') {
+      if (this.globalState === State.OVER) {
         this.canvas.removeEventListener('keydown', keyListener);
         clearInterval(timerId);
         return;
@@ -54,9 +56,7 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
   }
 
   public restart(): void {
-    this.globalState = 'start';
-    this._drawBoard();
-    this.currentScore = 0;
+    this._reset();
     this.run();
   }
 
@@ -64,15 +64,29 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
     this.run();
   }
 
-  private _initCanvas(): void {
+  private _reset(): void {
+    this.globalState = State.OVER;
+    this.currentScore = 0;
+    this.headX = 220;
+    this.headY = 220;
+    this.snake = [];
+    this._drawBoard();
+  }
+
+  private _initCanvas(): boolean {
+    if (!this.$refs.games)
+      return false;
     this.canvas = new Canvas(this.$refs.games, this.width, this.height);
     this.context = this.canvas.context;
     this.isInitCanvas = true;
+    return true;
   }
 
-  private _initInstance(): void {
+  private _initInstance(): boolean {
     if (this.isInitCanvas === false) {
-      this._initCanvas();
+      if (this._initCanvas() === false) {
+        return false;
+      }
     }
 
     this.snake.push(new Piece(this.headX, this.headY));
@@ -80,11 +94,10 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
     this.placeFoodX = this.width / Piece.size - 1;
     this.placeFoodY = this.height / Piece.size - 1;
 
-    this.food = {
-      radius: 10,
-    };
+    this.food = { radius: 10, x: 0, y: 0 };
 
     this._setNewFood();
+    return true;
   }
 
   private _drawBoard(): void {
@@ -151,7 +164,7 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
 
   private _checkState(): void {
     if (this._checkCollisionBorder() || this._checkCollisionBody()) {
-      this.globalState = 'over';
+      this.globalState = State.OVER;
     }
     if (this.headX === this.food.x && this.headY === this.food.y) {
       this.currentScore++;
@@ -164,8 +177,8 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
   }
 
   private _handleKey(event: any): void {
-    if (event.keyCode === State.RESTART) {
-      this.globalState = 'over';
+    if (event.keyCode === Control.RESTART) {
+      this.globalState = State.OVER;
       this.restart();
     }
     if (event.keyCode === Directions.LEFT && this.currentDirection !== Directions.RIGHT) {
