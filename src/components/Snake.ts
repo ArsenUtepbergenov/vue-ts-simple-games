@@ -2,8 +2,9 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { IGameStatic, IGameDynamic } from './interfaces';
 import { Directions, State, Control } from './enums';
-import Piece from './Piece';
+import { Piece, Food } from './GameShapes';
 import Canvas from './Canvas';
+import Board from './Board';
 
 @Component({
 })
@@ -23,6 +24,7 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
   private isInitCanvas = false;
   private placeFoodX: number = 0;
   private placeFoodY: number = 0;
+  private board: any;
 
   public run(): void {
     if (this._initInstance() === false) {
@@ -48,7 +50,7 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
 
   public update(): void {
     console.log('update');
-    this._drawBoard();
+    this.board.draw();
     this._drawSnake();
     this._drawFood();
     this._checkState();
@@ -70,12 +72,13 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
     this.headX = 220;
     this.headY = 220;
     this.snake = [];
-    this._drawBoard();
+    this.board.draw();
   }
 
   private _initCanvas(): boolean {
-    if (!this.$refs.games)
+    if (!this.$refs.games) {
       return false;
+    }
     this.canvas = new Canvas(this.$refs.games, this.width, this.height);
     this.context = this.canvas.context;
     this.isInitCanvas = true;
@@ -91,18 +94,15 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
 
     this.snake.push(new Piece(this.headX, this.headY));
 
+    this.board = new Board(this.context, this.width, this.height);
+
     this.placeFoodX = this.width / Piece.size - 1;
     this.placeFoodY = this.height / Piece.size - 1;
 
-    this.food = { radius: 10, x: 0, y: 0 };
+    this.food = new Food(0, 0);
 
-    this._setNewFood();
+    this._putNewFood();
     return true;
-  }
-
-  private _drawBoard(): void {
-    this.context.fillStyle = '#eeeeee';
-    this.context.fillRect(0, 0, this.width, this.height);
   }
 
   private _drawSnake(): void {
@@ -112,9 +112,10 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
     }
   }
 
-  private _setNewFood(): void {
-    this.food.x = Math.floor(Math.random() * this.placeFoodX + 1) * Piece.size;
-    this.food.y = Math.floor(Math.random() * this.placeFoodY + 1) * Piece.size;
+  private _putNewFood(): void {
+    const x = Math.floor(Math.random() * this.placeFoodX + 1) * Piece.size;
+    const y = Math.floor(Math.random() * this.placeFoodY + 1) * Piece.size;
+    this.food.setPos(x, y);
   }
 
   private _drawFood(): void {
@@ -169,7 +170,7 @@ export default class Snake extends Vue implements IGameStatic, IGameDynamic {
     if (this.headX === this.food.x && this.headY === this.food.y) {
       this.currentScore++;
       this.previousScore = this.currentScore;
-      this._setNewFood();
+      this._putNewFood();
     }
     this.snake.pop();
     const newHead = new Piece(this.headX, this.headY);
