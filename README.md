@@ -1,4 +1,4 @@
-# test-app
+# simple games via vue and ts
 
 ## Project setup
 ```
