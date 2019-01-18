@@ -1,0 +1,15 @@
+.scores {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  font-size: 1.5em;
+  
+  &__text {
+    color: #ea8d87;
+  }
+  
+  &--color-light {
+    color: #235233;
+  }
+}

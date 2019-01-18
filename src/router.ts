@@ -16,7 +16,7 @@ export default new Router({
     {
       path: '/snake',
       name: 'snake',
-      component: () => import('./views/Snake.vue'),
+      component: () => import('./views/SnakeGame.vue'),
     },
     {
       path: '/tictactoe',

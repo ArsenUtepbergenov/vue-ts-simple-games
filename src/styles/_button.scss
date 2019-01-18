@@ -1,0 +1,22 @@
+.btn {
+  border: 0;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s all ease;
+  outline: 0;
+}
+
+.btn-restart {
+  @extend .btn;
+  width: 150px;
+  height: 40px;
+  background-color: #8BC34A;
+  margin: 10px auto;
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-restart:hover {
+  background-color: #607d8b;
+}
