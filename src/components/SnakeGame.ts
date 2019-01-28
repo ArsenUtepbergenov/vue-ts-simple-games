@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { IGameStatic, IGameDynamic } from './interfaces';
 import { Directions, State, Control } from './enums';
-import { Piece, Food } from './GameShapes';
+import Piece from './Piece';
+import Food from './Food';
 import Canvas from './Canvas';
 import Board from './Board';
 import Snake from './Snake';
@@ -48,7 +49,6 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   }
 
   public update(): void {
-    console.log('update');
     this.board.draw();
     this.snake.draw();
     this._drawFood();
@@ -159,12 +159,11 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
     }
     if (this.snake.x === this.food.x && this.snake.y === this.food.y) {
       this.score.increase(1);
+      this.snake.add();
       this._putNewFood();
-    }
-    else {
+    } else {
      this.snake.cut();
     }
-    this.snake.add();
   }
 
   private _handleKey(event: any): void {

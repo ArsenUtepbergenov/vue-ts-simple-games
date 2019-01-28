@@ -20,8 +20,11 @@ export default class Menu extends Vue {
   list-style-type: none;
   margin: auto;
   padding: 0;
+  min-width: 300px;
   &__item {
     padding: 10px 0;
+    width: 100%;
+    text-align: center;
   }
   &__link {
     color: #323432;

@@ -1,6 +1,11 @@
 export default class Score {
-  private previousScore: number = 0;
-  private score: number = 0;
+  private previousScore: number;
+  private score: number;
+  
+  constructor() {
+    this.previousScore = 0;
+    this.score = 0;
+  }
 
   public increase(score: number): void {
     this.score += score;

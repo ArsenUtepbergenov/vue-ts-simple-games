@@ -1,6 +1,9 @@
 <template>
   <div class="home">
     <Menu :menuList="menuList" />
+    <div class="home__games">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -20,3 +23,13 @@ import Menu from '@/components/Menu.vue';
 })
 export default class Home extends Vue {}
 </script>
+
+<style lang="scss" scoped>
+.home {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  &__games {
+  }
+}
+</style>
