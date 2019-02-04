@@ -1,39 +1,51 @@
 export default class Score {
-  private previousScore: number;
-  private score: number;
-  
+  private _previousScore: number;
+  private _score: number;
+  private _best: number;
+
   constructor() {
-    this.previousScore = 0;
-    this.score = 0;
+    this._previousScore = 0;
+    this._score = 0;
+    this._best = 0;
   }
 
   public increase(score: number): void {
-    this.score += score;
+    this._score += score;
     this._updatePreviousScore();
+    this._updateBest();
   }
 
   public decrease(score: number): void {
-    if (this.score - score <= 0) {
+    if (this._score - score <= 0) {
       return;
     }
-    this.score -= score;
+    this._score -= score;
     this._updatePreviousScore();
   }
 
-  public reset() {
-    this.previousScore = 0;
-    this.score = 0;
+  public reset(): void {
+    this._score = 0;
   }
 
-  get getScore(): number {
-    return this.score;
+  get score(): number {
+    return this._score;
   }
 
-  get getPreviousScore(): number {
-    return this.previousScore;
+  get previousScore(): number {
+    return this._previousScore;
+  }
+
+  get best(): number {
+    return this._best;
   }
 
   private _updatePreviousScore(): void {
-    this.previousScore = this.score;
+    this._previousScore = this._score;
+  }
+
+  private _updateBest(): void {
+    if (this._score > this._best) {
+      this._best = this._score;
+    }
   }
 }

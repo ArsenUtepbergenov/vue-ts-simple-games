@@ -1,14 +1,16 @@
 import { IDrawable } from './interfaces';
-import Piece from './Piece';
 import { Directions } from './enums';
+import Piece from './Piece';
 
 export default class Snake implements IDrawable {
   private body: Piece[] = [];
-  private headX: number = 220;
-  private headY: number = 220;
+  private headX: number = 0;
+  private headY: number = 0;
   private context: any;
 
-  constructor(context: any) {
+  constructor(x: number, y: number, context: any) {
+    this.headX = x;
+    this.headY = y;
     this.context = context;
     this.body.push(new Piece(this.headX, this.headY));
   }
@@ -56,5 +58,9 @@ export default class Snake implements IDrawable {
 
   get y(): number {
     return this.headY;
+  }
+
+  get getBody(): Piece[] {
+    return this.body;
   }
 }

@@ -26,6 +26,11 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   private score: any;
   private food: any;
 
+  constructor() {
+    super();
+    this.score = new Score();
+  }
+
   public run(): void {
     if (this._initInstance() === false) {
       return;
@@ -51,7 +56,7 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   public update(): void {
     this.board.draw();
     this.snake.draw();
-    this._drawFood();
+    this.food.draw();
     this._checkState();
     this._move();
   }
@@ -66,11 +71,15 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   }
 
   get previousScore(): number {
-    return this.score.getPreviousScore;
+    return this.score.previousScore;
   }
 
   get currentScore(): number {
-    return this.score.getScore;
+    return this.score.score;
+  }
+
+  get bestScore(): number {
+    return this.score.best;
   }
 
   private _reset(): void {
@@ -97,34 +106,23 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
       }
     }
 
-    this.snake = new Snake(this.context);
-    this.snake.add();
+    const startPosX: number = 300;
+    const startPosY: number = 260;
 
-    this.score = new Score();
-
+    this.snake = new Snake(startPosX, startPosY, this.context);
     this.board = new Board(this.context, this.width, this.height);
 
     this.placeFoodX = this.width / Piece.size - 1;
     this.placeFoodY = this.height / Piece.size - 1;
 
-    this.food = new Food(0, 0);
+    this.food = new Food(0, 0, this.context);
 
     this._putNewFood();
     return true;
   }
 
   private _putNewFood(): void {
-    const x = Math.floor(Math.random() * this.placeFoodX + 1) * Piece.size;
-    const y = Math.floor(Math.random() * this.placeFoodY + 1) * Piece.size;
-    this.food.setPos(x, y);
-  }
-
-  private _drawFood(): void {
-    this.context.beginPath();
-    this.context.arc(this.food.x, this.food.y, this.food.radius, 0, 2 * Math.PI);
-    this.context.closePath();
-    this.context.fillStyle = '#acc38b';
-    this.context.fill();
+    this.food.relocation(this.placeFoodX, this.placeFoodY);
   }
 
   private _checkCollisionBorder(): boolean {
@@ -138,11 +136,11 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   }
 
   private _checkCollisionBody(): boolean {
-    if (this.snake.length === 1) {
+    if (this.snake.getBody.length === 1) {
       return false;
     }
-    for (const piece of this.snake) {
-      if (this.snake.x === piece.x || this.snake.y === piece.y) {
+    for (const piece of this.snake.getBody) {
+      if (this.snake.x === piece.x && this.snake.y === piece.y) {
         return true;
       }
     }
@@ -161,9 +159,9 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
       this.score.increase(1);
       this.snake.add();
       this._putNewFood();
-    } else {
-     this.snake.cut();
     }
+    this.snake.cut();
+    this.snake.add();
   }
 
   private _handleKey(event: any): void {

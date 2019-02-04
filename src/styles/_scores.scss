@@ -1,15 +1,18 @@
+$primaryColor: #ea8d87;
+$secondaryColor: #009688;
+
 .scores {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: space-around;
   padding: 0 20px;
   font-size: 1.5em;
-  
+  box-sizing: border-box;
+
   &__text {
-    color: #ea8d87;
+    color: $primaryColor;
   }
-  
-  &--color-light {
-    color: #235233;
+
+  &--color-secondary {
+    color: $secondaryColor;
   }
 }
