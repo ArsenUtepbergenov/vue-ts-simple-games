@@ -1,0 +1,6 @@
+.tictactoe {
+  @include flex-center(column);
+  max-width: 440px;
+  margin: auto;
+  overflow-x: hidden;
+}

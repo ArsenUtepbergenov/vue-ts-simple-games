@@ -14,3 +14,13 @@ export const enum State {
 export const enum Control {
   RESTART = 82,
 }
+
+export const enum SizeBoardSnake {
+  WIDTH = 800,
+  HEIGHT = 600,
+}
+
+export const enum SizeBoardTicTacToe {
+  WIDTH = 440,
+  HEIGHT = 440,
+}

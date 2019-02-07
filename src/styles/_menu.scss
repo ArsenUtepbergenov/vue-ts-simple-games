@@ -1,0 +1,28 @@
+.menu {
+  margin: auto;
+  padding: 0;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+
+  &__link {
+    @include transition-slow;
+    @include main-element;
+    text-align: center;
+    padding: 10px 0;
+    text-decoration: none;
+    color: $colorWhite;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .router-link-active {
+    background: $colorGreen;
+    color: $colorWhite;
+  }
+
+  &__link:hover {
+    background: $colorLightBlue;
+    color: $colorWhite;
+  }
+}

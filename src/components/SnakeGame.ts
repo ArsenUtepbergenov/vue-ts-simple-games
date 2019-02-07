@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { IGameStatic, IGameDynamic } from './interfaces';
-import { Directions, State, Control } from './enums';
+import { Directions, State, Control, SizeBoardSnake } from './enums';
 import Piece from './Piece';
 import Food from './Food';
 import Canvas from './Canvas';
@@ -14,8 +14,8 @@ import Score from './Score';
 export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic {
   private canvas: any = null;
   private context: any;
-  private width = 800;
-  private height = 600;
+  private width = SizeBoardSnake.WIDTH;
+  private height = SizeBoardSnake.HEIGHT;
   private currentDirection: Directions = Directions.RIGHT;
   private globalState: State = State.START;
   private isInitCanvas = false;
@@ -71,15 +71,15 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   }
 
   get previousScore(): number {
-    return this.score.previousScore;
+    return this.score.getPreviousScore;
   }
 
   get currentScore(): number {
-    return this.score.score;
+    return this.score.getScore;
   }
 
   get bestScore(): number {
-    return this.score.best;
+    return this.score.getBest;
   }
 
   private _reset(): void {
@@ -90,7 +90,7 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   }
 
   private _initCanvas(): boolean {
-    if (!this.$refs.games) {
+    if (!this.$refs.game) {
       return false;
     }
     this.canvas = new Canvas(this.$refs.games, this.width, this.height);
