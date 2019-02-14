@@ -12,21 +12,20 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
-    },
-    {
-      path: '/snake',
-      name: 'snake',
-      component: () => import('./views/SnakeGame.vue'),
-    },
-    {
-      path: '/tictactoe',
-      name: 'tictactoe',
-      component: () => import('./views/TicTacToe.vue'),
-    },
-    {
-      path: '/tetris',
-      name: 'tetris',
-      component: () => import('./views/Tetris.vue'),
+      children: [
+        {
+          path: 'snake',
+          component: () => import('./views/SnakeGame.vue'),
+        },
+        {
+          path: 'tictactoe',
+          component: () => import('./views/TicTacToeGame.vue'),
+        },
+        {
+          path: 'tetris',
+          component: () => import('./views/TetrisGame.vue'),
+        },
+      ],
     },
   ],
 });

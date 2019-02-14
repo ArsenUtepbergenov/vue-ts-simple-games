@@ -1,19 +1,18 @@
-html, body {
-  margin: 0;
-  padding: 0;
+// base
+body {
+  background: url(../assets/bg.jpeg) no-repeat center;
+  background-size: cover;
+  font-family: 'Lato', sans-serif;
 }
-
-canvas {
-  outline: 0;
-}
-
-#games, .info, .state {
-  margin: 20px auto;
-}
-
-.info, .state {
-  height: 20px;
-}
-
+// variables
+@import "./variables";
+// mixins
+@import "./mixins";
+// base elements
+@import "./menu";
 @import "./scores";
 @import "./button";
+// games
+@import "./snake";
+@import "./tictactoe";
+@import "./tetris";

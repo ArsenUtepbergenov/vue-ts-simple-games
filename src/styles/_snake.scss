@@ -1,0 +1,6 @@
+.snake {
+  @include flex-center(column);
+  max-width: 800px;
+  margin: auto;
+  overflow-x: hidden;
+}

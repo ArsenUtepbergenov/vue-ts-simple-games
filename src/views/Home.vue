@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Menu :menuList="menuList" />
+    <Menu :menuItems="menuItems" />
     <div class="home__games">
       <router-view />
     </div>
@@ -17,7 +17,11 @@ import Menu from '@/components/Menu.vue';
   },
   data() {
     return {
-      menuList: ['TicTacToe', 'Snake', 'Tetris'],
+      menuItems: [
+        {title: 'Tic Tac Toe', nav: 'tictactoe'},
+        {title: 'Snake', nav: 'snake'},
+        {title: 'Tetris', nav: 'tetris'},
+      ],
     };
   },
 })
@@ -26,10 +30,9 @@ export default class Home extends Vue {}
 
 <style lang="scss" scoped>
 .home {
-  display: flex;
+  display: grid;
   width: 100vw;
   height: 100vh;
-  &__games {
-  }
+  grid-template-columns: 300px 1fr;
 }
 </style>
