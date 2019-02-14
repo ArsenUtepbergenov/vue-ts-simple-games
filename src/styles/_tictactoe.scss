@@ -1,6 +1,10 @@
 .tictactoe {
   @include flex-center(column);
-  max-width: 440px;
   margin: auto;
   overflow-x: hidden;
+
+  &__game {
+    max-width: 450px;
+    @include flex-center(column);
+  }
 }

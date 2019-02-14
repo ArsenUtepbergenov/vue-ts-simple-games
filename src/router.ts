@@ -19,11 +19,11 @@ export default new Router({
         },
         {
           path: 'tictactoe',
-          component: () => import('./views/TicTacToe.vue'),
+          component: () => import('./views/TicTacToeGame.vue'),
         },
         {
           path: 'tetris',
-          component: () => import('./views/Tetris.vue'),
+          component: () => import('./views/TetrisGame.vue'),
         },
       ],
     },

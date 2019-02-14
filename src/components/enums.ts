@@ -15,12 +15,18 @@ export const enum Control {
   RESTART = 82,
 }
 
-export const enum SizeBoardSnake {
+export const enum BoardSnake {
   WIDTH = 800,
   HEIGHT = 600,
 }
 
-export const enum SizeBoardTicTacToe {
-  WIDTH = 440,
-  HEIGHT = 440,
+export const enum BoardTicTacToe {
+  WIDTH = 450,
+  HEIGHT = 450,
+}
+
+export const enum Players {
+  FIRST_PLAYER,
+  SECOND_PLAYER,
+  AI_PLAYER,
 }
