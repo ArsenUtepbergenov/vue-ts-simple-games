@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Utilities } from './utilities';
-import { IGameStatic } from './interfaces';
-import { BoardTicTacToe, State, Players } from './enums';
-import Canvas from './Canvas';
-import Board from './Board';
-import Player from './Player';
+import Utilities from '../utilities';
+import { IGameStatic } from '../interfaces';
+import { BoardTicTacToe, State, Players } from '../enums';
+import Canvas from '../game-objects/Canvas';
+import Board from '../game-objects/Board';
+import Player from '../game-objects/Player';
 
 @Component({
 })
@@ -118,7 +118,7 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
       this.winFirstPlayer = this.sizeGrid;
       this.winSecondPlayer = -this.sizeGrid;
     }
-    else if (this.currentPlayer === Players.SECOND_PLAYER) {
+    if (this.currentPlayer === Players.SECOND_PLAYER) {
       this.winSecondPlayer = this.sizeGrid;
       this.winFirstPlayer = -this.sizeGrid;
     }
@@ -244,6 +244,10 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
     this.context.closePath();
   }
 
+  private _setCurrentPlayer(player: Players): void {
+    this.currentPlayer = player;
+  }
+
   private _handleClick(event: any): void {
     const rect = event.target.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -260,13 +264,18 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
 
     if (this.currentPlayer === Players.FIRST_PLAYER) {
       this._drawCircle(posXSymbol, posYSymbol);
-      this.currentPlayer = Players.SECOND_PLAYER;
       this.grid[indexCellY][indexCellX] = 1;
     }
-    else if (this.currentPlayer === Players.SECOND_PLAYER) {
+    if (this.currentPlayer === Players.SECOND_PLAYER) {
       this._drawCross(posXSymbol, posYSymbol);
-      this.currentPlayer = Players.FIRST_PLAYER;
       this.grid[indexCellY][indexCellX] = -1;
+    }
+    // TODO: shit if
+    if (this.currentPlayer === Players.FIRST_PLAYER) {
+      this._setCurrentPlayer(Players.SECOND_PLAYER);
+    }
+    if (this.currentPlayer === Players.SECOND_PLAYER) {
+      this._setCurrentPlayer(Players.FIRST_PLAYER);
     }
 
     this._checkState();

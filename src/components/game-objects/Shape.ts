@@ -12,19 +12,19 @@ export default abstract class Shape {
     this.posY = y;
   }
 
-  get x() {
+  get x(): number {
     return this.posX;
   }
 
-  set x(value) {
+  set x(value: number) {
     this.posX = value;
   }
 
-  get y() {
+  get y(): number {
     return this.posY;
   }
 
-  set y(value) {
+  set y(value: number) {
     this.posY = value;
   }
 }

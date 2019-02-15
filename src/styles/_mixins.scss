@@ -10,6 +10,13 @@
   flex-direction: $direction;
 }
 
+@mixin game($max-width) {
+  @include flex-center(column);
+  margin: auto;
+  overflow-x: hidden;
+  max-width: $max-width;
+}
+
 @mixin main-element {
   box-sizing: border-box;
   outline: 0;

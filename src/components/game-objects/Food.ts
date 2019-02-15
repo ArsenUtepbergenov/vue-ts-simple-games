@@ -1,5 +1,5 @@
-import { IDrawable } from './interfaces';
-import Shape from './GameShapes';
+import { IDrawable } from '../interfaces';
+import Shape from './Shape';
 import Piece from './Piece';
 
 export default class Food extends Shape implements IDrawable {

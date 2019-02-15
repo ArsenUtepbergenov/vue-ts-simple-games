@@ -15,6 +15,11 @@ export const enum Control {
   RESTART = 82,
 }
 
+export const enum BoardArkanoid {
+  WIDTH = 800,
+  HEIGHT = 720,
+}
+
 export const enum BoardSnake {
   WIDTH = 800,
   HEIGHT = 600,

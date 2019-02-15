@@ -25,6 +25,10 @@ export default new Router({
           path: 'tetris',
           component: () => import('./views/TetrisGame.vue'),
         },
+        {
+          path: 'arkanoid',
+          component: () => import('./views/ArkanoidGame.vue'),
+        },
       ],
     },
   ],

@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { IGameStatic, IGameDynamic } from './interfaces';
-import { Directions, State, Control, BoardSnake } from './enums';
-import Piece from './Piece';
-import Food from './Food';
-import Canvas from './Canvas';
-import Board from './Board';
-import Snake from './Snake';
-import Score from './Score';
+import { IGameStatic, IGameDynamic } from '../interfaces';
+import { Directions, State, Control, BoardSnake } from '../enums';
+import Piece from '../game-objects/Piece';
+import Food from '../game-objects/Food';
+import Canvas from '../game-objects/Canvas';
+import Board from '../game-objects/Board';
+import Snake from '../game-objects/Snake';
+import Score from '../game-objects/Score';
 
 @Component({
 })

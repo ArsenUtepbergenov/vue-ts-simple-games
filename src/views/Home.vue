@@ -21,6 +21,7 @@ import Menu from '@/components/Menu.vue';
         {title: 'Tic Tac Toe', nav: 'tictactoe'},
         {title: 'Snake', nav: 'snake'},
         {title: 'Tetris', nav: 'tetris'},
+        {title: 'Arkanoid', nav: 'arkanoid'},
       ],
     };
   },

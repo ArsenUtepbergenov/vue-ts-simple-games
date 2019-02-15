@@ -11,4 +11,4 @@
     </div>
   </div>
 </template>
-<script src="@/components/TicTacToeGame.ts" lang="ts"></script>
+<script src="@/components/games/TicTacToeGame.ts" lang="ts"></script>
