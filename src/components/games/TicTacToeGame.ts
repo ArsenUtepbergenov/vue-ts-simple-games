@@ -264,18 +264,13 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
 
     if (this.currentPlayer === Players.FIRST_PLAYER) {
       this._drawCircle(posXSymbol, posYSymbol);
+      this._setCurrentPlayer(Players.SECOND_PLAYER);
       this.grid[indexCellY][indexCellX] = 1;
     }
-    if (this.currentPlayer === Players.SECOND_PLAYER) {
+    else if (this.currentPlayer === Players.SECOND_PLAYER) {
       this._drawCross(posXSymbol, posYSymbol);
-      this.grid[indexCellY][indexCellX] = -1;
-    }
-    // TODO: shit if
-    if (this.currentPlayer === Players.FIRST_PLAYER) {
-      this._setCurrentPlayer(Players.SECOND_PLAYER);
-    }
-    if (this.currentPlayer === Players.SECOND_PLAYER) {
       this._setCurrentPlayer(Players.FIRST_PLAYER);
+      this.grid[indexCellY][indexCellX] = -1;
     }
 
     this._checkState();

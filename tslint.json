@@ -14,8 +14,6 @@
     "interface-name": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
-    "no-consecutive-blank-lines": false,
-    "variable-name": [true, "allow-leading-underscore"],
-    "no-namespace": [true, "allow-declarations"]
+    "no-consecutive-blank-lines": false
   }
 }
