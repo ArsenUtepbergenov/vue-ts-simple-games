@@ -1,0 +1,6 @@
+.message {
+  &__p {
+  }
+  
+  @include modificators-message;
+}

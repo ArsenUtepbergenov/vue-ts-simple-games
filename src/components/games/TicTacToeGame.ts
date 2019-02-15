@@ -8,6 +8,9 @@ import Board from '../game-objects/Board';
 import Player from '../game-objects/Player';
 
 @Component({
+  components: {
+    Message,
+  },
 })
 export default class TicTacToeGame extends Vue implements IGameStatic {
   private canvas: any = null;
@@ -27,6 +30,8 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
   private grid: number[][] = [[], []];
   private sizeGrid: number = 0;
   private cell: {size: number};
+  private message: string = '';
+  private styleState: string = '';
 
   constructor() {
     super();
@@ -78,8 +83,23 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
     return this.aiPlayer.getScore;
   }
 
+  get getMessage(): string {
+    return this.message;
+  }
+
+  get getStyleState(): string {
+    return this.styleState;
+  }
+
+  private _setMessage(message: string, styleState: string): void {
+    this.message = message;
+    this.styleState = styleState;
+  }
+
   private _reset(): void {
     this.globalState = State.OVER;
+    this.message = '';
+    this.styleState = '';
   }
 
   private _initCanvas(): boolean {
@@ -209,17 +229,17 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
     switch (winner) {
       case 'first':
         this.firstPlayer.addScore(1);
-        console.log('first player won');
+        this._setMessage('The first player won', 'over');
         break;
       case 'second':
         this.secondPlayer.addScore(1);
-        console.log('second player won');
+        this._setMessage('The second player won', 'over');
         break;
       case 'draw':
-        console.log('the game is draw');
+        this._setMessage('The game is draw', 'over');
         break;
       default:
-        console.error('unrecorded situation');
+        this._setMessage('Unrecorded situation', 'error');
     }
   }
 
