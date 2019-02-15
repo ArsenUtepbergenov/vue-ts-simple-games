@@ -31,8 +31,8 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
   private grid: number[][] = [[], []];
   private sizeGrid: number = 0;
   private cell: {size: number};
-  private _message: string = '';
-  private _styleState: string = '';
+  private message: string = '';
+  private styleState: string = '';
 
   constructor() {
     super();
@@ -84,21 +84,23 @@ export default class TicTacToeGame extends Vue implements IGameStatic {
     return this.aiPlayer.getScore;
   }
 
-  get message(): string {
-    return this._message;
+  get getMessage(): string {
+    return this.message;
   }
-  
-  get styleState(): string {
-    return this._styleState;
+
+  get getStyleState(): string {
+    return this.styleState;
   }
 
   private _setMessage(message: string, styleState: string): void {
-    this._message = message;
-    this._styleState = styleState;
+    this.message = message;
+    this.styleState = styleState;
   }
 
   private _reset(): void {
     this.globalState = State.OVER;
+    this.message = '';
+    this.styleState = '';
   }
 
   private _initCanvas(): boolean {

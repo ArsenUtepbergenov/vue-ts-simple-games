@@ -7,7 +7,7 @@
     </div>
     <div class="tictactoe__game">
       <canvas ref="game"></canvas>
-      <Message :message="message" :state="styleState" />
+      <Message :message="getMessage" :state="getStyleState" />
       <button type="button" class="btn-restart" @click="restart()">Restart</button>
     </div>
   </div>
