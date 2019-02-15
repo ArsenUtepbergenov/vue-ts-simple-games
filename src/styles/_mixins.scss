@@ -21,6 +21,18 @@
   transition: 0.3s all ease;
 }
 
+@mixin modificators-message {
+  &--primary {
+    color: $primary;
+  }
+  &--error {
+    color: $colorRed;
+  }
+  &--over {
+    color: $colorYellow;
+  }
+}
+
 @mixin modificators-colors {
   &--color-white {
     color: $colorWhite;
