@@ -6,6 +6,7 @@ import { BoardTicTacToe, State, Players } from '../enums';
 import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
 import Player from '../game-objects/Player';
+import Message from '../message.vue';
 
 @Component({
   components: {

@@ -1,12 +1,12 @@
 import Score from './Score';
 
 export default class Player {
-  private _name: string = '';
+  private name: string = '';
   private score: Score;
 
   constructor(name: string = 'default name') {
     this.score = new Score();
-    this._name = name;
+    this.name = name;
   }
 
   public addScore(score: number): void {
@@ -22,7 +22,7 @@ export default class Player {
   }
 
   get getName(): string {
-    return this._name;
+    return this.name;
   }
 
   get getScore(): number {

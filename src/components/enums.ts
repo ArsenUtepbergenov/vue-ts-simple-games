@@ -35,3 +35,9 @@ export const enum Players {
   SECOND_PLAYER,
   AI_PLAYER,
 }
+
+export const enum VelocityPaddle {
+  SLOW = 8,
+  MIDDLE = 14,
+  FAST = 20,
+}

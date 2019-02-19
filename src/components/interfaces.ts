@@ -10,3 +10,7 @@ export interface IGameStatic {
 export interface IDrawable {
   draw(): void;
 }
+
+export interface IReset {
+  reset(): void;
+}

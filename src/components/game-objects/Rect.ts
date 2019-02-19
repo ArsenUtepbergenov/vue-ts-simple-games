@@ -1,8 +1,8 @@
 import Shape from './Shape';
 
 export default class Rect extends Shape {
-  private width: number = 0;
-  private height: number = 0;
+  protected width: number = 0;
+  protected height: number = 0;
 
   constructor(x: number, y: number, width: number, height: number) {
     super(x, y);
