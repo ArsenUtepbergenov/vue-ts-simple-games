@@ -5,12 +5,9 @@ export default class Velocity extends Vector2 {
     super(x, y);
   }
 
-  public increaseX(value: number): void {
-    this.x += value;
-  }
-
-  public increaseY(value: number): void {
-    this.y += value;
+  public increase(value: number): void {
+    this.x *= value;
+    this.y *= value;
   }
 
   public reset(): void {

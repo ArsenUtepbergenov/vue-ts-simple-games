@@ -39,6 +39,10 @@ export default class Ball extends Circle implements IDynamicObject {
     this.velocity.invertY();
   }
 
+  get getVelocity(): Velocity {
+    return this.velocity;
+  }
+
   get getVelocityX(): number {
     return this.velocity.getX;
   }

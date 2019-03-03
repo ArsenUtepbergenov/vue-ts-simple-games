@@ -22,6 +22,7 @@ import Menu from '@/components/menu.vue';
         {title: 'Snake', nav: 'snake'},
         {title: 'Tetris', nav: 'tetris'},
         {title: 'Arkanoid', nav: 'arkanoid'},
+        {title: 'Pong', nav: 'pong'},
       ],
     };
   },
@@ -35,5 +36,6 @@ export default class Home extends Vue {}
   width: 100vw;
   height: 100vh;
   grid-template-columns: 300px 1fr;
+  overflow: hidden;
 }
 </style>

@@ -7,12 +7,8 @@ export default abstract class DynamicObject {
     this.velocity = velocity;
   }
 
-  public increaseVelocityX(value: number): void {
-    this.velocity.increaseX(value);
-  }
-
-  public increaseVelocityY(value: number): void {
-    this.velocity.increaseY(value);
+  public increaseVelocity(value: number): void {
+    this.velocity.increase(value);
   }
 
   public invertVelocityX(): void {

@@ -29,6 +29,10 @@ export default new Router({
           path: 'arkanoid',
           component: () => import('./views/ArkanoidGame.vue'),
         },
+        {
+          path: 'pong',
+          component: () => import('./views/PongGame.vue'),
+        },
       ],
     },
   ],
