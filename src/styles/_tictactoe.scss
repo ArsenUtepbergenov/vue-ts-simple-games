@@ -1,0 +1,8 @@
+.tictactoe {
+  @include game(800px);
+
+  &__game {
+    max-width: 450px;
+    @include flex-center(column);
+  }
+}

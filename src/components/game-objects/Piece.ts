@@ -1,4 +1,4 @@
-import Shape from './GameShapes';
+import Shape from './Shape';
 
 export default class Piece extends Shape {
   public static readonly size: number = 20;

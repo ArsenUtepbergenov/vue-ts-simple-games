@@ -1,0 +1,77 @@
+.flex-container-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+@mixin flex-center($direction: row) {
+  @extend .flex-container-center;
+  flex-direction: $direction;
+}
+
+@mixin game($max-width) {
+  @include flex-center(column);
+  margin: auto;
+  overflow-x: hidden;
+  max-width: $max-width;
+}
+
+@mixin main-element {
+  box-sizing: border-box;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+@mixin transition-slow {
+  transition: 0.3s all ease;
+}
+
+@mixin modificators-message {
+  &--primary {
+    color: $primary;
+  }
+  &--error {
+    color: $colorRed;
+  }
+  &--over {
+    color: $colorYellow;
+  }
+}
+
+@mixin modificators-colors {
+  &--color-white {
+    color: $colorWhite;
+  }
+  &--color-light-blue {
+    color: $colorLightBlue;
+  }
+  &--color-green {
+    color: $colorGreen;
+  }
+  &--color-turquoise {
+    color: $colorTurquoise;
+  }
+  &--color-scarlet {
+    color: $colorScarlet;
+  }
+}
+
+@mixin modificators-background-colors {
+  &--background-color-white {
+    color: $colorWhite;
+  }
+  &--background-color-light-blue {
+    color: $colorLightBlue;
+  }
+  &--background-color-green {
+    color: $colorGreen;
+  }
+  &--background-color-turquoise {
+    color: $colorTurquoise;
+  }
+  &--background-color-scarlet {
+    color: $colorScarlet;
+  }
+}

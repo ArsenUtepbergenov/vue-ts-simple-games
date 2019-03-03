@@ -1,4 +1,4 @@
-import { IDrawable } from './interfaces';
+import { IDrawable } from '../interfaces';
 
 export default class Board implements IDrawable {
   private context: any;

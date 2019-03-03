@@ -1,5 +1,5 @@
 <template>
-  <div class="snake">
+  <div class="arkanoid">
     <div class="scores">
       <p class="scores__p scores--color-turquoise">Best result: {{ bestScore }}</p>
       <p class="scores__p scores--color-scarlet">Previous score: {{ previousScore }}</p>
@@ -9,4 +9,4 @@
     <button type="button" class="btn-restart" @click="restart()">Restart</button>
   </div>
 </template>
-<script src="@/components/games/SnakeGame.ts" lang="ts"></script>
+<script src="@/components/games/ArkanoidGame.ts" lang="ts"></script>

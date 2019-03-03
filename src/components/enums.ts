@@ -14,3 +14,35 @@ export const enum State {
 export const enum Control {
   RESTART = 82,
 }
+
+export const enum BoardPong {
+  WIDTH = 800,
+  HEIGHT = 400,
+}
+
+export const enum BoardArkanoid {
+  WIDTH = 800,
+  HEIGHT = 720,
+}
+
+export const enum BoardSnake {
+  WIDTH = 800,
+  HEIGHT = 600,
+}
+
+export const enum BoardTicTacToe {
+  WIDTH = 450,
+  HEIGHT = 450,
+}
+
+export const enum Players {
+  FIRST_PLAYER,
+  SECOND_PLAYER,
+  AI_PLAYER,
+}
+
+export const enum VelocityPaddle {
+  SLOW = 8,
+  MIDDLE = 14,
+  FAST = 20,
+}

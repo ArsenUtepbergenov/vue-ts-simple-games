@@ -1,21 +1,21 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { IGameStatic, IGameDynamic } from './interfaces';
-import { Directions, State, Control } from './enums';
-import Piece from './Piece';
-import Food from './Food';
-import Canvas from './Canvas';
-import Board from './Board';
-import Snake from './Snake';
-import Score from './Score';
+import { IStaticGame, IDynamicGame } from '../interfaces';
+import { Directions, State, Control, BoardSnake } from '../enums';
+import Piece from '../game-objects/Piece';
+import Food from '../game-objects/Food';
+import Canvas from '../game-objects/Canvas';
+import Board from '../game-objects/Board';
+import Snake from '../game-objects/Snake';
+import Score from '../game-objects/Score';
 
 @Component({
 })
-export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic {
+export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame {
   private canvas: any = null;
   private context: any;
-  private width = 800;
-  private height = 600;
+  private width = BoardSnake.WIDTH;
+  private height = BoardSnake.HEIGHT;
   private currentDirection: Directions = Directions.RIGHT;
   private globalState: State = State.START;
   private isInitCanvas = false;
@@ -71,15 +71,15 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   }
 
   get previousScore(): number {
-    return this.score.previousScore;
+    return this.score.getPreviousScore;
   }
 
   get currentScore(): number {
-    return this.score.score;
+    return this.score.getScore;
   }
 
   get bestScore(): number {
-    return this.score.best;
+    return this.score.getBest;
   }
 
   private _reset(): void {
@@ -90,10 +90,10 @@ export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic 
   }
 
   private _initCanvas(): boolean {
-    if (!this.$refs.games) {
+    if (!this.$refs.game) {
       return false;
     }
-    this.canvas = new Canvas(this.$refs.games, this.width, this.height);
+    this.canvas = new Canvas(this.$refs.game, this.width, this.height);
     this.context = this.canvas.context;
     this.isInitCanvas = true;
     return true;
