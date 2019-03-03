@@ -1,15 +1,15 @@
 import Circle from './Circle';
-import { IDrawable, IReset } from '../interfaces';
+import { IDynamicObject } from '../interfaces';
 import Velocity from '../math/Velocity';
 
-export default class Ball extends Circle implements IDrawable, IReset {
+export default class Ball extends Circle implements IDynamicObject {
   private context: any;
   private velocity: Velocity;
 
-  constructor(context: any, x: number, y: number, radius: number) {
+  constructor(context: any, x: number, y: number, radius: number, velocity: Velocity) {
     super(x, y, radius);
     this.context = context;
-    this.velocity = new Velocity(4, 4);
+    this.velocity = velocity;
   }
 
   public draw(): void {
@@ -26,12 +26,17 @@ export default class Ball extends Circle implements IDrawable, IReset {
     this.velocity.reset();
   }
 
-  public increaseVelocityX(value: number): void {
-    this.velocity.increaseX(value);
+  public move(): void {
+    this.x += this.velocity.getX;
+    this.y += this.velocity.getY;
   }
 
-  public increaseVelocityY(value: number): void {
-    this.velocity.increaseY(value);
+  public invertVelocityX(): void {
+    this.velocity.invertX();
+  }
+
+  public invertVelocityY(): void {
+    this.velocity.invertY();
   }
 
   get getVelocityX(): number {

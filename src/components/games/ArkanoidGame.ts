@@ -1,16 +1,18 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { IGameStatic, IGameDynamic } from '../interfaces';
+import { IStaticGame, IDynamicGame } from '../interfaces';
 import { Directions, State, BoardArkanoid } from '../enums';
 import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
 import Ball from '../game-objects/Ball';
 import Player from '../game-objects/Player';
 import Paddle from '../game-objects/Paddle';
+import Velocity from '../math/Velocity';
+import Utilities from '../utilities';
 
 @Component({
 })
-export default class ArkanoidGame extends Vue implements IGameStatic, IGameDynamic {
+export default class ArkanoidGame extends Vue implements IStaticGame, IDynamicGame {
   private canvas: any = null;
   private context: any;
   private width = BoardArkanoid.WIDTH;
@@ -39,7 +41,7 @@ export default class ArkanoidGame extends Vue implements IGameStatic, IGameDynam
   public update(): void {
     this.board.draw();
     this._checkState();
-    this._moveBall();
+    this.ball.move();
     this.ball.draw();
     this.paddle.draw();
   }
@@ -111,13 +113,13 @@ export default class ArkanoidGame extends Vue implements IGameStatic, IGameDynam
     this.canvas.addEventListener('keydown', this.keyListener);
     this.globalState = State.PLAY;
 
-    const widthPaddle: number = 170;
+    const widthPaddle: number = 160;
     const heightPaddle: number = 20;
     const startPosXPaddle: number = this.width / 2 - widthPaddle / 2;
     const startPosYPaddle: number = this.height - (heightPaddle + 10);
 
     this.board = new Board(this.context, this.width, this.height);
-    this.ball = new Ball(this.context, this.width / 2, this.height / 2, 10);
+    this.ball = new Ball(this.context, this.width / 2, this.height / 2, 8, new Velocity(4, 4));
     this.paddle = new Paddle(this.context, startPosXPaddle, startPosYPaddle, widthPaddle, heightPaddle);
     return true;
   }
@@ -125,43 +127,76 @@ export default class ArkanoidGame extends Vue implements IGameStatic, IGameDynam
   private _checkCollisionBallOfBorder(): void {
     const radius = this.ball.getRadius;
     if (this.ball.x + this.ball.getVelocityX > this.width - radius || this.ball.x + this.ball.getVelocityX < radius) {
-      this.ball.setVelocityX = -this.ball.getVelocityX;
+      this.ball.invertVelocityX();
     }
     if (this.ball.y + this.ball.getVelocityY > this.height - radius || this.ball.y + this.ball.getVelocityY < radius) {
-      this.ball.setVelocityY = -this.ball.getVelocityY;
+      this.ball.invertVelocityY();
     }
   }
 
-  private _checkCollisionPaddleOfBorder(): void {
-    if (this.paddle.x + this.paddle.getWidth > this.width || this.paddle.x < 0) {
-      this.paddle.setVelocityX = 0;
-    }
-    if (this.paddle.y + this.paddle.getHeight + this.paddle.getVelocityY > this.height || this.paddle.y < this.height / 2) {
-      this.paddle.setVelocityY = 0;
-    }
-  }
+  private _checkCollisionBallOfPaddle(): void {
+    const radius = this.ball.getRadius;
+    const xBall = this.ball.x;
+    const yBall = this.ball.y;
+    let horizontalSide = xBall + radius + this.ball.getVelocityX;
+    let verticalSide = yBall + radius + this.ball.getVelocityY;
+    const xPaddle = this.paddle.x;
+    const yPaddle = this.paddle.y;
+    const xWidthPaddle = xPaddle + this.paddle.getWidth;
+    const yHeightPaddle = yPaddle + this.paddle.getHeight;
+    let invert = -1;
 
-  private _moveBall(): void {
-    this.ball.x += this.ball.getVelocityX;
-    this.ball.y += this.ball.getVelocityY;
+    if (xBall > xWidthPaddle) {
+      horizontalSide = xBall - radius - Math.abs(this.ball.getVelocityX);
+    }
+    if (yBall > yHeightPaddle) {
+      verticalSide = yBall - radius - Math.abs(this.ball.getVelocityY);
+    }
+
+    if (xBall < xPaddle || xBall > xWidthPaddle) {
+      invert = 0;
+    }
+    if (yBall < yPaddle || yBall > yHeightPaddle) {
+      invert = 1;
+    }
+
+    if ((xPaddle < horizontalSide) &&
+        (horizontalSide < xWidthPaddle) &&
+        (yPaddle < verticalSide) &&
+        (verticalSide < yHeightPaddle)) {
+      if (invert === 0) {
+        this.ball.invertVelocityX();
+      }
+      if (invert === 1) {
+        this.ball.invertVelocityY();
+      }
+    }
   }
 
   private _checkState(): void {
-    this._checkCollisionPaddleOfBorder();
     this._checkCollisionBallOfBorder();
+    this._checkCollisionBallOfPaddle();
   }
 
   private _handleKey(event: any): void {
-    if (event.keyCode === Directions.LEFT && event.keyCode !== Directions.RIGHT) {
+    if (event.keyCode === Directions.LEFT &&
+        event.keyCode !== Directions.RIGHT &&
+        this.paddle.x > 0 + Math.abs(this.paddle.getVelocityX) / 2) {
       this.paddle.moveTo(Directions.LEFT);
     }
-    if (event.keyCode === Directions.RIGHT && event.keyCode !== Directions.LEFT) {
+    if (event.keyCode === Directions.RIGHT &&
+        event.keyCode !== Directions.LEFT &&
+        this.paddle.x + this.paddle.getWidth + this.paddle.getVelocityX / 2 < this.width) {
       this.paddle.moveTo(Directions.RIGHT);
     }
-    if (event.keyCode === Directions.DOWN && event.keyCode !== Directions.UP) {
+    if (event.keyCode === Directions.DOWN &&
+        event.keyCode !== Directions.UP &&
+        this.paddle.y + this.paddle.getHeight + this.paddle.getVelocityY / 2 < this.height) {
       this.paddle.moveTo(Directions.DOWN);
     }
-    if (event.keyCode === Directions.UP && event.keyCode !== Directions.DOWN) {
+    if (event.keyCode === Directions.UP &&
+        event.keyCode !== Directions.DOWN &&
+        this.paddle.y > this.height / 2 + this.paddle.getVelocityY / 2) {
       this.paddle.moveTo(Directions.UP);
     }
   }

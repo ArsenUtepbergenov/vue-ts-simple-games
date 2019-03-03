@@ -1,9 +1,9 @@
 import Rect from './Rect';
-import { IDrawable, IReset } from '../interfaces';
+import { IDrawable } from '../interfaces';
 import { Directions, VelocityPaddle } from '../enums';
 import Velocity from '../math/Velocity';
 
-export default class Paddle extends Rect implements IDrawable, IReset {
+export default class Paddle extends Rect implements IDrawable {
   private context: any;
   private velocity: Velocity;
 

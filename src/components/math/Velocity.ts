@@ -1,7 +1,6 @@
 import Vector2 from './Vector2';
-import { IReset } from '../interfaces';
 
-export default class Velocity extends Vector2 implements IReset {
+export default class Velocity extends Vector2 {
   constructor(x: number, y: number) {
     super(x, y);
   }

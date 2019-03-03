@@ -1,8 +1,8 @@
-export interface IGameDynamic {
+export interface IDynamicGame {
   update(): void;
 }
 
-export interface IGameStatic {
+export interface IStaticGame {
   run(): void;
   restart(): void;
 }
@@ -11,6 +11,10 @@ export interface IDrawable {
   draw(): void;
 }
 
-export interface IReset {
+export interface IMoveble {
+  move(x: number, y: number): void;
+}
+
+export interface IDynamicObject extends IMoveble, IDrawable {
   reset(): void;
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Utilities from '../utilities';
-import { IGameStatic } from '../interfaces';
+import { IStaticGame } from '../interfaces';
 import { BoardTicTacToe, State, Players } from '../enums';
 import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
@@ -13,7 +13,7 @@ import Message from '../message.vue';
     Message,
   },
 })
-export default class TicTacToeGame extends Vue implements IGameStatic {
+export default class TicTacToeGame extends Vue implements IStaticGame {
   private canvas: any = null;
   private context: any;
   private width = BoardTicTacToe.WIDTH;

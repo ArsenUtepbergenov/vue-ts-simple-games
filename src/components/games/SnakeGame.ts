@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { IGameStatic, IGameDynamic } from '../interfaces';
+import { IStaticGame, IDynamicGame } from '../interfaces';
 import { Directions, State, Control, BoardSnake } from '../enums';
 import Piece from '../game-objects/Piece';
 import Food from '../game-objects/Food';
@@ -11,7 +11,7 @@ import Score from '../game-objects/Score';
 
 @Component({
 })
-export default class SnakeGame extends Vue implements IGameStatic, IGameDynamic {
+export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame {
   private canvas: any = null;
   private context: any;
   private width = BoardSnake.WIDTH;
