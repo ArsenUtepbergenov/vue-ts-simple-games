@@ -33,6 +33,10 @@ export default new Router({
           path: 'pong',
           component: () => import('./views/PongGame.vue'),
         },
+        {
+          path: 'tanks',
+          component: () => import('./views/TanksGame.vue'),
+        },
       ],
     },
   ],

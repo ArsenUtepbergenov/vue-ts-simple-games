@@ -23,6 +23,7 @@ import Menu from '@/components/menu.vue';
         {title: 'Tetris', nav: 'tetris'},
         {title: 'Arkanoid', nav: 'arkanoid'},
         {title: 'Pong', nav: 'pong'},
+        {title: 'Tanks', nav: 'tanks'},
       ],
     };
   },

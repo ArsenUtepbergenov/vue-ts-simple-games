@@ -20,6 +20,11 @@ export const enum BoardPong {
   HEIGHT = 400,
 }
 
+export const enum BoardTanks {
+  WIDTH = 800,
+  HEIGHT = 800,
+}
+
 export const enum BoardArkanoid {
   WIDTH = 800,
   HEIGHT = 720,
