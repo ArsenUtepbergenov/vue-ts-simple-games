@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { IStaticGame, IDynamicGame } from '../interfaces';
-import { Directions, State, BoardArkanoid } from '../enums';
+import { State, BoardArkanoid } from '../enums';
 import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
 import Ball from '../game-objects/Ball';
 import Player from '../game-objects/Player';
 import Paddle from '../game-objects/Paddle';
 import Velocity from '../math/Velocity';
-import Utilities from '../utilities';
 
 @Component({
 })
@@ -24,7 +23,7 @@ export default class ArkanoidGame extends Vue implements IStaticGame, IDynamicGa
   private player: Player;
   private paddle: any;
   private loop: number = 0;
-  private keyListener: any;
+  private mousemoveListener: any;
 
   constructor() {
     super();
@@ -57,7 +56,7 @@ export default class ArkanoidGame extends Vue implements IStaticGame, IDynamicGa
     if (this.loop) {
       cancelAnimationFrame(this.loop);
       this.globalState = State.OVER;
-      this.canvas.removeEventListener('keydown', this.keyListener);
+      this.canvas.removeEventListener('mousemove', this.mousemoveListener);
     }
   }
 
@@ -107,10 +106,10 @@ export default class ArkanoidGame extends Vue implements IStaticGame, IDynamicGa
       }
     }
 
-    this.keyListener = (event: any) => {
-      this._handleKey(event);
+    this.mousemoveListener = (event: any) => {
+      this._handleMouseMove(event);
     };
-    this.canvas.addEventListener('keydown', this.keyListener);
+    this.canvas.addEventListener('mousemove', this.mousemoveListener);
     this.globalState = State.PLAY;
 
     const widthPaddle: number = 160;
@@ -121,6 +120,7 @@ export default class ArkanoidGame extends Vue implements IStaticGame, IDynamicGa
     this.board = new Board(this.context, this.width, this.height);
     this.ball = new Ball(this.context, this.width / 2, this.height / 2, 8, new Velocity(4, 4));
     this.paddle = new Paddle(this.context, startPosXPaddle, startPosYPaddle, widthPaddle, heightPaddle);
+
     return true;
   }
 
@@ -135,41 +135,15 @@ export default class ArkanoidGame extends Vue implements IStaticGame, IDynamicGa
   }
 
   private _checkCollisionBallOfPaddle(): void {
-    const radius = this.ball.getRadius;
-    const xBall = this.ball.x;
-    const yBall = this.ball.y;
-    let horizontalSide = xBall + radius + this.ball.getVelocityX;
-    let verticalSide = yBall + radius + this.ball.getVelocityY;
-    const xPaddle = this.paddle.x;
-    const yPaddle = this.paddle.y;
-    const xWidthPaddle = xPaddle + this.paddle.getWidth;
-    const yHeightPaddle = yPaddle + this.paddle.getHeight;
-    let invert = -1;
-
-    if (xBall > xWidthPaddle) {
-      horizontalSide = xBall - radius - Math.abs(this.ball.getVelocityX);
-    }
-    if (yBall > yHeightPaddle) {
-      verticalSide = yBall - radius - Math.abs(this.ball.getVelocityY);
-    }
-
-    if (xBall < xPaddle || xBall > xWidthPaddle) {
-      invert = 0;
-    }
-    if (yBall < yPaddle || yBall > yHeightPaddle) {
-      invert = 1;
-    }
-
-    if ((xPaddle < horizontalSide) &&
-        (horizontalSide < xWidthPaddle) &&
-        (yPaddle < verticalSide) &&
-        (verticalSide < yHeightPaddle)) {
-      if (invert === 0) {
+    const paddle = this.paddle;
+    if ((paddle.x < this.ball.x + this.ball.getRadius) &&
+        (paddle.x + paddle.getWidth > this.ball.x - this.ball.getRadius) &&
+        (paddle.y < this.ball.y + this.ball.getRadius) &&
+        (paddle.y + paddle.getHeight > this.ball.y - this.ball.getRadius)) {
+      if (this.ball.x < paddle.x || this.ball.x > paddle.x + paddle.getWidth) {
         this.ball.invertVelocityX();
       }
-      if (invert === 1) {
-        this.ball.invertVelocityY();
-      }
+      this.ball.invertVelocityY();
     }
   }
 
@@ -178,26 +152,13 @@ export default class ArkanoidGame extends Vue implements IStaticGame, IDynamicGa
     this._checkCollisionBallOfPaddle();
   }
 
-  private _handleKey(event: any): void {
-    if (event.keyCode === Directions.LEFT &&
-        event.keyCode !== Directions.RIGHT &&
-        this.paddle.x > 0 + Math.abs(this.paddle.getVelocityX) / 2) {
-      this.paddle.moveTo(Directions.LEFT);
+  private _handleMouseMove(event: any): void {
+    this.paddle.x = event.offsetX - this.paddle.getWidth / 2;
+    if (this.paddle.x < 0) {
+      this.paddle.x = 0;
     }
-    if (event.keyCode === Directions.RIGHT &&
-        event.keyCode !== Directions.LEFT &&
-        this.paddle.x + this.paddle.getWidth + this.paddle.getVelocityX / 2 < this.width) {
-      this.paddle.moveTo(Directions.RIGHT);
-    }
-    if (event.keyCode === Directions.DOWN &&
-        event.keyCode !== Directions.UP &&
-        this.paddle.y + this.paddle.getHeight + this.paddle.getVelocityY / 2 < this.height) {
-      this.paddle.moveTo(Directions.DOWN);
-    }
-    if (event.keyCode === Directions.UP &&
-        event.keyCode !== Directions.DOWN &&
-        this.paddle.y > this.height / 2 + this.paddle.getVelocityY / 2) {
-      this.paddle.moveTo(Directions.UP);
+    if (this.paddle.x + this.paddle.getWidth > this.width) {
+      this.paddle.x = this.width - this.paddle.getWidth;
     }
   }
 }

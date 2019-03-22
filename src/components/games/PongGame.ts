@@ -128,6 +128,12 @@ export default class PongGame extends Vue implements IStaticGame, IDynamicGame {
 
   private _movePaddleForBall(paddle: Paddle): void {
     paddle.y = this.ball.y - paddle.getHeight / 2;
+    if (paddle.y < 0) {
+      paddle.y = 0;
+    }
+    if (paddle.y + paddle.getHeight > this.height) {
+      paddle.y = this.height - paddle.getHeight;
+    }
   }
 
   private _moveBallToStartPosition(): void {
@@ -169,5 +175,11 @@ export default class PongGame extends Vue implements IStaticGame, IDynamicGame {
 
   private _handleMouseMove(event: any): void {
     this.paddles[0].y = event.offsetY - this.paddles[0].getHeight / 2;
+    if (this.paddles[0].y < 0) {
+      this.paddles[0].y = 0;
+    }
+    if (this.paddles[0].y + this.paddles[0].getHeight > this.height) {
+      this.paddles[0].y = this.height - this.paddles[0].getHeight;
+    }
   }
 }
