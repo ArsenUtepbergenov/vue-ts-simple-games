@@ -3,10 +3,26 @@ import Score from './Score';
 export default class Player {
   private name: string = '';
   private score: Score;
+  private lives: number = 0;
 
-  constructor(name: string = 'default name') {
+  constructor(name: string = 'default name', lives: number = 3) {
     this.score = new Score();
     this.name = name;
+    this.lives = lives;
+  }
+
+  public addLive(lives: number): void {
+    this.lives += lives;
+  }
+
+  public subtractLive(lives: number): void {
+    if (lives < 0) {
+      lives = Math.abs(lives);
+    }
+    if (this.lives - lives < 0) {
+      return;
+    }
+    this.lives -= lives;
   }
 
   public addScore(score: number): void {
@@ -19,6 +35,10 @@ export default class Player {
 
   public scoreToZero(): void {
     this.score.reset();
+  }
+
+  get getLives(): number {
+    return this.lives;
   }
 
   get getName(): string {

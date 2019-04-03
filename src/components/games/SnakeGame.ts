@@ -25,6 +25,8 @@ export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame 
   private snake: any;
   private score: any;
   private food: any;
+  private loop: number = 0;
+  private keyListener: any;
 
   constructor() {
     super();
@@ -35,22 +37,7 @@ export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame 
     if (this._initInstance() === false) {
       return;
     }
-
-    const keyListener = (event: any) => {
-      this._handleKey(event);
-    };
-    this.canvas.addEventListener('keydown', keyListener);
-
-    this.globalState = State.PLAY;
-
-    const timerId = setInterval(() => {
-      if (this.globalState === State.OVER) {
-        this.canvas.removeEventListener('keydown', keyListener);
-        clearInterval(timerId);
-        return;
-      }
-      this.update();
-    }, 100);
+    this.start();
   }
 
   public update(): void {
@@ -59,6 +46,21 @@ export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame 
     this.food.draw();
     this._checkState();
     this._move();
+  }
+
+  public start(): void {
+    this.update();
+    if (this.globalState !== State.OVER) {
+      this.loop = requestAnimationFrame(this.start);
+    }
+  }
+
+  public stop(): void {
+    if (this.loop) {
+      cancelAnimationFrame(this.loop);
+      this.globalState = State.OVER;
+      this.canvas.removeEventListener('keydown', this.keyListener);
+    }
   }
 
   public restart(): void {
@@ -106,6 +108,12 @@ export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame 
       }
     }
 
+    this.keyListener = (event: any) => {
+      this._handleKey(event);
+    };
+    this.canvas.addEventListener('keydown', this.keyListener);
+    this.globalState = State.PLAY;
+
     const startPosX: number = 300;
     const startPosY: number = 260;
 
@@ -115,7 +123,7 @@ export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame 
     this.placeFoodX = this.width / Piece.size - 1;
     this.placeFoodY = this.height / Piece.size - 1;
 
-    this.food = new Food(0, 0, this.context);
+    this.food = new Food(0, 0, Piece.size, Piece.size, this.context);
 
     this._putNewFood();
     return true;
@@ -155,7 +163,10 @@ export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame 
     if (this._checkCollisionBorder() || this._checkCollisionBody()) {
       this.globalState = State.OVER;
     }
-    if (this.snake.x === this.food.x && this.snake.y === this.food.y) {
+    if ((this.snake.x < this.food.x + this.food.getWidth) &&
+        (this.snake.x + this.snake.getVelocity > this.food.x - this.food.getWidth) &&
+        (this.snake.y < this.food.y + this.food.getHeight) &&
+        (this.snake.y + this.snake.getVelocity > this.food.y - this.food.getHeight)) {
       this.score.increase(1);
       this.snake.add();
       this._putNewFood();

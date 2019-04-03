@@ -105,9 +105,11 @@ export default class TanksGame extends Vue implements IStaticGame, IDynamicGame 
   }
 
   private _move(): void {
+    //
   }
 
   private _checkState(): void {
+    //
   }
 
   private _handleKey(event: any): void {

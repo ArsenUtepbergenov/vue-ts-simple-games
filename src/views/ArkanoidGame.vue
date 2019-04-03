@@ -4,6 +4,7 @@
       <p class="scores__p scores--color-turquoise">Best result: {{ bestScore }}</p>
       <p class="scores__p scores--color-scarlet">Previous score: {{ previousScore }}</p>
       <p class="scores__p">Current score: {{ currentScore }}</p>
+      <p class="scores__p scores--color-light-blue">Lives: {{ lives }}</p>
     </div>
     <canvas ref="game"></canvas>
     <button type="button" class="btn-restart" @click="restart()">Restart</button>

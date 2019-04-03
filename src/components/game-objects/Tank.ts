@@ -9,7 +9,7 @@ export default class Tank implements IDrawable {
   }
 
   public draw(): void {
-    console.log(this.view);
+    // console.log(this.view);
   }
 
   private _initView() {

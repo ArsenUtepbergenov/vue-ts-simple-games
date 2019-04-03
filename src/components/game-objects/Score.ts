@@ -10,13 +10,17 @@ export default class Score {
   }
 
   public increase(score: number): void {
+    score = Math.abs(score);
     this.score += score;
     this._updatePreviousScore();
     this._updateBest();
   }
 
   public decrease(score: number): void {
-    if (this.score - score <= 0) {
+    if (score < 0) {
+      score = Math.abs(score);
+    }
+    if (this.score - score < 0) {
       return;
     }
     this.score -= score;

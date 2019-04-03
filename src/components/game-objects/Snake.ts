@@ -7,6 +7,7 @@ export default class Snake implements IDrawable {
   private headX: number = 0;
   private headY: number = 0;
   private context: any;
+  private velocity: number = 4;
 
   constructor(x: number, y: number, context: any) {
     this.headX = x;
@@ -33,16 +34,16 @@ export default class Snake implements IDrawable {
 
   public turnTo(direction: Directions): void {
     if (direction === Directions.RIGHT) {
-      this.headX += Piece.size;
+      this.headX += this.velocity;
     }
     if (direction === Directions.LEFT) {
-      this.headX -= Piece.size;
+      this.headX -= this.velocity;
     }
     if (direction === Directions.UP) {
-      this.headY -= Piece.size;
+      this.headY -= this.velocity;
     }
     if (direction === Directions.DOWN) {
-      this.headY += Piece.size;
+      this.headY += this.velocity;
     }
   }
 
@@ -62,5 +63,9 @@ export default class Snake implements IDrawable {
 
   get getBody(): Piece[] {
     return this.body;
+  }
+
+  get getVelocity(): number {
+    return this.velocity;
   }
 }
