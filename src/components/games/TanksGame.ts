@@ -1,23 +1,15 @@
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import { IStaticGame, IDynamicGame } from '../interfaces';
+import Component, { mixins } from 'vue-class-component';
+import { IDynamicGame } from '../interfaces';
 import { Directions, State, Control, BoardTanks } from '../enums';
-import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
 import Player from '../game-objects/Player';
 import Tank from '../game-objects/Tank';
+import Game from '../mixins/Game';
 
 @Component({
 })
-export default class TanksGame extends Vue implements IStaticGame, IDynamicGame {
-  private canvas: any = null;
-  private context: any;
-  private width = BoardTanks.WIDTH;
-  private height = BoardTanks.HEIGHT;
+export default class TanksGame extends mixins(Game) implements IDynamicGame {
   private currentDirection: Directions = Directions.RIGHT;
-  private globalState: State = State.START;
-  private isInitCanvas = false;
-  private board: any;
   private firstPlayer: Player;
   private tank: Tank;
 
@@ -82,19 +74,9 @@ export default class TanksGame extends Vue implements IStaticGame, IDynamicGame 
     this.board.draw();
   }
 
-  private _initCanvas(): boolean {
-    if (!this.$refs.game) {
-      return false;
-    }
-    this.canvas = new Canvas(this.$refs.game, this.width, this.height);
-    this.context = this.canvas.context;
-    this.isInitCanvas = true;
-    return true;
-  }
-
   private _initInstance(): boolean {
     if (this.isInitCanvas === false) {
-      if (this._initCanvas() === false) {
+      if (this._initCanvas(BoardTanks.WIDTH, BoardTanks.HEIGHT) === false) {
         return false;
       }
     }

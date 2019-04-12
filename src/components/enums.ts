@@ -40,6 +40,11 @@ export const enum BoardTicTacToe {
   HEIGHT = 450,
 }
 
+export const enum BoardTetris {
+  WIDTH = 400,
+  HEIGHT = 600,
+}
+
 export const enum Players {
   FIRST_PLAYER,
   SECOND_PLAYER,

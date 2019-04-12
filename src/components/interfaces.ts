@@ -1,4 +1,4 @@
-export interface IDynamicGame {
+export interface IDynamicGame extends IStaticGame {
   update(): void;
 }
 

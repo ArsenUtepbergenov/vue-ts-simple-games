@@ -1,30 +1,22 @@
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import Component, { mixins } from 'vue-class-component';
 import Utilities from '../utilities';
 import { IStaticGame } from '../interfaces';
 import { BoardTicTacToe, State, Players } from '../enums';
-import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
 import Player from '../game-objects/Player';
 import Message from '../message.vue';
+import Game from '../mixins/Game';
 
 @Component({
   components: {
     Message,
   },
 })
-export default class TicTacToeGame extends Vue implements IStaticGame {
-  private canvas: any = null;
-  private context: any;
-  private width = BoardTicTacToe.WIDTH;
-  private height = BoardTicTacToe.HEIGHT;
-  private globalState: State = State.START;
-  private isInitCanvas: boolean = false;
+export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
   private currentPlayer: Players = Players.FIRST_PLAYER;
   private players: Players[] = [Players.FIRST_PLAYER, Players.SECOND_PLAYER];
   private winFirstPlayer: number = 0;
   private winSecondPlayer: number = 0;
-  private board: any;
   private firstPlayer: Player;
   private secondPlayer: Player;
   private aiPlayer: Player;
@@ -103,19 +95,9 @@ export default class TicTacToeGame extends Vue implements IStaticGame {
     this.styleState = '';
   }
 
-  private _initCanvas(): boolean {
-    if (!this.$refs.game) {
-      return false;
-    }
-    this.canvas = new Canvas(this.$refs.game, this.width, this.height);
-    this.context = this.canvas.context;
-    this.isInitCanvas = true;
-    return true;
-  }
-
   private _initInstance(): boolean {
     if (this.isInitCanvas === false) {
-      if (this._initCanvas() === false) {
+      if (this._initCanvas(BoardTicTacToe.WIDTH, BoardTicTacToe.HEIGHT) === false) {
         return false;
       }
     }
@@ -287,8 +269,7 @@ export default class TicTacToeGame extends Vue implements IStaticGame {
       this._drawCircle(posXSymbol, posYSymbol);
       this._setCurrentPlayer(Players.SECOND_PLAYER);
       this.grid[indexCellY][indexCellX] = 1;
-    }
-    else if (this.currentPlayer === Players.SECOND_PLAYER) {
+    } else {
       this._drawCross(posXSymbol, posYSymbol);
       this._setCurrentPlayer(Players.FIRST_PLAYER);
       this.grid[indexCellY][indexCellX] = -1;

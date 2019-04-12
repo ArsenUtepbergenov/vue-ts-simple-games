@@ -1,24 +1,16 @@
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import { IStaticGame, IDynamicGame } from '../interfaces';
+import Component, { mixins } from 'vue-class-component';
+import { IDynamicGame } from '../interfaces';
 import { State, BoardPong } from '../enums';
-import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
 import Ball from '../game-objects/Ball';
 import Player from '../game-objects/Player';
 import Paddle from '../game-objects/Paddle';
 import Velocity from '../math/Velocity';
+import Game from '../mixins/Game';
 
 @Component({
 })
-export default class PongGame extends Vue implements IStaticGame, IDynamicGame {
-  private canvas: any = null;
-  private context: any;
-  private width = BoardPong.WIDTH;
-  private height = BoardPong.HEIGHT;
-  private globalState: State = State.START;
-  private isInitCanvas = false;
-  private board: any;
+export default class PongGame extends mixins(Game) implements IDynamicGame {
   private ball: any;
   private loop: number = 0;
   private mousemoveListener: any;
@@ -89,19 +81,9 @@ export default class PongGame extends Vue implements IStaticGame, IDynamicGame {
     this.paddles.length = 0;
   }
 
-  private _initCanvas(): boolean {
-    if (!this.$refs.game) {
-      return false;
-    }
-    this.canvas = new Canvas(this.$refs.game, this.width, this.height);
-    this.context = this.canvas.context;
-    this.isInitCanvas = true;
-    return true;
-  }
-
   private _initInstance(): boolean {
     if (this.isInitCanvas === false) {
-      if (this._initCanvas() === false) {
+      if (this._initCanvas(BoardPong.WIDTH, BoardPong.HEIGHT) === false) {
         return false;
       }
     }

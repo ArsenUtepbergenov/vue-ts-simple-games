@@ -1,27 +1,19 @@
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import { IStaticGame, IDynamicGame } from '../interfaces';
+import Component, { mixins } from 'vue-class-component';
+import { IDynamicGame } from '../interfaces';
 import { Directions, State, Control, BoardSnake } from '../enums';
 import Piece from '../game-objects/Piece';
 import Food from '../game-objects/Food';
-import Canvas from '../game-objects/Canvas';
 import Board from '../game-objects/Board';
 import Snake from '../game-objects/Snake';
 import Score from '../game-objects/Score';
+import Game from '../mixins/Game';
 
 @Component({
 })
-export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame {
-  private canvas: any = null;
-  private context: any;
-  private width = BoardSnake.WIDTH;
-  private height = BoardSnake.HEIGHT;
+export default class SnakeGame extends mixins(Game) implements IDynamicGame {
   private currentDirection: Directions = Directions.RIGHT;
-  private globalState: State = State.START;
-  private isInitCanvas = false;
   private placeFoodX: number = 0;
   private placeFoodY: number = 0;
-  private board: any;
   private snake: any;
   private score: any;
   private food: any;
@@ -91,19 +83,9 @@ export default class SnakeGame extends Vue implements IStaticGame, IDynamicGame 
     this.board.draw();
   }
 
-  private _initCanvas(): boolean {
-    if (!this.$refs.game) {
-      return false;
-    }
-    this.canvas = new Canvas(this.$refs.game, this.width, this.height);
-    this.context = this.canvas.context;
-    this.isInitCanvas = true;
-    return true;
-  }
-
   private _initInstance(): boolean {
     if (this.isInitCanvas === false) {
-      if (this._initCanvas() === false) {
+      if (this._initCanvas(BoardSnake.WIDTH, BoardSnake.HEIGHT) === false) {
         return false;
       }
     }
