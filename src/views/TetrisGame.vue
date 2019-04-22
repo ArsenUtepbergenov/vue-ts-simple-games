@@ -6,6 +6,7 @@
       <p class="scores__p">Current score: {{ currentScore }}</p>
     </div>
     <canvas ref="game"></canvas>
+    <Message v-if="isOver" :message="getMessage" :state="getStyleOfMessage" />
     <button type="button" class="btn-restart" @click="restart()">Restart</button>
   </div>
 </template>

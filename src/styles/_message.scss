@@ -1,6 +1,12 @@
 .message {
   &__p {
+    color: #616cad;
+    border-left: 5px solid #8BC34A;
+    background: #eeeeee;
+    padding: 10px;
+    font-family: 'Georgia', sans-serif;
+    font-size: 1.4em;
   }
   
-  @include modificators-message;
+  @include modifiers-message;
 }

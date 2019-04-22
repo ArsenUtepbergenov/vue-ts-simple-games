@@ -11,6 +11,14 @@ export default class Utilities {
     return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
   }
 
+  public static createMatrix(width: number, height: number): number[][] {
+    const matrix: number[][] = [];
+    while (height--) {
+      matrix.push(new Array(width).fill(0));
+    }
+    return matrix;
+  }
+
   public static applyMixins(derivedCtor: any, baseCtors: any[]) {
     baseCtors.forEach((baseCtor) => {
       Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {

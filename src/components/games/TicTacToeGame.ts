@@ -20,11 +20,9 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
   private firstPlayer: Player;
   private secondPlayer: Player;
   private aiPlayer: Player;
-  private grid: number[][] = [[], []];
+  private grid: number[][] = [[], [], []];
   private sizeGrid: number = 0;
   private cell: {size: number};
-  private message: string = '';
-  private styleState: string = '';
 
   constructor() {
     super();
@@ -76,23 +74,10 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     return this.aiPlayer.getScore;
   }
 
-  get getMessage(): string {
-    return this.message;
-  }
-
-  get getStyleState(): string {
-    return this.styleState;
-  }
-
-  private _setMessage(message: string, styleState: string): void {
-    this.message = message;
-    this.styleState = styleState;
-  }
-
   private _reset(): void {
     this.globalState = State.OVER;
     this.message = '';
-    this.styleState = '';
+    this.styleOfMessage = '';
   }
 
   private _initInstance(): boolean {

@@ -1,20 +1,36 @@
 import Component, { mixins } from 'vue-class-component';
 import { IDynamicGame } from '../interfaces';
-import { State, BoardTetris } from '../enums';
+import Utilities from '../utilities';
+import { Directions, State, Control, BoardTetris } from '../enums';
 import Player from '../game-objects/Player';
 import Board from '../game-objects/Board';
 import Game from '../mixins/Game';
+import { createPiece, drawPiece } from '../game-objects/TetrisPieces';
+import Message from '../message.vue';
 
 @Component({
+  components: {
+    Message,
+  },
 })
 export default class TetrisGame extends mixins(Game) implements IDynamicGame {
+  private currentDirection: Directions = Directions.DOWN;
   private player: Player;
   private loop: number = 0;
-  private mousemoveListener: any;
+  private keyListener: any;
+  private arena: number[][] = [];
+  private currentPiece: number[][];
+  private lastTime: number = 0;
+  private dropCounter: number = 0;
+  private dropInterval: number = 1000;
+  private currentPiecePosX: number = 0;
+  private currentPiecePosY: number = 0;
+  private scaleContextValue: number = 20;
 
   constructor() {
     super();
     this.player = new Player();
+    this.currentPiece = createPiece('T');
   }
 
   public run(): void {
@@ -26,10 +42,18 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
 
   public update(): void {
     this.board.draw();
+    drawPiece(this.context, this.arena, {x: 0, y: 0});
+    drawPiece(this.context, this.currentPiece, {x: this.currentPiecePosX, y: this.currentPiecePosY});
   }
 
-  public start(): void {
+  public start(time = 0): void {
     this.update();
+    const deltaTime = time - this.lastTime;
+    this.lastTime = time;
+    this.dropCounter += deltaTime;
+    if (this.dropCounter > this.dropInterval) {
+      this._dropCurrentPiece();
+    }
     if (this.globalState !== State.OVER) {
       this.loop = requestAnimationFrame(this.start);
     }
@@ -39,14 +63,11 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     if (this.loop) {
       cancelAnimationFrame(this.loop);
       this.globalState = State.OVER;
-      this.canvas.removeEventListener('mousemove', this.mousemoveListener);
+      this.canvas.removeEventListener('keydown', this.keyListener);
     }
   }
 
   public restart(): void {
-    if (this.globalState === State.OVER) {
-      this.player.addLive(3);
-    }
     this._reset();
     this.run();
   }
@@ -74,11 +95,14 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   private _reset(): void {
     this.stop();
     this.board.draw();
+    this.arena.forEach((row) => row.fill(0));
+    drawPiece(this.context, this.arena, {x: 0, y: 0});
     this.player.scoreToZero();
   }
 
   private _over(): void {
     this._reset();
+    this._setMessage('The game is over', 'over');
   }
 
   private _initInstance(): boolean {
@@ -88,10 +112,138 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
       }
     }
 
-    this.canvas.addEventListener('mousemove', this.mousemoveListener);
+    this.context.scale(this.scaleContextValue, this.scaleContextValue);
+
+    this.keyListener = (event: any) => {
+      this._handleKey(event);
+    };
+    this.canvas.addEventListener('keydown', this.keyListener);
     this.globalState = State.PLAY;
     this.board = new Board(this.context, this.width, this.height);
+    this.arena = Utilities.createMatrix(this.width / this.scaleContextValue, this.height / this.scaleContextValue);
 
     return true;
+  }
+
+  private _generatePiece(): void {
+    const pieces: string = 'ILJOTSZ';
+    this.currentPiece = createPiece(pieces[pieces.length * Math.random() | 0]);
+    this.currentPiecePosY = 0;
+    this.currentPiecePosX = (this.arena[0].length / 2 | 0) - (this.currentPiece[0].length / 2 | 0);
+    if (this._checkCollision()) {
+      this._over();
+    }
+  }
+
+  private _dropCurrentPiece(): void {
+    this.currentPiecePosY++;
+    if (this._checkCollision()) {
+      this.currentPiecePosY--;
+      this._mergePieceWithArena();
+      this._generatePiece();
+      this._clearRows();
+    }
+    this.dropCounter = 0;
+  }
+
+  private _clearRows(): void {
+    other: for (let y = this.arena.length - 1; y > 0; y--) {
+      for (const x of this.arena[y]) {
+        if (x === 0) {
+          continue other;
+        }
+      }
+      const row = this.arena.splice(y, 1)[0].fill(0);
+      this.arena.unshift(row);
+      y++;
+      this.player.addScore(1);
+    }
+  }
+
+  private _checkCollision(): boolean {
+    const arena = this.arena;
+    const piece = this.currentPiece;
+    for (let y = 0; y < piece.length; y++) {
+      for (let x = 0; x < piece[y].length; x++) {
+        if (piece[y][x] !== 0 &&
+           (arena[y + this.currentPiecePosY] &&
+            arena[y + this.currentPiecePosY][x + this.currentPiecePosX]) !== 0) {
+              return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private _mergePieceWithArena(): void {
+    this.currentPiece.forEach((row, y) => {
+      row.forEach((value, x) => {
+        if (value !== 0) {
+          this.arena[y + this.currentPiecePosY][x + this.currentPiecePosX] = value;
+        }
+      });
+    });
+  }
+
+  private _moveCurrentPiece(direction: number): void {
+    this.currentPiecePosX += direction;
+    if (this._checkCollision()) {
+      this.currentPiecePosX -= direction;
+    }
+  }
+
+  private _rotateCurrentPiece(direction: number): void {
+    let offset = 1;
+    const piecePosX = this.currentPiecePosX;
+    this._rotatePiece(direction);
+
+    while (this._checkCollision()) {
+      this.currentPiecePosX += offset;
+      offset = -(offset + (offset > 0 ? 1 : -1));
+
+      if (offset > this.currentPiece[0].length) {
+        this._rotatePiece(-direction);
+        this.currentPiecePosX = piecePosX;
+        return;
+      }
+    }
+  }
+
+  private _rotatePiece(direction: number): void {
+    const piece = this.currentPiece;
+
+    for (let y = 0; y < piece.length; y++) {
+      for (let x = 0; x < y; x++) {
+        [piece[y][x], piece[x][y]] = [piece[x][y], piece[y][x]];
+      }
+    }
+
+    if (direction > 0) {
+      piece.forEach((row) => row.reverse());
+    } else {
+      piece.reverse();
+    }
+  }
+
+  private _handleKey(event: any): void {
+    if (event.keyCode === Control.RESTART) {
+      this.globalState = State.OVER;
+      this.restart();
+    }
+    if (event.keyCode === Directions.LEFT) {
+      this._moveCurrentPiece(-1);
+    }
+    if (event.keyCode === Directions.RIGHT) {
+      this._moveCurrentPiece(1);
+    }
+    if (event.keyCode === Directions.DOWN) {
+      this._dropCurrentPiece();
+    }
+    if (event.keyCode === Control.Q) {
+      this._rotateCurrentPiece(1);
+    }
+    if (event.keyCode === Control.W) {
+      this._rotateCurrentPiece(-1);
+    }
   }
 }

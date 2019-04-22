@@ -11,6 +11,8 @@ export default class Game extends Vue {
   protected globalState: State = State.START;
   protected isInitCanvas = false;
   protected board: any;
+  protected message: string = '';
+  protected styleOfMessage: string = '';
 
   protected _initCanvas(width: number, height: number): boolean {
     if (!this.$refs.game) {
@@ -22,5 +24,22 @@ export default class Game extends Vue {
     this.context = this.canvas.context;
     this.isInitCanvas = true;
     return true;
+  }
+
+  protected get isOver(): boolean {
+    return this.globalState === State.OVER;
+  }
+
+  protected get getMessage(): string {
+    return this.message;
+  }
+
+  protected get getStyleOfMessage(): string {
+    return this.styleOfMessage;
+  }
+
+  protected _setMessage(message: string, styleOfMessage: string): void {
+    this.message = message;
+    this.styleOfMessage = styleOfMessage;
   }
 }

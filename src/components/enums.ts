@@ -13,6 +13,8 @@ export const enum State {
 
 export const enum Control {
   RESTART = 82,
+  Q = 81,
+  W = 87,
 }
 
 export const enum BoardPong {
@@ -41,8 +43,8 @@ export const enum BoardTicTacToe {
 }
 
 export const enum BoardTetris {
-  WIDTH = 400,
-  HEIGHT = 600,
+  WIDTH = 320,
+  HEIGHT = 540,
 }
 
 export const enum Players {

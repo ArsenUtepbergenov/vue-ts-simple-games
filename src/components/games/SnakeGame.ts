@@ -7,8 +7,12 @@ import Board from '../game-objects/Board';
 import Snake from '../game-objects/Snake';
 import Score from '../game-objects/Score';
 import Game from '../mixins/Game';
+import Message from '../message.vue';
 
 @Component({
+  components: {
+    Message,
+  },
 })
 export default class SnakeGame extends mixins(Game) implements IDynamicGame {
   private currentDirection: Directions = Directions.RIGHT;
@@ -115,6 +119,11 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
     this.food.relocation(this.placeFoodX, this.placeFoodY);
   }
 
+  private _gameOver(): void {
+    this.globalState = State.OVER;
+    this._setMessage('The game is over', 'over');
+  }
+
   private _checkCollisionBorder(): boolean {
     if (this.snake.x < 0 || this.snake.x + Piece.size > this.width) {
       return true;
@@ -143,7 +152,7 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
 
   private _checkState(): void {
     if (this._checkCollisionBorder() || this._checkCollisionBody()) {
-      this.globalState = State.OVER;
+      this._gameOver();
     }
     if ((this.snake.x < this.food.x + this.food.getWidth) &&
         (this.snake.x + this.snake.getVelocity > this.food.x - this.food.getWidth) &&

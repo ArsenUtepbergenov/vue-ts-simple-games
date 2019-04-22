@@ -10,11 +10,11 @@
   flex-direction: $direction;
 }
 
-@mixin game($max-width) {
+@mixin game($max-width: 800px) {
   @include flex-center(column);
   margin: auto;
   overflow-x: hidden;
-  max-width: $max-width;
+  max-width: $max-width;  
   height: 100%;
 }
 
@@ -29,7 +29,7 @@
   transition: 0.3s all ease;
 }
 
-@mixin modificators-message {
+@mixin modifiers-message {
   &--primary {
     color: $primary;
   }
@@ -37,11 +37,11 @@
     color: $colorRed;
   }
   &--over {
-    color: $colorYellow;
+    color: $colorScarlet;
   }
 }
 
-@mixin modificators-colors {
+@mixin modifiers-colors {
   &--color-white {
     color: $colorWhite;
   }
@@ -59,7 +59,7 @@
   }
 }
 
-@mixin modificators-background-colors {
+@mixin modifiers-background-colors {
   &--background-color-white {
     color: $colorWhite;
   }

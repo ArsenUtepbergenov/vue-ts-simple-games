@@ -50,6 +50,7 @@ export default class Snake implements IDrawable {
   public reset(): void {
     this.headX = 220;
     this.headY = 220;
+    this.velocity = 4;
     this.body = [];
   }
 

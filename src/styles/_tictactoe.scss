@@ -1,5 +1,5 @@
 .tictactoe {
-  @include game(800px);
+  @include game();
 
   &__game {
     max-width: 450px;
