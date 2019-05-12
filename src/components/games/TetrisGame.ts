@@ -19,7 +19,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   private loop: number = 0;
   private keyListener: any;
   private arena: number[][] = [];
-  private currentPiece: number[][];
+  private currentPiece: number[][] = [];
   private lastTime: number = 0;
   private dropCounter: number = 0;
   private dropInterval: number = 1000;
@@ -30,7 +30,6 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   constructor() {
     super();
     this.player = new Player();
-    this.currentPiece = createPiece('T');
   }
 
   public run(): void {
@@ -40,14 +39,10 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     this.start();
   }
 
-  public update(): void {
+  public update(time = 0): void {
     this.board.draw();
     drawPiece(this.context, this.arena, {x: 0, y: 0});
     drawPiece(this.context, this.currentPiece, {x: this.currentPiecePosX, y: this.currentPiecePosY});
-  }
-
-  public start(time = 0): void {
-    this.update();
     const deltaTime = time - this.lastTime;
     this.lastTime = time;
     this.dropCounter += deltaTime;
@@ -55,8 +50,12 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
       this._dropCurrentPiece();
     }
     if (this.globalState !== State.OVER) {
-      this.loop = requestAnimationFrame(this.start);
+      this.loop = requestAnimationFrame(this.update);
     }
+  }
+
+  public start(): void {
+    this.update();
   }
 
   public stop(): void {
@@ -69,7 +68,6 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
 
   public restart(): void {
     this._reset();
-    this.run();
   }
 
   public mounted() {
@@ -93,7 +91,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   }
 
   private _reset(): void {
-    this.stop();
+    this.currentPiecePosY = 0;
     this.board.draw();
     this.arena.forEach((row) => row.fill(0));
     drawPiece(this.context, this.arena, {x: 0, y: 0});
@@ -121,6 +119,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     this.globalState = State.PLAY;
     this.board = new Board(this.context, this.width, this.height);
     this.arena = Utilities.createMatrix(this.width / this.scaleContextValue, this.height / this.scaleContextValue);
+    this._generatePiece();
 
     return true;
   }

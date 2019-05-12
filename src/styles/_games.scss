@@ -1,0 +1,8 @@
+.arkanoid,
+.tetris,
+.snake,
+.tanks,
+.tictactoe,
+.pong {
+  @include game();
+}
