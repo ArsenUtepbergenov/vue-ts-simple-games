@@ -2,18 +2,31 @@
   @include main-element;
   color: $colorWhite;
   @include transition-slow;
+  text-transform: uppercase;
+  background-color: $primary;
+  color: $colorWhite;
 }
 
-.btn-restart {
+.btn-regular {
   @extend .btn;
   width: 150px;
   height: 40px;
-  background-color: $colorGreen;
   margin: 20px auto;
-  border-radius: 5px;
-  text-transform: uppercase;
 }
 
-.btn-restart:hover {
-  background-color: $colorLightBlue;
+.btn-outline {
+  @extend .btn-regular;
+  background-color: transparent;
+  @include border(3px);
+  color: $primary;
+
+  &:hover {
+    border-color: $primary;
+    color: $colorWhite;
+    background-color: $primary;
+  }
+
+  @include btn-outline('restart', $colorGreen, $colorGreen);
+  @include btn-outline('play-with-ai', $colorScarlet, $colorScarlet);
+  @include btn-outline('game-for-two', $colorDarkYellow, $colorDarkYellow);
 }

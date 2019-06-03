@@ -38,6 +38,15 @@ export default class Game extends Vue {
     return this.styleOfMessage;
   }
 
+  protected get isMessage(): boolean {
+    return this.isOver && this.message !== '';
+  }
+
+  protected _resetMessage(): void {
+    this.message = '';
+    this.styleOfMessage = '';
+  }
+
   protected _setMessage(message: string, styleOfMessage: string): void {
     this.message = message;
     this.styleOfMessage = styleOfMessage;

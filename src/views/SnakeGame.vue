@@ -6,8 +6,8 @@
       <p class="scores__p">Current score: {{ currentScore }}</p>
     </div>
     <canvas ref="game"></canvas>
-    <Message v-if="isOver" :message="getMessage" :state="getStyleOfMessage" />
-    <button type="button" class="btn-restart" @click="restart()">Restart</button>
+    <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
+    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>
   </div>
 </template>
 <script src="@/components/games/SnakeGame.ts" lang="ts"></script>

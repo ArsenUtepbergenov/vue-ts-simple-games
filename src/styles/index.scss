@@ -12,11 +12,13 @@ canvas {
 @import "./variables";
 // mixins
 @import "./mixins";
+@import "./bem-mixins";
 // base elements
 @import "./menu";
 @import "./scores";
 @import "./button";
 @import "./message";
+@import "./modes";
 // games
 @import "./games";
 @import "./tictactoe";

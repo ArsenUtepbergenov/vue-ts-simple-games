@@ -1,4 +1,5 @@
 import Component, { mixins } from 'vue-class-component';
+import { Watch } from 'vue-property-decorator';
 import Utilities from '../utilities';
 import { IStaticGame } from '../interfaces';
 import { BoardTicTacToe, State, Players } from '../enums';
@@ -13,8 +14,8 @@ import Game from '../mixins/Game';
   },
 })
 export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
-  private currentPlayer: Players = Players.FIRST_PLAYER;
-  private players: Players[] = [Players.FIRST_PLAYER, Players.SECOND_PLAYER];
+  private currentPlayer: Players = Players.FIRST;
+  private players: Players[] = [Players.FIRST, Players.SECOND, Players.AI];
   private winFirstPlayer: number = 0;
   private winSecondPlayer: number = 0;
   private firstPlayer: Player;
@@ -23,6 +24,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
   private grid: number[][] = [[], [], []];
   private sizeGrid: number = 0;
   private cell: {size: number};
+  private currentOpponent: string = '';
 
   constructor() {
     super();
@@ -36,26 +38,21 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     if (this._initInstance() === false) {
       return;
     }
-
-    const clickListener = (event: any) => {
-      this._handleClick(event);
-    };
-    this.canvas.addEventListener('click', clickListener);
-
-    this.globalState = State.PLAY;
-
-    const timerId = setInterval(() => {
-      if (this.globalState === State.OVER) {
-        this.canvas.removeEventListener('click', clickListener);
-        clearInterval(timerId);
-        return;
-      }
-    }, 100);
   }
 
   public restart(): void {
     this._reset();
-    this.run();
+    if (this.currentOpponent === 'Two') {
+      this._playWithHuman();
+    } else if (this.currentOpponent === 'AI') {
+      this._playWithAI();
+    } else {
+      return;
+    }
+  }
+
+  public setOpponent(opponent: string): void {
+    this.currentOpponent = opponent;
   }
 
   public mounted() {
@@ -74,10 +71,36 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     return this.aiPlayer.getScore;
   }
 
+  @Watch('currentOpponent')
+  private _rerun(value: string): void {
+    this.restart();
+  }
+
+  private _playWithAI(): void {
+    // TODO
+  }
+
+  private _playWithHuman(): void {
+    const clickListener = (event: any) => this._move(event);
+    this.canvas.addEventListener('click', clickListener);
+
+    this.globalState = State.PLAY;
+
+    const timerId = setInterval(() => {
+      if (this.globalState === State.OVER) {
+        this.canvas.removeEventListener('click', clickListener);
+        clearInterval(timerId);
+        return;
+      }
+    }, 100);
+  }
+
   private _reset(): void {
     this.globalState = State.OVER;
-    this.message = '';
-    this.styleOfMessage = '';
+    this._resetMessage();
+    this.board.draw();
+    this._resetGrid();
+    this._drawGrid();
   }
 
   private _initInstance(): boolean {
@@ -102,23 +125,29 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
   private _generateCurrentPlayer(): void {
     const randomIndex = Utilities.randomIntByInterval(0, 1);
     this.currentPlayer = this.players[randomIndex];
-    if (this.currentPlayer === Players.FIRST_PLAYER) {
+    if (this.currentPlayer === Players.FIRST) {
       this.winFirstPlayer = this.sizeGrid;
       this.winSecondPlayer = -this.sizeGrid;
     }
-    if (this.currentPlayer === Players.SECOND_PLAYER) {
+    if (this.currentPlayer === Players.SECOND) {
       this.winSecondPlayer = this.sizeGrid;
       this.winFirstPlayer = -this.sizeGrid;
     }
   }
 
-  private _initGrid() {
+  private _resetGrid(): void {
+    for (let i = 0; i < this.sizeGrid; i++) {
+      this.grid[i].fill(0);
+    }
+  }
+
+  private _initGrid(): void {
     for (let i = 0; i < this.sizeGrid; i++) {
       this.grid[i] = new Array<number>(this.sizeGrid).fill(0);
     }
   }
 
-  private _drawGrid() {
+  private _drawGrid(): void {
     const widthBoarder = this.context.lineWidth = 5;
     this.cell = {
       size: Math.round((Math.min(this.width, this.height) -
@@ -236,7 +265,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     this.currentPlayer = player;
   }
 
-  private _handleClick(event: any): void {
+  private _move(event: any): void {
     const rect = event.target.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -250,13 +279,13 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     const posXSymbol = indexCellX * this.cell.size + this.cell.size / 2;
     const posYSymbol = indexCellY * this.cell.size + this.cell.size / 2;
 
-    if (this.currentPlayer === Players.FIRST_PLAYER) {
+    if (this.currentPlayer === Players.FIRST) {
       this._drawCircle(posXSymbol, posYSymbol);
-      this._setCurrentPlayer(Players.SECOND_PLAYER);
+      this._setCurrentPlayer(Players.SECOND);
       this.grid[indexCellY][indexCellX] = 1;
     } else {
       this._drawCross(posXSymbol, posYSymbol);
-      this._setCurrentPlayer(Players.FIRST_PLAYER);
+      this._setCurrentPlayer(Players.FIRST);
       this.grid[indexCellY][indexCellX] = -1;
     }
 

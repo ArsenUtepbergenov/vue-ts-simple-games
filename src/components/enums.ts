@@ -48,9 +48,9 @@ export const enum BoardTetris {
 }
 
 export const enum Players {
-  FIRST_PLAYER,
-  SECOND_PLAYER,
-  AI_PLAYER,
+  FIRST,
+  SECOND,
+  AI,
 }
 
 export const enum VelocityPaddle {

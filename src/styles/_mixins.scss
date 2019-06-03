@@ -29,50 +29,7 @@
   transition: 0.3s all ease;
 }
 
-@mixin modifiers-message {
-  &--primary {
-    color: $primary;
-  }
-  &--error {
-    color: $colorRed;
-  }
-  &--over {
-    color: $colorScarlet;
-  }
+@mixin border($width: 1px, $style: solid, $color: $primary) {
+  border: $width $style $color;
 }
 
-@mixin modifiers-colors {
-  &--color-white {
-    color: $colorWhite;
-  }
-  &--color-light-blue {
-    color: $colorLightBlue;
-  }
-  &--color-green {
-    color: $colorGreen;
-  }
-  &--color-turquoise {
-    color: $colorTurquoise;
-  }
-  &--color-scarlet {
-    color: $colorScarlet;
-  }
-}
-
-@mixin modifiers-background-colors {
-  &--background-color-white {
-    color: $colorWhite;
-  }
-  &--background-color-light-blue {
-    color: $colorLightBlue;
-  }
-  &--background-color-green {
-    color: $colorGreen;
-  }
-  &--background-color-turquoise {
-    color: $colorTurquoise;
-  }
-  &--background-color-scarlet {
-    color: $colorScarlet;
-  }
-}
