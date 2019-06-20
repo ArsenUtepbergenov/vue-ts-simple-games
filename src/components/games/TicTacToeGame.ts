@@ -6,11 +6,13 @@ import { BoardTicTacToe, State, Players } from '../enums';
 import Board from '../game-objects/Board';
 import Player from '../game-objects/Player';
 import Message from '../message.vue';
+import Scores from '../scores.vue';
 import Game from '../mixins/Game';
 
 @Component({
   components: {
     Message,
+    Scores,
   },
 })
 export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
@@ -25,6 +27,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
   private sizeGrid: number = 0;
   private cell: {size: number};
   private currentOpponent: string = '';
+  private scores: object[] = [];
 
   constructor() {
     super();
@@ -57,6 +60,27 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
 
   public mounted() {
     this.run();
+  }
+
+  get getScores(): object[] {
+    this.scores = [
+      {
+        message: 'First player',
+        styleOfMessage: ['scores--color-scarlet'],
+        value: this.getFirstPlayerScore,
+      },
+      {
+        message: 'Second player',
+        styleOfMessage: ['scores--color-turquoise'],
+        value: this.getSecondPlayerScore,
+      },
+      {
+        message: 'AI',
+        styleOfMessage: ['scores--color-light-blue'],
+        value: this.getAiScore,
+      },
+    ];
+    return this.scores;
   }
 
   get getFirstPlayerScore(): number {
@@ -157,7 +181,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     for (let x = 0; x < this.sizeGrid; x++) {
       for (let y = 0; y < this.sizeGrid; y++) {
         this.context.beginPath();
-        this.context.strokeStyle = '#784455';
+        this.context.strokeStyle = '#006E6D';
         this.context.strokeRect(this.cell.size * x, this.cell.size * y, this.cell.size, this.cell.size);
         this.context.closePath();
       }
@@ -242,7 +266,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
 
   private _drawCross(x: number, y: number): void {
     this.context.beginPath();
-    this.context.strokeStyle = '#696775';
+    this.context.strokeStyle = '#6B5B95';
     const step = this.cell.size / 3;
     this.context.moveTo(x - step, y - step);
     this.context.lineTo(x + step, y + step);
@@ -254,7 +278,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
 
   private _drawCircle(x: number, y: number): void {
     this.context.beginPath();
-    this.context.strokeStyle = '#163416';
+    this.context.strokeStyle = '#FF6F61';
     const radius = this.cell.size / 3;
     this.context.arc(x, y, radius, 0, 2 * Math.PI);
     this.context.stroke();

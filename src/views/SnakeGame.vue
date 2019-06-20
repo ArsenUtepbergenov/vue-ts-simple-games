@@ -1,10 +1,6 @@
 <template>
   <div class="snake">
-    <div class="scores">
-      <p class="scores__p scores--color-turquoise">Best result: {{ bestScore }}</p>
-      <p class="scores__p scores--color-scarlet">Previous score: {{ previousScore }}</p>
-      <p class="scores__p">Current score: {{ currentScore }}</p>
-    </div>
+    <Scores :scores="getScores" />
     <canvas ref="game"></canvas>
     <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
     <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>

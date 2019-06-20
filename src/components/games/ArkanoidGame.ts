@@ -8,8 +8,12 @@ import Player from '../game-objects/Player';
 import Paddle from '../game-objects/Paddle';
 import Velocity from '../math/Velocity';
 import Game from '../mixins/Game';
+import Scores from '../scores.vue';
 
 @Component({
+  components: {
+    Scores,
+  },
 })
 export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
   private ball: any;
@@ -20,6 +24,7 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
   private startPosXPaddle: number = 0;
   private startPosYPaddle: number = 0;
   private bricks: any = [];
+  private scores: object[] = [];
 
   constructor() {
     super();
@@ -67,6 +72,31 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
 
   public mounted() {
     this.run();
+  }
+
+  get getScores(): object[] {
+    this.scores = [
+      {
+        message: 'Previous score',
+        styleOfMessage: ['scores--color-scarlet'],
+        value: this.previousScore,
+      },
+      {
+        message: 'Current score',
+        styleOfMessage: ['scores--color-turquoise'],
+        value: this.currentScore,
+      },
+      {
+        message: 'Best result',
+        value: this.bestScore,
+      },
+      {
+        message: 'Lives',
+        styleOfMessage: ['scores--color-light-blue'],
+        value: this.lives,
+      },
+    ];
+    return this.scores;
   }
 
   get previousScore(): number {

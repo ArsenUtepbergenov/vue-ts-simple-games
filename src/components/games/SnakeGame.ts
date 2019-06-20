@@ -8,10 +8,12 @@ import Snake from '../game-objects/Snake';
 import Score from '../game-objects/Score';
 import Game from '../mixins/Game';
 import Message from '../message.vue';
+import Scores from '../scores.vue';
 
 @Component({
   components: {
     Message,
+    Scores,
   },
 })
 export default class SnakeGame extends mixins(Game) implements IDynamicGame {
@@ -23,6 +25,7 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
   private food: any;
   private loop: number = 0;
   private keyListener: any;
+  private scores: object[] = [];
 
   constructor() {
     super();
@@ -66,6 +69,27 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
 
   public mounted() {
     this.run();
+  }
+
+  get getScores(): object[] {
+    this.scores = [
+      {
+        message: 'Previous score',
+        styleOfMessage: ['scores--color-scarlet'],
+        value: this.previousScore,
+      },
+      {
+        message: 'Current score',
+        styleOfMessage: ['scores--color-turquoise'],
+        value: this.currentScore,
+      },
+      {
+        message: 'Best result',
+        styleOfMessage: ['scores--color-light-blue'],
+        value: this.bestScore,
+      },
+    ];
+    return this.scores;
   }
 
   get previousScore(): number {

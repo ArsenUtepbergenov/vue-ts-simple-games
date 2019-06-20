@@ -5,17 +5,22 @@ import Board from '../game-objects/Board';
 import Player from '../game-objects/Player';
 import Tank from '../game-objects/Tank';
 import Game from '../mixins/Game';
+import Scores from '../scores.vue';
 
 @Component({
+  components: {
+    Scores,
+  },
 })
 export default class TanksGame extends mixins(Game) implements IDynamicGame {
   private currentDirection: Directions = Directions.RIGHT;
-  private firstPlayer: Player;
+  private player: Player;
   private tank: Tank;
+  private scores: object[] = [];
 
   constructor() {
     super();
-    this.firstPlayer = new Player();
+    this.player = new Player();
     this.tank = new Tank();
   }
 
@@ -57,16 +62,37 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
     this.run();
   }
 
+  get getScores(): object[] {
+    this.scores = [
+      {
+        message: 'Previous score',
+        styleOfMessage: ['scores--color-scarlet'],
+        value: this.previousScore,
+      },
+      {
+        message: 'Current score',
+        styleOfMessage: ['scores--color-turquoise'],
+        value: this.currentScore,
+      },
+      {
+        message: 'Best result',
+        styleOfMessage: ['scores--color-light-blue'],
+        value: this.bestScore,
+      },
+    ];
+    return this.scores;
+  }
+
   get previousScore(): number {
-    return this.firstPlayer.getPreviousScore;
+    return this.player.getPreviousScore;
   }
 
   get currentScore(): number {
-    return this.firstPlayer.getScore;
+    return this.player.getScore;
   }
 
   get bestScore(): number {
-    return this.firstPlayer.getBest;
+    return this.player.getBest;
   }
 
   private _reset(): void {

@@ -12,7 +12,7 @@ export default class Board implements IDrawable {
   }
 
   public draw(): void {
-    this.context.fillStyle = '#eeeeee';
+    this.context.fillStyle = '#ffffff';
     this.context.fillRect(0, 0, this.width, this.height);
   }
 }

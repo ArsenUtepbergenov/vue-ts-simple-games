@@ -7,8 +7,12 @@ import Player from '../game-objects/Player';
 import Paddle from '../game-objects/Paddle';
 import Velocity from '../math/Velocity';
 import Game from '../mixins/Game';
+import Scores from '../scores.vue';
 
 @Component({
+  components: {
+    Scores,
+  },
 })
 export default class PongGame extends mixins(Game) implements IDynamicGame {
   private ball: any;
@@ -17,6 +21,7 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
   private paddles: Paddle[] = [];
   private firstPlayer: Player;
   private aiPlayer: Player;
+  private scores: object[] = [];
 
   constructor() {
     super();
@@ -64,6 +69,22 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
 
   public mounted() {
     this.run();
+  }
+
+  get getScores(): object[] {
+    this.scores = [
+      {
+        message: 'First player',
+        styleOfMessage: ['scores--color-scarlet'],
+        value: this.getFirstPlayerScore,
+      },
+      {
+        message: 'AI',
+        styleOfMessage: ['scores--color-light-blue'],
+        value: this.getAiScore,
+      },
+    ];
+    return this.scores;
   }
 
   get getFirstPlayerScore(): number {

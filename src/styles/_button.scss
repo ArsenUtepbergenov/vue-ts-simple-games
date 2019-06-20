@@ -17,7 +17,7 @@
 .btn-outline {
   @extend .btn-regular;
   background-color: transparent;
-  @include border(3px);
+  @include border(2px);
   color: $primary;
 
   &:hover {

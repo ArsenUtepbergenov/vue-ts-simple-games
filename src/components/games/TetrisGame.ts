@@ -7,14 +7,15 @@ import Board from '../game-objects/Board';
 import Game from '../mixins/Game';
 import { createPiece, drawPiece } from '../game-objects/TetrisPieces';
 import Message from '../message.vue';
+import Scores from '../scores.vue';
 
 @Component({
   components: {
+    Scores,
     Message,
   },
 })
 export default class TetrisGame extends mixins(Game) implements IDynamicGame {
-  private currentDirection: Directions = Directions.DOWN;
   private player: Player;
   private loop: number = 0;
   private keyListener: any;
@@ -26,6 +27,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   private currentPiecePosX: number = 0;
   private currentPiecePosY: number = 0;
   private scaleContextValue: number = 20;
+  private scores: object[] = [];
 
   constructor() {
     super();
@@ -74,6 +76,31 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     this.run();
   }
 
+  get getScores(): object[] {
+    this.scores = [
+      {
+        message: 'Previous score',
+        styleOfMessage: ['scores--color-scarlet'],
+        value: this.previousScore,
+      },
+      {
+        message: 'Current score',
+        styleOfMessage: ['scores--color-turquoise'],
+        value: this.currentScore,
+      },
+      {
+        message: 'Best result',
+        value: this.bestScore,
+      },
+      {
+        message: 'Lives',
+        styleOfMessage: ['scores--color-light-blue'],
+        value: this.lives,
+      },
+    ];
+    return this.scores;
+  }
+
   get previousScore(): number {
     return this.player.getPreviousScore;
   }
@@ -99,8 +126,12 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   }
 
   private _over(): void {
+    this.player.subtractLive(1);
     this._reset();
-    this._setMessage('The game is over', 'over');
+    if (this.player.getLives <= 0) {
+      this.stop();
+      this._setMessage('The game is over', 'over');
+    }
   }
 
   private _initInstance(): boolean {
@@ -165,7 +196,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     for (let y = 0; y < piece.length; y++) {
       for (let x = 0; x < piece[y].length; x++) {
         if (piece[y][x] !== 0 &&
-           (arena[y + this.currentPiecePosY] &&
+            (arena[y + this.currentPiecePosY] &&
             arena[y + this.currentPiecePosY][x + this.currentPiecePosX]) !== 0) {
               return true;
         }

@@ -4,6 +4,9 @@
   min-width: 300px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  background: $colorBlackViolet;
 
   &__link {
     @include transition-slow;
@@ -14,15 +17,18 @@
     color: $colorWhite;
     text-transform: uppercase;
     letter-spacing: 2px;
+    box-sizing: border-box;
+    font-weight: bold;
+    letter-spacing: 5px;
   }
 
   .router-link-active {
-    background: $colorGreen;
-    color: $colorWhite;
+    @include border(2px, solid, $colorGreen);
+    color: $colorGreen;
   }
 
   &__link:hover {
-    background: $colorLightBlue;
+    background: $colorGreen;
     color: $colorWhite;
   }
 }

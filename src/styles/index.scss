@@ -1,12 +1,12 @@
 // base
 body {
-  background: url(../assets/bg.jpeg) no-repeat center;
-  background-size: cover;
+  background-color: black;
   font-family: 'Lato', sans-serif;
 }
 
 canvas {
   cursor: pointer;
+  outline: 0;
 }
 // variables
 @import "./variables";
