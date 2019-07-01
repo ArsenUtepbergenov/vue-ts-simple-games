@@ -13,43 +13,43 @@ import Scores from '../scores.vue';
   },
 })
 export default class TanksGame extends mixins(Game) implements IDynamicGame {
-  private currentDirection: Directions = Directions.RIGHT;
   private player: Player;
-  private tank: Tank;
+  private tank: any;
+  private scaleContextValue: number = 20;
   private scores: object[] = [];
+  private loop: number = 0;
+  private keyListener: any;
 
   constructor() {
     super();
     this.player = new Player();
-    this.tank = new Tank();
+  }
+
+  public start(): void {
+    this.update();
+    if (this.globalState !== State.OVER) {
+      this.loop = requestAnimationFrame(this.start);
+    }
+  }
+
+  public stop(): void {
+    if (this.loop) {
+      cancelAnimationFrame(this.loop);
+      this.globalState = State.OVER;
+      this.canvas.removeEventListener('keydown', this.keyListener);
+    }
   }
 
   public run(): void {
     if (this._initInstance() === false) {
       return;
     }
-
-    const keyListener = (event: any) => {
-      this._handleKey(event);
-    };
-    this.canvas.addEventListener('keydown', keyListener);
-
-    this.globalState = State.PLAY;
-
-    const timerId = setInterval(() => {
-      if (this.globalState === State.OVER) {
-        this.canvas.removeEventListener('keydown', keyListener);
-        clearInterval(timerId);
-        return;
-      }
-      this.update();
-    }, 100);
+    this.start();
   }
 
   public update(): void {
     this.board.draw();
     this._checkState();
-    this._move();
     this.tank.draw();
   }
 
@@ -96,7 +96,7 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
   }
 
   private _reset(): void {
-    this.globalState = State.OVER;
+    this.stop();
     this.board.draw();
   }
 
@@ -106,14 +106,18 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
         return false;
       }
     }
+    this.context.scale(this.scaleContextValue, this.scaleContextValue);
 
+    const keyListener = (event: any) => {
+      this._handleKey(event);
+    };
+    this.canvas.addEventListener('keydown', keyListener);
+
+    this.globalState = State.PLAY;
     this.board = new Board(this.context, this.width, this.height);
+    this.tank = new Tank(this.context);
 
     return true;
-  }
-
-  private _move(): void {
-    //
   }
 
   private _checkState(): void {
@@ -121,21 +125,26 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
   }
 
   private _handleKey(event: any): void {
+    const rightBorder = this.width / this.scaleContextValue;
+    const bottomBorder = this.height / this.scaleContextValue;
     if (event.keyCode === Control.RESTART) {
-      this.globalState = State.OVER;
       this.restart();
     }
-    if (event.keyCode === Directions.LEFT && this.currentDirection !== Directions.RIGHT) {
-      this.currentDirection = Directions.LEFT;
+    if (event.keyCode === Directions.LEFT && this.tank.x > 0) {
+      this.tank.rotate('left');
+      this.tank.move('left');
     }
-    if (event.keyCode === Directions.RIGHT && this.currentDirection !== Directions.LEFT) {
-      this.currentDirection = Directions.RIGHT;
+    if (event.keyCode === Directions.RIGHT && this.tank.x + this.tank.size < rightBorder) {
+      this.tank.rotate('right');
+      this.tank.move('right');
     }
-    if (event.keyCode === Directions.DOWN && this.currentDirection !== Directions.UP) {
-      this.currentDirection = Directions.DOWN;
+    if (event.keyCode === Directions.DOWN && this.tank.y + this.tank.size < bottomBorder) {
+      this.tank.rotate('down');
+      this.tank.move('down');
     }
-    if (event.keyCode === Directions.UP && this.currentDirection !== Directions.DOWN) {
-      this.currentDirection = Directions.UP;
+    if (event.keyCode === Directions.UP && this.tank.y > 0) {
+      this.tank.rotate('up');
+      this.tank.move('up');
     }
   }
 }

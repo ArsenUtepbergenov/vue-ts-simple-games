@@ -105,7 +105,7 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
   }
 
   private _reset(): void {
-    this.globalState = State.OVER;
+    this.stop();
     this.score.reset();
     this.snake.reset();
     this.board.draw();

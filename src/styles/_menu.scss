@@ -6,7 +6,6 @@
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  background: $colorBlackViolet;
 
   &__link {
     @include transition-slow;
@@ -23,12 +22,10 @@
   }
 
   .router-link-active {
-    @include border(2px, solid, $colorGreen);
     color: $colorGreen;
   }
 
   &__link:hover {
-    background: $colorGreen;
-    color: $colorWhite;
+    color: $colorScarlet;
   }
 }
