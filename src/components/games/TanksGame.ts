@@ -4,8 +4,10 @@ import { Directions, State, Control, BoardTanks } from '../enums';
 import Board from '../game-objects/Board';
 import Player from '../game-objects/Player';
 import Tank from '../game-objects/Tank';
+import Ball from '../game-objects/Ball';
 import Game from '../mixins/Game';
 import Scores from '../scores.vue';
+import Velocity from '../math/Velocity';
 
 @Component({
   components: {
@@ -15,10 +17,11 @@ import Scores from '../scores.vue';
 export default class TanksGame extends mixins(Game) implements IDynamicGame {
   private player: Player;
   private tank: any;
-  private scaleContextValue: number = 20;
+  private scaleContextValue: number = BoardTanks.SCALE_COEFFICIENT;
   private scores: object[] = [];
   private loop: number = 0;
   private keyListener: any;
+  private bullet: any;
 
   constructor() {
     super();
@@ -27,7 +30,7 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
 
   public start(): void {
     this.update();
-    if (this.globalState !== State.OVER) {
+    if (!this.isOver) {
       this.loop = requestAnimationFrame(this.start);
     }
   }
@@ -50,7 +53,7 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
   public update(): void {
     this.board.draw();
     this._checkState();
-    this.tank.draw();
+    this.tank.update();
   }
 
   public restart(): void {
@@ -96,8 +99,8 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
   }
 
   private _reset(): void {
+    this.clearContext();
     this.stop();
-    this.board.draw();
   }
 
   private _initInstance(): boolean {
@@ -105,13 +108,13 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
       if (this._initCanvas(BoardTanks.WIDTH, BoardTanks.HEIGHT) === false) {
         return false;
       }
+      this.context.scale(this.scaleContextValue, this.scaleContextValue);
     }
-    this.context.scale(this.scaleContextValue, this.scaleContextValue);
 
-    const keyListener = (event: any) => {
+    this.keyListener = (event: any) => {
       this._handleKey(event);
     };
-    this.canvas.addEventListener('keydown', keyListener);
+    this.canvas.addEventListener('keydown', this.keyListener);
 
     this.globalState = State.PLAY;
     this.board = new Board(this.context, this.width, this.height);
@@ -145,6 +148,9 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
     if (event.keyCode === Directions.UP && this.tank.y > 0) {
       this.tank.rotate('up');
       this.tank.move('up');
+    }
+    if (event.keyCode === Control.SPACE) {
+      this.tank.shoot();
     }
   }
 }

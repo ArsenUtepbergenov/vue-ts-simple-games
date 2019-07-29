@@ -14,19 +14,19 @@ export default class Velocity extends Vector2 {
     this.set(0, 0);
   }
 
-  get getX(): number {
+  public get getX(): number {
     return this.x;
   }
 
-  set setX(x: number) {
+  public set setX(x: number) {
     this.x = x;
   }
 
-  get getY(): number {
+  public get getY(): number {
     return this.y;
   }
 
-  set setY(y: number) {
+  public set setY(y: number) {
     this.y = y;
   }
 }

@@ -26,6 +26,15 @@ export default class Game extends Vue {
     return true;
   }
 
+  protected clearContext(): void {
+    if (this.isInitCanvas) {
+      this.context.save();
+      this.context.setTransform(1, 0, 0, 1, 0, 0);
+      this.context.clearRect(0, 0, this.width, this.height);
+      this.context.restore();
+    }
+  }
+
   protected get isOver(): boolean {
     return this.globalState === State.OVER;
   }

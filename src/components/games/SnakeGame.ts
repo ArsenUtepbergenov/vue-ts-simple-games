@@ -49,7 +49,7 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
 
   public start(): void {
     this.update();
-    if (this.globalState !== State.OVER) {
+    if (!this.isOver) {
       this.loop = requestAnimationFrame(this.start);
     }
   }
@@ -108,7 +108,6 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
     this.stop();
     this.score.reset();
     this.snake.reset();
-    this.board.draw();
   }
 
   private _initInstance(): boolean {

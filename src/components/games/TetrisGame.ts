@@ -26,7 +26,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   private dropInterval: number = 1000;
   private currentPiecePosX: number = 0;
   private currentPiecePosY: number = 0;
-  private scaleContextValue: number = 20;
+  private scaleContextValue: number = BoardTetris.SCALE_COEFFICIENT;
   private scores: object[] = [];
 
   constructor() {
@@ -51,7 +51,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     if (this.dropCounter > this.dropInterval) {
       this._dropCurrentPiece();
     }
-    if (this.globalState !== State.OVER) {
+    if (!this.isOver) {
       this.loop = requestAnimationFrame(this.update);
     }
   }
@@ -118,6 +118,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
   }
 
   private _reset(): void {
+    this.clearContext();
     this.currentPiecePosY = 0;
     this.board.draw();
     this.arena.forEach((row) => row.fill(0));
@@ -139,9 +140,8 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
       if (this._initCanvas(BoardTetris.WIDTH, BoardTetris.HEIGHT) === false) {
         return false;
       }
+      this.context.scale(this.scaleContextValue, this.scaleContextValue);
     }
-
-    this.context.scale(this.scaleContextValue, this.scaleContextValue);
 
     this.keyListener = (event: any) => {
       this._handleKey(event);

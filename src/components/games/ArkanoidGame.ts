@@ -49,7 +49,7 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
 
   public start(): void {
     this.update();
-    if (this.globalState !== State.OVER) {
+    if (!this.isOver) {
       this.loop = requestAnimationFrame(this.start);
     }
   }
@@ -117,7 +117,6 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
 
   private _reset(): void {
     this.stop();
-    this.board.draw();
     this.player.scoreToZero();
     this.ball.reset();
     this.paddle.reset();

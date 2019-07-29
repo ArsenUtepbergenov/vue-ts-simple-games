@@ -49,7 +49,7 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
 
   public start(): void {
     this.update();
-    if (this.globalState !== State.OVER) {
+    if (!this.isOver) {
       this.loop = requestAnimationFrame(this.start);
     }
   }
@@ -97,7 +97,6 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
 
   private _reset(): void {
     this.stop();
-    this.board.draw();
     this.ball.reset();
     this.paddles.length = 0;
   }
