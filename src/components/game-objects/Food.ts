@@ -1,5 +1,5 @@
 import { IDrawable } from '../interfaces';
-import Rect from './Rect';
+import Rect from '../general-objects/Rect';
 
 export default class Food extends Rect implements IDrawable {
   private context: any;

@@ -1,6 +1,6 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { State } from '../enums';
-import Canvas from '../game-objects/Canvas';
+import Canvas from '../general-objects/Canvas';
 
 @Component
 export default class Game extends Vue {

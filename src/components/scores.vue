@@ -1,6 +1,6 @@
 <template>
   <div class="scores">
-    <p class="scores__p" v-for="(score, index) in scores" :key="index" :class="score.styleOfMessage">
+    <p class="scores__p" v-for="(score, index) in scores" :key="index" :class="score.color">
       {{score.message}} - {{score.value}}
     </p>
   </div>

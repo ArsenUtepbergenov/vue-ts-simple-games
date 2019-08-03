@@ -1,4 +1,4 @@
-import Rect from './Rect';
+import Rect from '../general-objects/Rect';
 import { IDrawable } from '../interfaces';
 import { Directions, VelocityPaddle } from '../enums';
 import Velocity from '../math/Velocity';

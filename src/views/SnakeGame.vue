@@ -11,7 +11,7 @@
 import Component, { mixins } from 'vue-class-component';
 import { IDynamicGame } from '@/components/interfaces';
 import { Directions, State, Control, BoardSnake } from '@/components/enums';
-import Piece from '@/components/game-objects/Piece';
+import Piece from '@/components/general-objects/Piece';
 import Food from '@/components/game-objects/Food';
 import Board from '@/components/game-objects/Board';
 import Snake from '@/components/game-objects/Snake';
@@ -85,17 +85,17 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
     this.scores = [
       {
         message: 'Previous score',
-        styleOfMessage: ['scores--color-scarlet'],
+        color: 'scores--color-scarlet',
         value: this.previousScore,
       },
       {
         message: 'Current score',
-        styleOfMessage: ['scores--color-turquoise'],
+        color: 'scores--color-turquoise',
         value: this.currentScore,
       },
       {
         message: 'Best result',
-        styleOfMessage: ['scores--color-light-blue'],
+        color: 'scores--color-light-blue',
         value: this.bestScore,
       },
     ];

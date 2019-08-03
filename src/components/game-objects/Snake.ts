@@ -1,6 +1,6 @@
 import { IDrawable } from '../interfaces';
 import { Directions } from '../enums';
-import Piece from './Piece';
+import Piece from '../general-objects/Piece';
 
 export default class Snake implements IDrawable {
   private body: Piece[] = [];

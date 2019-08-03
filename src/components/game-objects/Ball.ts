@@ -1,4 +1,4 @@
-import Circle from './Circle';
+import Circle from '../general-objects/Circle';
 import { IDynamicObject } from '../interfaces';
 import Velocity from '../math/Velocity';
 

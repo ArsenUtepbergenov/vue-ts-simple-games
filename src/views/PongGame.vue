@@ -84,12 +84,12 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
     this.scores = [
       {
         message: 'First player',
-        styleOfMessage: ['scores--color-scarlet'],
+        color: 'scores--color-scarlet',
         value: this.getFirstPlayerScore,
       },
       {
         message: 'AI',
-        styleOfMessage: ['scores--color-light-blue'],
+        color: 'scores--color-light-blue',
         value: this.getAiScore,
       },
     ];

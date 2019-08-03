@@ -90,12 +90,12 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     this.scores = [
       {
         message: 'Previous score',
-        styleOfMessage: ['scores--color-scarlet'],
+        color: 'scores--color-scarlet',
         value: this.previousScore,
       },
       {
         message: 'Current score',
-        styleOfMessage: ['scores--color-turquoise'],
+        color: 'scores--color-turquoise',
         value: this.currentScore,
       },
       {
@@ -104,7 +104,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
       },
       {
         message: 'Lives',
-        styleOfMessage: ['scores--color-light-blue'],
+        color: 'scores--color-light-blue',
         value: this.lives,
       },
     ];
