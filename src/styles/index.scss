@@ -12,14 +12,14 @@ canvas {
 // variables
 @import "./variables";
 // mixins
-@import "./mixins";
-@import "./bem-mixins";
+@import "./mixins/bem-mixins";
+@import "./mixins/mixins";
 // base elements
-@import "./menu";
-@import "./scores";
-@import "./button";
-@import "./message";
-@import "./modes";
+@import "./components/menu";
+@import "./components/scores";
+@import "./components/button";
+@import "./components/message";
+@import "./components/modes";
 // games
 @import "./games";
 @import "./tictactoe";

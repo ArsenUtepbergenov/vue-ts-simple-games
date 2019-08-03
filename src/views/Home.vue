@@ -30,13 +30,3 @@ import Menu from '@/components/menu.vue';
 })
 export default class Home extends Vue {}
 </script>
-
-<style lang="scss" scoped>
-.home {
-  display: grid;
-  width: 100vw;
-  height: 100vh;
-  grid-template-columns: 300px 1fr;
-  overflow: hidden;
-}
-</style>
