@@ -15,6 +15,7 @@ import Player from '@/components/game-objects/Player';
 import Tank from '@/components/game-objects/Tank';
 import Game from '@/components/mixins/Game';
 import Scores from '@/components/scores.vue';
+import TanksBase from '@/components/game-objects/TanksBase';
 
 @Component({
   components: {
@@ -24,6 +25,7 @@ import Scores from '@/components/scores.vue';
 export default class TanksGame extends mixins(Game) implements IDynamicGame {
   private player: Player;
   private tank: any;
+  private tanksBase: any;
   private scaleContextValue: number = BoardTanks.SCALE_COEFFICIENT;
   private scores: object[] = [];
   private loop: number = 0;
@@ -59,6 +61,7 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
   public update(): void {
     this.board.draw();
     this._checkState();
+    this.tanksBase.update();
     this.tank.update();
   }
 
@@ -125,6 +128,9 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
     this.globalState = State.PLAY;
     this.board = new Board(this.context, this.width, this.height);
     this.tank = new Tank(this.context);
+    this.tanksBase = new TanksBase(this.context);
+    this.tanksBase.setPos((this.width / this.scaleContextValue / 2) - 1.5,
+                          (this.height / this.scaleContextValue / 2) - 1.5);
 
     return true;
   }
