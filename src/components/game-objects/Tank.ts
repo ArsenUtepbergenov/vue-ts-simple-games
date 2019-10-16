@@ -1,9 +1,9 @@
-import { IDrawable } from '../interfaces';
+import { IDrawable, IRect } from '../interfaces';
 import Velocity from '../math/Velocity';
 import Ball from './Ball';
 import { BoardTanks } from '../enums';
 
-export default class Tank implements IDrawable {
+export default class Tank implements IDrawable, IRect {
   private view: number[][] = [];
   private context: any;
   private currentPosX: number = 5;
@@ -69,25 +69,25 @@ export default class Tank implements IDrawable {
   public move(direction: string): void {
     switch (direction) {
       case 'left':
-        this.currentPosX--;
-        this.currentDirection = 'left';
+        this.currentPosX -= 0.5;
         break;
       case 'right':
-        this.currentPosX++;
-        this.currentDirection = 'right';
+        this.currentPosX += 0.5;
         break;
       case 'up':
-        this.currentPosY--;
-        this.currentDirection = 'up';
+        this.currentPosY -= 0.5;
         break;
       case 'down':
-        this.currentPosY++;
-        this.currentDirection = 'down';
+        this.currentPosY += 0.5;
         break;
     }
+    this.currentDirection = direction;
   }
 
   public rotate(direction: string): void {
+    if (this.currentDirection === direction) {
+      return;
+    }
     switch (direction) {
       case 'left':
         this.view = [[0, 1, 1], [1, 1, 0], [0, 1, 1]];
@@ -105,11 +105,19 @@ export default class Tank implements IDrawable {
   }
 
   public get x(): number {
-    return this.currentPosX;
+    return this.currentPosX + 0.5;
   }
 
   public get y(): number {
-    return this.currentPosY;
+    return this.currentPosY + 0.5;
+  }
+
+  public get getWidth(): number {
+    return this.size + 0.5;
+  }
+
+  public get getHeight(): number {
+    return this.size + 0.5;
   }
 
   public get size(): number {

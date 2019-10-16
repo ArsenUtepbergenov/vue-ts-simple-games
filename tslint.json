@@ -16,6 +16,8 @@
     "object-literal-sort-keys": false,
     "no-consecutive-blank-lines": false,
     "max-line-length": [true, 150],
-    "no-bitwise": false
+    "no-bitwise": false,
+    "no-console": false,
+    "no-debugger": false
   }
 }

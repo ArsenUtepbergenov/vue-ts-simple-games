@@ -16,6 +16,7 @@ import Tank from '@/components/game-objects/Tank';
 import Game from '@/components/mixins/Game';
 import Scores from '@/components/scores.vue';
 import TanksBase from '@/components/game-objects/TanksBase';
+import Utilities from '../components/utilities';
 
 @Component({
   components: {
@@ -78,17 +79,14 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
     this.scores = [
       {
         message: 'Previous score',
-        color: 'scores--color-scarlet',
         value: this.previousScore,
       },
       {
         message: 'Current score',
-        color: 'scores--color-turquoise',
         value: this.currentScore,
       },
       {
         message: 'Best result',
-        color: 'scores--color-light-blue',
         value: this.bestScore,
       },
     ];
@@ -129,8 +127,8 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
     this.board = new Board(this.context, this.width, this.height);
     this.tank = new Tank(this.context);
     this.tanksBase = new TanksBase(this.context);
-    this.tanksBase.setPos((this.width / this.scaleContextValue / 2) - 1.5,
-                          (this.height / this.scaleContextValue / 2) - 1.5);
+    this.tanksBase.setPos((this.width / this.scaleContextValue / 2) - this.tanksBase.getWidth / 2,
+                          (this.height / this.scaleContextValue / 2) - this.tanksBase.getHeight / 2);
 
     return true;
   }
@@ -145,6 +143,7 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
     if (event.keyCode === Control.RESTART) {
       this.restart();
     }
+    const isСollidedOfBase = Utilities.checkCollisionRectOfRect(this.tank, this.tanksBase);
     if (event.keyCode === Directions.LEFT && this.tank.x > 0) {
       this.tank.rotate('left');
       this.tank.move('left');

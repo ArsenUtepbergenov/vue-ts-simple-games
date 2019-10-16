@@ -1,3 +1,7 @@
+import Rect from './general-objects/Rect';
+import Circle from './general-objects/Circle';
+import { IRect } from './interfaces';
+
 export default class Utilities {
   public static div(numerator: number, denominator: number): number {
     return (numerator - numerator % denominator) / denominator;
@@ -17,6 +21,26 @@ export default class Utilities {
       matrix.push(new Array(width).fill(0));
     }
     return matrix;
+  }
+
+  public static checkCollisionRectOfCircle(rect: Rect, circle: Circle): boolean {
+    if ((rect.x < circle.x + circle.getRadius) &&
+        (rect.x + rect.getWidth > circle.x - circle.getRadius) &&
+        (rect.y < circle.y + circle.getRadius) &&
+        (rect.y + rect.getHeight > circle.y - circle.getRadius)) {
+          return true;
+        }
+    return false;
+  }
+
+  public static checkCollisionRectOfRect(firstRect: IRect, secondRect: IRect): boolean {
+    if ((firstRect.x < secondRect.x + secondRect.getWidth) &&
+        (firstRect.x + firstRect.getWidth > secondRect.x) &&
+        (firstRect.y < secondRect.y + secondRect.getHeight) &&
+        (firstRect.y + firstRect.getHeight > secondRect.y)) {
+          return true;
+        }
+    return false;
   }
 
   public static applyMixins(derivedCtor: any, baseCtors: any[]) {

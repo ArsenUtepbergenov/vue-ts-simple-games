@@ -17,6 +17,7 @@ import Paddle from '@/components/game-objects/Paddle';
 import Velocity from '@/components/math/Velocity';
 import Game from '@/components/mixins/Game';
 import Scores from '@/components/scores.vue';
+import Utilities from '../components/utilities';
 
 @Component({
   components: {
@@ -84,12 +85,10 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
     this.scores = [
       {
         message: 'First player',
-        color: 'scores--color-scarlet',
         value: this.getFirstPlayerScore,
       },
       {
         message: 'AI',
-        color: 'scores--color-light-blue',
         value: this.getAiScore,
       },
     ];
@@ -169,10 +168,7 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
 
   private _checkCollisionBallOfPaddles(): void {
     this.paddles.forEach((paddle) => {
-      if ((paddle.x < this.ball.x + this.ball.getRadius) &&
-          (paddle.x + paddle.getWidth > this.ball.x - this.ball.getRadius) &&
-          (paddle.y < this.ball.y + this.ball.getRadius) &&
-          (paddle.y + paddle.getHeight > this.ball.y - this.ball.getRadius)) {
+      if (Utilities.checkCollisionRectOfCircle(paddle, this.ball)) {
         this.ball.getVelocity.increase(1.02);
         this.ball.invertVelocityX();
       }

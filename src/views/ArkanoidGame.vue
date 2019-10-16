@@ -18,6 +18,7 @@ import Paddle from '@/components/game-objects/Paddle';
 import Velocity from '@/components/math/Velocity';
 import Game from '@/components/mixins/Game';
 import Scores from '@/components/scores.vue';
+import Rect from '../components/general-objects/Rect';
 
 @Component({
   components: {
@@ -87,12 +88,10 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
     this.scores = [
       {
         message: 'Previous score',
-        color: 'scores--color-scarlet',
         value: this.previousScore,
       },
       {
         message: 'Current score',
-        color: 'scores--color-turquoise',
         value: this.currentScore,
       },
       {
@@ -101,7 +100,6 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
       },
       {
         message: 'Lives',
-        color: 'scores--color-light-blue',
         value: this.lives,
       },
     ];
@@ -185,7 +183,7 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
     const numberY = stepY * 7;
     for (let x = startPosX; x < numberX; x += stepX) {
       for (let y = startPosY; y < numberY; y += stepY) {
-        this.bricks.push({x, y, width, height});
+        this.bricks.push(new Rect(x, y, width, height));
       }
     }
   }
@@ -206,10 +204,7 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
 
   private _checkCollisionBallOfBricks(): void {
     for (const [index, brick] of this.bricks.entries()) {
-      if ((brick.x < this.ball.x + this.ball.getRadius) &&
-          (brick.x + brick.width > this.ball.x - this.ball.getRadius) &&
-          (brick.y < this.ball.y + this.ball.getRadius) &&
-          (brick.y + brick.height > this.ball.y - this.ball.getRadius)) {
+      if (Utilities.checkCollisionRectOfCircle(brick, this.ball)) {
         if (this.ball.x < brick.x || this.ball.x > brick.x + brick.width) {
           this.ball.invertVelocityX();
         }
@@ -223,11 +218,9 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
 
   private _checkCollisionBallOfPaddle(): void {
     const paddle = this.paddle;
-    if ((paddle.x < this.ball.x + this.ball.getRadius) &&
-        (paddle.x + paddle.getWidth > this.ball.x - this.ball.getRadius) &&
-        (paddle.y < this.ball.y + this.ball.getRadius) &&
-        (paddle.y + paddle.getHeight > this.ball.y - this.ball.getRadius)) {
-      if (this.ball.x < paddle.x || this.ball.x > paddle.x + paddle.getWidth) {
+    const ball = this.ball;
+    if (Utilities.checkCollisionRectOfCircle(paddle, ball)) {
+      if (ball.x < paddle.x || ball.x > paddle.x + paddle.getWidth) {
         this.ball.invertVelocityX();
       }
       this.ball.invertVelocityY();

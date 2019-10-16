@@ -82,17 +82,14 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     this.scores = [
       {
         message: 'First player',
-        color: 'scores--color-scarlet',
         value: this.getFirstPlayerScore,
       },
       {
         message: 'Second player',
-        color: 'scores--color-turquoise',
         value: this.getSecondPlayerScore,
       },
       {
         message: 'AI',
-        color: 'scores--color-light-blue',
         value: this.getAiScore,
       },
     ];

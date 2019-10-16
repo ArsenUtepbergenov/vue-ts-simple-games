@@ -18,3 +18,10 @@ export interface IMoveble {
 export interface IDynamicObject extends IMoveble, IDrawable {
   reset(): void;
 }
+
+export interface IRect {
+  x: number;
+  y: number;
+  getWidth: number;
+  getHeight: number;
+}

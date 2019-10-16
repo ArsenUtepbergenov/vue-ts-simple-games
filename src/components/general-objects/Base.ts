@@ -1,10 +1,10 @@
-import { IDrawable } from '../interfaces';
+import { IDrawable, IRect } from '../interfaces';
 
-export default class Base implements IDrawable {
+export default class Base implements IDrawable, IRect {
   protected view: number[][] = [];
   private context: any;
-  private currentPosX: number = 5;
-  private currentPosY: number = 5;
+  private currentPosX: number = 1;
+  private currentPosY: number = 1;
 
   constructor(context: any) {
     this.context = context;
@@ -32,8 +32,7 @@ export default class Base implements IDrawable {
 
   public reset(): void {
     this.view = [];
-    this.currentPosX = 5;
-    this.currentPosY = 5;
+    this.setPos(1, 1);
   }
 
   public setPos(x: number, y: number): void {
@@ -47,6 +46,14 @@ export default class Base implements IDrawable {
 
   public get y(): number {
     return this.currentPosY;
+  }
+
+  public get getWidth(): number {
+    return this.size;
+  }
+
+  public get getHeight(): number {
+    return this.size;
   }
 
   public get size(): number {
