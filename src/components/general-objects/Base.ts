@@ -1,6 +1,6 @@
-import { IDrawable, IRect } from '../interfaces';
+import { IDrawableRect } from '../interfaces';
 
-export default class Base implements IDrawable, IRect {
+export default class Base implements IDrawableRect {
   protected view: number[][] = [];
   private context: any;
   private currentPosX: number = 1;

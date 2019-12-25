@@ -25,3 +25,5 @@ export interface IRect {
   getWidth: number;
   getHeight: number;
 }
+
+export type IDrawableRect = IDrawable & IRect;

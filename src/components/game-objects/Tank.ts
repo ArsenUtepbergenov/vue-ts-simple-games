@@ -1,9 +1,9 @@
-import { IDrawable, IRect } from '../interfaces';
+import { IDrawableRect } from '../interfaces';
 import Velocity from '../math/Velocity';
 import Ball from './Ball';
 import { BoardTanks } from '../enums';
 
-export default class Tank implements IDrawable, IRect {
+export default class Tank implements IDrawableRect {
   private view: number[][] = [];
   private context: any;
   private currentPosX: number = 5;
