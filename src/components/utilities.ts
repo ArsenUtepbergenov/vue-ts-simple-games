@@ -1,6 +1,6 @@
 import Rect from './general-objects/Rect';
 import Circle from './general-objects/Circle';
-import { IRect } from './interfaces';
+import { IRect, IMouseCoordinates } from './interfaces';
 
 export default class Utilities {
   public static div(numerator: number, denominator: number): number {
@@ -21,6 +21,13 @@ export default class Utilities {
       matrix.push(new Array(width).fill(0));
     }
     return matrix;
+  }
+
+  public static getMouseCoordinates(event: any): IMouseCoordinates {
+    const rect = event.target && event.target.getBoundingClientRect();
+    const x: number = event.clientX - rect.left;
+    const y: number = event.clientY - rect.top;
+    return {x, y};
   }
 
   public static checkCollisionRectOfCircle(rect: Rect, circle: Circle): boolean {

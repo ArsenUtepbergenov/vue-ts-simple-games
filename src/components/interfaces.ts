@@ -26,4 +26,9 @@ export interface IRect {
   getHeight: number;
 }
 
+export interface IMouseCoordinates {
+  x: number;
+  y: number;
+}
+
 export type IDrawableRect = IDrawable & IRect;

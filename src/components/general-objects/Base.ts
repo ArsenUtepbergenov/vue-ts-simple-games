@@ -32,7 +32,7 @@ export default class Base implements IDrawableRect {
 
   public reset(): void {
     this.view = [];
-    this.setPos(1, 1);
+    this.setPos(this.currentPosX, this.currentPosY);
   }
 
   public setPos(x: number, y: number): void {

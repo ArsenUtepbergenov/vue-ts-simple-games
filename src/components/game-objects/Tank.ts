@@ -105,19 +105,19 @@ export default class Tank implements IDrawableRect {
   }
 
   public get x(): number {
-    return this.currentPosX + 0.5;
+    return this.currentPosX;
   }
 
   public get y(): number {
-    return this.currentPosY + 0.5;
+    return this.currentPosY;
   }
 
   public get getWidth(): number {
-    return this.size + 0.5;
+    return this.size;
   }
 
   public get getHeight(): number {
-    return this.size + 0.5;
+    return this.size;
   }
 
   public get size(): number {
