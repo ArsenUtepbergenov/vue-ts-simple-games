@@ -1,28 +1,20 @@
 <template>
   <div class="tictactoe">
     <div class="modes">
-      <button
-        type="button"
-        class="btn-outline btn-outline--play-with-ai"
-        @click="setOpponent('AI')"
-      >
+      <Button @click="setOpponent('AI')" class="btn-contained btn-contained--bg-green">
         Play with AI
-      </button>
-      <button
-        type="button"
-        class="btn-outline btn-outline--game-for-two"
-        @click="setOpponent('Two')"
-      >
+      </Button>
+      <Button @click="setOpponent('Two')" class="btn-contained btn-contained--bg-turquoise">
         Game for two
-      </button>
+      </Button>
     </div>
     <Scores :scores="getScores" />
     <div class="tictactoe__game">
-      <canvas ref="game"></canvas>
+      <canvas ref="game" />
       <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-      <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+      <Button @click="restart" class="btn">
         Restart
-      </button>
+      </Button>
     </div>
   </div>
 </template>
@@ -30,19 +22,21 @@
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
 import { Watch } from 'vue-property-decorator';
-import Utilities from '@/components/utilities';
+import Utilities from '@/utils/utilities';
 import { IStaticGame } from '@/models/interfaces';
 import { BoardTicTacToe, State, Players } from '@/models/enums';
 import Board from '@/components/game-objects/Board';
 import Player from '@/components/game-objects/Player';
-import Message from '@/components/message.vue';
-import Scores from '@/components/scores.vue';
+import Message from '@/components/ui/Message.vue';
+import Scores from '@/components/ui/Scores.vue';
 import Game from '@/components/mixins/Game';
+import Button from '@/components/ui/Button.vue';
 
 @Component({
   components: {
     Message,
     Scores,
+    Button,
   },
 })
 export default class TicTacToeGame extends mixins(Game) implements IStaticGame {

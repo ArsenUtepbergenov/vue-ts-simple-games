@@ -1,10 +1,10 @@
 <template>
   <div class="arkanoid">
     <Scores :scores="getScores" />
-    <canvas ref="game"></canvas>
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+    <canvas ref="game" />
+    <Button @click="restart" class="btn">
       Restart
-    </button>
+    </Button>
   </div>
 </template>
 
@@ -12,19 +12,21 @@
 import Component, { mixins } from 'vue-class-component';
 import { IDynamicGame } from '@/models/interfaces';
 import { State, BoardArkanoid } from '@/models/enums';
-import Utilities from '@/components/utilities';
+import Utilities from '@/utils/utilities';
 import Board from '@/components/game-objects/Board';
 import Ball from '@/components/game-objects/Ball';
 import Player from '@/components/game-objects/Player';
 import Paddle from '@/components/game-objects/Paddle';
 import Velocity from '@/components/math/Velocity';
 import Game from '@/components/mixins/Game';
-import Scores from '@/components/scores.vue';
-import Rect from '../components/general-objects/Rect';
+import Scores from '@/components/ui/Scores.vue';
+import Rect from '@/components/general-objects/Rect';
+import Button from '@/components/ui/Button.vue';
 
 @Component({
   components: {
     Scores,
+    Button,
   },
 })
 export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {

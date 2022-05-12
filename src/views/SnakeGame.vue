@@ -1,11 +1,11 @@
 <template>
   <div class="snake">
     <Scores :scores="getScores" />
-    <canvas ref="game"></canvas>
+    <canvas ref="game" />
     <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+    <Button @click="restart" class="btn">
       Restart
-    </button>
+    </Button>
   </div>
 </template>
 
@@ -19,13 +19,15 @@ import Board from '@/components/game-objects/Board';
 import Snake from '@/components/game-objects/Snake';
 import Score from '@/components/game-objects/Score';
 import Game from '@/components/mixins/Game';
-import Message from '@/components/message.vue';
-import Scores from '@/components/scores.vue';
+import Button from '@/components/ui/Button.vue';
+import Message from '@/components/ui/Message.vue';
+import Scores from '@/components/ui/Scores.vue';
 
 @Component({
   components: {
     Message,
     Scores,
+    Button,
   },
 })
 export default class SnakeGame extends mixins(Game) implements IDynamicGame {

@@ -1,21 +1,28 @@
 .btn {
   @include main-element;
-  color: $colorWhite;
   @include transition-slow;
   text-transform: uppercase;
   background-color: $primary;
   color: $colorWhite;
+  padding: 14px 20px;
+
+  @include btn('green', $colorGreen, $colorGreen);
+  @include btn('scarlet', $colorScarlet, $colorScarlet);
+  @include btn('dark-yellow', $colorDarkYellow, $colorDarkYellow);
 }
 
-.btn-regular {
+.btn-contained {
   @extend .btn;
-  width: 150px;
-  height: 40px;
-  margin: 20px auto;
+  @include bg-color();
 }
 
-.btn-outline {
-  @extend .btn-regular;
+.btn-text {
+  @extend .btn;
+  background-color: inherit;
+}
+
+.btn-outlined {
+  @extend .btn;
   background-color: transparent;
   @include border(2px);
   color: $primary;
@@ -25,8 +32,4 @@
     color: $colorWhite;
     background-color: $primary;
   }
-
-  @include btn-outline('restart', $colorGreen, $colorGreen);
-  @include btn-outline('play-with-ai', $colorScarlet, $colorScarlet);
-  @include btn-outline('game-for-two', $colorDarkYellow, $colorDarkYellow);
 }

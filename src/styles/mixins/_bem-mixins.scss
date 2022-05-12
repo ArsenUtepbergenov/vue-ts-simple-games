@@ -1,4 +1,9 @@
-@mixin btn-outline($nameModifier, $colorOriginal: $primary, $colorHover: $primary, $colorTextHover: $colorWhite) {
+@mixin btn(
+  $nameModifier,
+  $colorOriginal: $primary,
+  $colorHover: $primary,
+  $colorTextHover: $colorWhite
+) {
   &--#{$nameModifier} {
     border-color: $colorOriginal;
     color: $colorOriginal;
@@ -25,41 +30,41 @@
   }
 }
 
-@mixin modifiers-colors {
-  &--color-white {
+@mixin color {
+  &--c-white {
     color: $colorWhite;
   }
-  &--color-light-blue {
+  &--c-light-blue {
     color: $colorLightBlue;
   }
-  &--color-green {
+  &--c-green {
     color: $colorGreen;
   }
-  &--color-turquoise {
+  &--c-turquoise {
     color: $colorTurquoise;
   }
-  &--color-scarlet {
+  &--c-scarlet {
     color: $colorScarlet;
   }
 }
 
-@mixin modifiers-background-colors {
-  &--background-color-white {
+@mixin bg-color {
+  &--bg-white {
     background-color: $colorWhite;
   }
-  &--background-color-light-blue {
+  &--bg-light-blue {
     background-color: $colorLightBlue;
   }
-  &--background-color-green {
+  &--bg-green {
     background-color: $colorGreen;
   }
-  &--background-color-turquoise {
+  &--bg-turquoise {
     background-color: $colorTurquoise;
   }
-  &--background-color-scarlet {
+  &--bg-scarlet {
     background-color: $colorScarlet;
   }
-  &--background-color-transparent {
+  &--bg-transparent {
     background-color: transparent;
   }
 }

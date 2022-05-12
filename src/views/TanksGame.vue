@@ -1,10 +1,10 @@
 <template>
   <div class="tanks">
     <Scores :scores="getScores" />
-    <canvas ref="game"></canvas>
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+    <canvas ref="game" />
+    <Button @click="restart" class="btn">
       Restart
-    </button>
+    </Button>
   </div>
 </template>
 
@@ -16,13 +16,15 @@ import Board from '@/components/game-objects/Board';
 import Player from '@/components/game-objects/Player';
 import Tank from '@/components/game-objects/Tank';
 import Game from '@/components/mixins/Game';
-import Scores from '@/components/scores.vue';
+import Scores from '@/components/ui/Scores.vue';
 import TanksBase from '@/components/game-objects/TanksBase';
-import Utilities from '../components/utilities';
+import Utilities from '@/utils/utilities';
+import Button from '@/components/ui/Button.vue';
 
 @Component({
   components: {
     Scores,
+    Button,
   },
 })
 export default class TanksGame extends mixins(Game) implements IDynamicGame {

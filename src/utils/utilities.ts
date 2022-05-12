@@ -1,5 +1,5 @@
-import Rect from './general-objects/Rect';
-import Circle from './general-objects/Circle';
+import Rect from '@/components/general-objects/Rect';
+import Circle from '@/components/general-objects/Circle';
 import { IRect, IMouseCoordinates } from '@/models/interfaces';
 
 export default class Utilities {

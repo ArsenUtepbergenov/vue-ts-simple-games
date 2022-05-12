@@ -1,10 +1,10 @@
 <template>
   <div class="pong">
     <Scores :scores="getScores" />
-    <canvas ref="game"></canvas>
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+    <canvas ref="game" />
+    <Button @click="restart" class="btn">
       Restart
-    </button>
+    </Button>
   </div>
 </template>
 
@@ -18,12 +18,14 @@ import Player from '@/components/game-objects/Player';
 import Paddle from '@/components/game-objects/Paddle';
 import Velocity from '@/components/math/Velocity';
 import Game from '@/components/mixins/Game';
-import Scores from '@/components/scores.vue';
-import Utilities from '../components/utilities';
+import Scores from '@/components/ui/Scores.vue';
+import Utilities from '@/utils/utilities';
+import Button from '@/components/ui/Button.vue';
 
 @Component({
   components: {
     Scores,
+    Button,
   },
 })
 export default class PongGame extends mixins(Game) implements IDynamicGame {

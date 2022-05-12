@@ -1,30 +1,32 @@
 <template>
   <div class="tetris">
     <Scores :scores="getScores" />
-    <canvas ref="game"></canvas>
+    <canvas ref="game" />
     <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+    <Button @click="restart" class="btn">
       Restart
-    </button>
+    </Button>
   </div>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
 import { IDynamicGame } from '@/models/interfaces';
-import Utilities from '@/components/utilities';
+import Utilities from '@/utils/utilities';
 import { Directions, State, Control, BoardTetris } from '@/models/enums';
 import Player from '@/components/game-objects/Player';
 import Board from '@/components/game-objects/Board';
 import Game from '@/components/mixins/Game';
 import { createPiece, drawPiece } from '@/components/game-objects/TetrisPieces';
-import Message from '@/components/message.vue';
-import Scores from '@/components/scores.vue';
+import Message from '@/components/ui/Message.vue';
+import Scores from '@/components/ui/Scores.vue';
+import Button from '@/components/ui/Button.vue';
 
 @Component({
   components: {
     Scores,
     Message,
+    Button,
   },
 })
 export default class TetrisGame extends mixins(Game) implements IDynamicGame {
