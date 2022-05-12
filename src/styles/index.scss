@@ -20,6 +20,15 @@ canvas {
   cursor: pointer;
   outline: 0;
 }
+// rules
+$mpx: 1, 2, 3;
+
+@each $m in $mpx {
+  .m-#{$m} {
+    margin: $m * 6px;
+  }
+}
+
 // variables
 @import './variables';
 // mixins

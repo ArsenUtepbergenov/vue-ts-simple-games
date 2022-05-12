@@ -3,7 +3,7 @@
     <Scores :scores="getScores" />
     <canvas ref="game" />
     <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-    <Button @click="restart" class="btn">
+    <Button @click="restart" class="btn btn--bg-turquoise m-2">
       Restart
     </Button>
   </div>

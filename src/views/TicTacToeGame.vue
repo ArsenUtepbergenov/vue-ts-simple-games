@@ -1,10 +1,10 @@
 <template>
   <div class="tictactoe">
     <div class="modes">
-      <Button @click="setOpponent('AI')" class="btn-contained btn-contained--bg-green">
+      <Button @click="setOpponent('AI')" class="btn btn--bg-green">
         Play with AI
       </Button>
-      <Button @click="setOpponent('Two')" class="btn-contained btn-contained--bg-turquoise">
+      <Button @click="setOpponent('Two')" class="btn btn--bg-light-blue">
         Game for two
       </Button>
     </div>
@@ -12,7 +12,7 @@
     <div class="tictactoe__game">
       <canvas ref="game" />
       <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-      <Button @click="restart" class="btn">
+      <Button @click="restart" class="btn btn--bg-turquoise m-2">
         Restart
       </Button>
     </div>
@@ -20,8 +20,7 @@
 </template>
 
 <script lang="ts">
-import Component, { mixins } from 'vue-class-component';
-import { Watch } from 'vue-property-decorator';
+import { Component, Mixins, Watch } from 'vue-property-decorator';
 import Utilities from '@/utils/utilities';
 import { IStaticGame } from '@/models/interfaces';
 import { BoardTicTacToe, State, Players } from '@/models/enums';
@@ -39,7 +38,7 @@ import Button from '@/components/ui/Button.vue';
     Button,
   },
 })
-export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
+export default class TicTacToeGame extends Mixins(Game) implements IStaticGame {
   private currentPlayer: Players = Players.FIRST;
   private players: Players[] = [Players.FIRST, Players.SECOND, Players.AI];
   private winFirstPlayer: number = 0;

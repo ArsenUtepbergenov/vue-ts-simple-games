@@ -4,17 +4,17 @@ import Canvas from '../general-objects/Canvas';
 
 @Component
 export default class Game extends Vue {
-  protected canvas: any = null;
-  protected context: any;
-  protected width = 0;
-  protected height = 0;
-  protected globalState: State = State.START;
-  protected isInitCanvas = false;
-  protected board: any;
-  protected message: string = '';
-  protected styleOfMessage: string = '';
+  public canvas: any = null;
+  public context: any;
+  public width = 0;
+  public height = 0;
+  public globalState: State = State.START;
+  public isInitCanvas = false;
+  public board: any;
+  public message: string = '';
+  public styleOfMessage: string = '';
 
-  protected _initCanvas(width: number, height: number): boolean {
+  public _initCanvas(width: number, height: number): boolean {
     if (!this.$refs.game) {
       return false;
     }
@@ -26,7 +26,7 @@ export default class Game extends Vue {
     return true;
   }
 
-  protected clearContext(): void {
+  public clearContext(): void {
     if (this.isInitCanvas) {
       this.context.save();
       this.context.setTransform(1, 0, 0, 1, 0, 0);
@@ -35,28 +35,28 @@ export default class Game extends Vue {
     }
   }
 
-  protected get isOver(): boolean {
+  public get isOver(): boolean {
     return this.globalState === State.OVER;
   }
 
-  protected get getMessage(): string {
+  public get getMessage(): string {
     return this.message;
   }
 
-  protected get getStyleOfMessage(): string {
+  public get getStyleOfMessage(): string {
     return this.styleOfMessage;
   }
 
-  protected get isMessage(): boolean {
+  public get isMessage(): boolean {
     return this.isOver && this.message !== '';
   }
 
-  protected _resetMessage(): void {
+  public _resetMessage(): void {
     this.message = '';
     this.styleOfMessage = '';
   }
 
-  protected _setMessage(message: string, styleOfMessage: string): void {
+  public _setMessage(message: string, styleOfMessage: string): void {
     this.message = message;
     this.styleOfMessage = styleOfMessage;
   }

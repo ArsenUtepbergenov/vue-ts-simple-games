@@ -9,10 +9,6 @@
   @include btn('green', $colorGreen, $colorGreen);
   @include btn('scarlet', $colorScarlet, $colorScarlet);
   @include btn('dark-yellow', $colorDarkYellow, $colorDarkYellow);
-}
-
-.btn-contained {
-  @extend .btn;
   @include bg-color();
 }
 

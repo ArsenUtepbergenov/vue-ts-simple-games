@@ -1,12 +1,8 @@
-.flex-container-center {
+@mixin flex-center($direction: row) {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-}
-
-@mixin flex-center($direction: row) {
-  @extend .flex-container-center;
   flex-direction: $direction;
 }
 
