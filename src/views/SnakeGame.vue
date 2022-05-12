@@ -2,17 +2,17 @@
   <div class="snake">
     <Scores :scores="getScores" />
     <canvas ref="game" />
-    <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-    <Button @click="restart" class="btn btn--bg-turquoise m-2">
+    <Button @click="restart" class="btn btn--bg-green m-2">
       Restart
     </Button>
+    <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
   </div>
 </template>
 
 <script lang="ts">
-import Component, { mixins } from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
 import { IDynamicGame } from '@/models/interfaces';
-import { Directions, State, Control, BoardSnake } from '@/models/enums';
+import { Directions, State, Control, BoardSnake, MsgType } from '@/models/enums';
 import Piece from '@/components/general-objects/Piece';
 import Food from '@/components/game-objects/Food';
 import Board from '@/components/game-objects/Board';
@@ -30,7 +30,7 @@ import Scores from '@/components/ui/Scores.vue';
     Button,
   },
 })
-export default class SnakeGame extends mixins(Game) implements IDynamicGame {
+export default class SnakeGame extends Game implements IDynamicGame {
   private currentDirection: Directions = Directions.RIGHT;
   private placeFoodX: number = 0;
   private placeFoodY: number = 0;
@@ -155,7 +155,7 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
 
   private _gameOver(): void {
     this.globalState = State.OVER;
-    this._setMessage('The game is over', 'over');
+    this._setMessage('The game is over', MsgType.OVER);
   }
 
   private _checkCollisionBorder(): boolean {

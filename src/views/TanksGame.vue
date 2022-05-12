@@ -2,14 +2,14 @@
   <div class="tanks">
     <Scores :scores="getScores" />
     <canvas ref="game" />
-    <Button @click="restart" class="btn btn--bg-turquoise m-2">
+    <Button @click="restart" class="btn btn--bg-green m-2">
       Restart
     </Button>
   </div>
 </template>
 
 <script lang="ts">
-import Component, { mixins } from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
 import { IDynamicGame } from '@/models/interfaces';
 import { Directions, State, Control, BoardTanks } from '@/models/enums';
 import Board from '@/components/game-objects/Board';
@@ -27,7 +27,7 @@ import Button from '@/components/ui/Button.vue';
     Button,
   },
 })
-export default class TanksGame extends mixins(Game) implements IDynamicGame {
+export default class TanksGame extends Game implements IDynamicGame {
   private player: Player;
   private tank: any;
   private tanksBase: any;

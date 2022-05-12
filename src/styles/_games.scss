@@ -4,5 +4,5 @@
 .tanks,
 .tictactoe,
 .pong {
-  @include game();
+  @include game;
 }

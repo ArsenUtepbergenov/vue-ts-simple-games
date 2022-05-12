@@ -61,3 +61,8 @@ export const enum VelocityPaddle {
   MIDDLE = 14,
   FAST = 20,
 }
+
+export enum MsgType {
+  DEFAULT = 'message--default',
+  OVER = 'message--over',
+}

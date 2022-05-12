@@ -1,10 +1,10 @@
 <template>
-  <div class="home">
+  <main>
     <Menu />
     <div class="home__games">
       <router-view />
     </div>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">

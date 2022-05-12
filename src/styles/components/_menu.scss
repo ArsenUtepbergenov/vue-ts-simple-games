@@ -1,11 +1,6 @@
 .menu {
-  margin: auto;
-  padding: 0;
-  min-width: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100%;
 
   &__link {
     @include transition-slow;

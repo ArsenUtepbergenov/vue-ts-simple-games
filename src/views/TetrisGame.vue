@@ -2,15 +2,15 @@
   <div class="tetris">
     <Scores :scores="getScores" />
     <canvas ref="game" />
-    <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-    <Button @click="restart" class="btn btn--bg-turquoise m-2">
+    <Button @click="restart" class="btn btn--bg-green m-2">
       Restart
     </Button>
+    <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
   </div>
 </template>
 
 <script lang="ts">
-import Component, { mixins } from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
 import { IDynamicGame } from '@/models/interfaces';
 import Utilities from '@/utils/utilities';
 import { Directions, State, Control, BoardTetris } from '@/models/enums';
@@ -29,7 +29,7 @@ import Button from '@/components/ui/Button.vue';
     Button,
   },
 })
-export default class TetrisGame extends mixins(Game) implements IDynamicGame {
+export default class TetrisGame extends Game implements IDynamicGame {
   private player: Player;
   private loop: number = 0;
   private keyListener: any;

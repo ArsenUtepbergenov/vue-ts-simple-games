@@ -1,7 +1,9 @@
 .home {
   display: grid;
-  width: 100vw;
+  max-width: 1440px;
   height: 100vh;
   grid-template-columns: 300px 1fr;
+  align-items: center;
   overflow: hidden;
+  margin: auto;
 }

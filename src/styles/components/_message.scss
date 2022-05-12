@@ -1,11 +1,17 @@
 .message {
+  position: absolute;
+  bottom: 40px;
+
   &__p {
     color: #616cad;
-    background: $colorBlack;
-    padding: 6px 15px;
-    font-family: 'Georgia', sans-serif;
     font-size: 1.4em;
   }
 
-  @include modifiers-message;
+  &--default {
+    color: $primary;
+  }
+
+  &--over {
+    color: $colorGreen;
+  }
 }

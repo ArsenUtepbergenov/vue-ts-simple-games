@@ -2,14 +2,14 @@
   <div class="pong">
     <Scores :scores="getScores" />
     <canvas ref="game" />
-    <Button @click="restart" class="btn btn--bg-turquoise m-2">
+    <Button @click="restart" class="btn btn--bg-green m-2">
       Restart
     </Button>
   </div>
 </template>
 
 <script lang="ts">
-import Component, { mixins } from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
 import { IDynamicGame } from '@/models/interfaces';
 import { State, BoardPong } from '@/models/enums';
 import Board from '@/components/game-objects/Board';
@@ -28,7 +28,7 @@ import Button from '@/components/ui/Button.vue';
     Button,
   },
 })
-export default class PongGame extends mixins(Game) implements IDynamicGame {
+export default class PongGame extends Game implements IDynamicGame {
   private ball: any;
   private loop: number = 0;
   private mousemoveListener: any;

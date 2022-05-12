@@ -1,6 +1,7 @@
 // base
 * {
   box-sizing: border-box;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 html,
@@ -13,13 +14,23 @@ body {
 body {
   background: url(../assets/img/bg.jpg) no-repeat center;
   background-size: cover;
-  font-family: 'Josefin Sans', sans-serif;
 }
 
 canvas {
   cursor: pointer;
   outline: 0;
 }
+
+main {
+  display: grid;
+  max-width: 1440px;
+  height: 100vh;
+  grid-template-columns: 300px 1fr;
+  align-items: center;
+  overflow: hidden;
+  margin: auto;
+}
+
 // rules
 $mpx: 1, 2, 3;
 
@@ -34,8 +45,6 @@ $mpx: 1, 2, 3;
 // mixins
 @import './mixins/bem-mixins';
 @import './mixins/mixins';
-// pages
-@import './pages/home';
 // base elements
 @import './components/menu';
 @import './components/scores';

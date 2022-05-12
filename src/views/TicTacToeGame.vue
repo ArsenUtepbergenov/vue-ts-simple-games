@@ -1,7 +1,7 @@
 <template>
   <div class="tictactoe">
     <div class="modes">
-      <Button @click="setOpponent('AI')" class="btn btn--bg-green">
+      <Button @click="setOpponent('AI')" class="btn btn--bg-scarlet">
         Play with AI
       </Button>
       <Button @click="setOpponent('Two')" class="btn btn--bg-light-blue">
@@ -11,19 +11,21 @@
     <Scores :scores="getScores" />
     <div class="tictactoe__game">
       <canvas ref="game" />
-      <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-      <Button @click="restart" class="btn btn--bg-turquoise m-2">
+      <Button @click="restart" class="btn btn--bg-green m-2">
         Restart
       </Button>
+      <template v-if="isMessage">
+        <Message :message="getMessage" :type="getStyleOfMessage" />
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Mixins, Watch } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import Utilities from '@/utils/utilities';
 import { IStaticGame } from '@/models/interfaces';
-import { BoardTicTacToe, State, Players } from '@/models/enums';
+import { BoardTicTacToe, State, Players, MsgType } from '@/models/enums';
 import Board from '@/components/game-objects/Board';
 import Player from '@/components/game-objects/Player';
 import Message from '@/components/ui/Message.vue';
@@ -38,7 +40,7 @@ import Button from '@/components/ui/Button.vue';
     Button,
   },
 })
-export default class TicTacToeGame extends Mixins(Game) implements IStaticGame {
+export default class TicTacToeGame extends Game implements IStaticGame {
   private currentPlayer: Players = Players.FIRST;
   private players: Players[] = [Players.FIRST, Players.SECOND, Players.AI];
   private winFirstPlayer: number = 0;
@@ -276,17 +278,15 @@ export default class TicTacToeGame extends Mixins(Game) implements IStaticGame {
     switch (winner) {
       case 'first':
         this.firstPlayer.addScore(1);
-        this._setMessage('The first player won', 'over');
+        this._setMessage('The first player won', MsgType.OVER);
         break;
       case 'second':
         this.secondPlayer.addScore(1);
-        this._setMessage('The second player won', 'over');
+        this._setMessage('The second player won', MsgType.OVER);
         break;
       case 'draw':
-        this._setMessage('The game is draw', 'over');
+        this._setMessage('The game is draw', MsgType.OVER);
         break;
-      default:
-        this._setMessage('Unrecorded situation', 'error');
     }
   }
 

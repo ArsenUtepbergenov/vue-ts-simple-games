@@ -5,11 +5,7 @@
   background-color: $primary;
   color: $colorWhite;
   padding: 14px 20px;
-
-  @include btn('green', $colorGreen, $colorGreen);
-  @include btn('scarlet', $colorScarlet, $colorScarlet);
-  @include btn('dark-yellow', $colorDarkYellow, $colorDarkYellow);
-  @include bg-color();
+  @include bg-color;
 }
 
 .btn-text {

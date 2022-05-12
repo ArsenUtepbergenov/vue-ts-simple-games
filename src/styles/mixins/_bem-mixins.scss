@@ -15,21 +15,6 @@
   }
 }
 
-@mixin modifiers-message {
-  &--primary {
-    color: $primary;
-    border-color: $primary;
-  }
-  &--error {
-    color: $colorRed;
-    border-color: $colorRed;
-  }
-  &--over {
-    color: $colorGreen;
-    border-color: $colorGreen;
-  }
-}
-
 @mixin color {
   &--c-white {
     color: $colorWhite;
@@ -55,14 +40,26 @@
   &--bg-light-blue {
     background-color: $colorLightBlue;
   }
+  &--bg-light-blue:hover {
+    background-color: darken($colorLightBlue, 15%);
+  }
   &--bg-green {
     background-color: $colorGreen;
+  }
+  &--bg-green:hover {
+    background-color: darken($colorGreen, 15%);
   }
   &--bg-turquoise {
     background-color: $colorTurquoise;
   }
+  &--bg-turquoise:hover {
+    background-color: darken($colorTurquoise, 15%);
+  }
   &--bg-scarlet {
     background-color: $colorScarlet;
+  }
+  &--bg-scarlet:hover {
+    background-color: darken($colorScarlet, 15%);
   }
   &--bg-transparent {
     background-color: transparent;
