@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator';
-import { State } from '../enums';
+import { State } from '@/models/enums';
 import Canvas from '../general-objects/Canvas';
 
 @Component

@@ -1,5 +1,5 @@
 import Circle from '../general-objects/Circle';
-import { IDynamicObject } from '../interfaces';
+import { IDynamicObject } from '@/models/interfaces';
 import Velocity from '../math/Velocity';
 
 export default class Ball extends Circle implements IDynamicObject {

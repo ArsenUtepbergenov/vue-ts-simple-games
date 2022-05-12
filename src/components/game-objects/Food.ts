@@ -1,4 +1,4 @@
-import { IDrawable } from '../interfaces';
+import { IDrawable } from '@/models/interfaces';
 import Rect from '../general-objects/Rect';
 
 export default class Food extends Rect implements IDrawable {

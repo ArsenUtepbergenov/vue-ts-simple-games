@@ -2,14 +2,16 @@
   <div class="pong">
     <Scores :scores="getScores" />
     <canvas ref="game"></canvas>
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>
+    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+      Restart
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
-import { IDynamicGame } from '@/components/interfaces';
-import { State, BoardPong } from '@/components/enums';
+import { IDynamicGame } from '@/models/interfaces';
+import { State, BoardPong } from '@/models/enums';
 import Board from '@/components/game-objects/Board';
 import Ball from '@/components/game-objects/Ball';
 import Player from '@/components/game-objects/Player';
@@ -126,10 +128,14 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
     const heightPaddle: number = 120;
     const startPosXPaddleFirst: number = 15;
     const startPosXPaddleSecond: number = this.width - widthPaddle - 15;
-    const startPosYPaddle: number = this.height / 2 - (heightPaddle / 2);
+    const startPosYPaddle: number = this.height / 2 - heightPaddle / 2;
 
-    this.paddles.push(new Paddle(this.context, startPosXPaddleFirst, startPosYPaddle, widthPaddle, heightPaddle));
-    this.paddles.push(new Paddle(this.context, startPosXPaddleSecond, startPosYPaddle, widthPaddle, heightPaddle));
+    this.paddles.push(
+      new Paddle(this.context, startPosXPaddleFirst, startPosYPaddle, widthPaddle, heightPaddle),
+    );
+    this.paddles.push(
+      new Paddle(this.context, startPosXPaddleSecond, startPosYPaddle, widthPaddle, heightPaddle),
+    );
 
     this.board = new Board(this.context, this.width, this.height);
     this.ball = new Ball(this.context, this.width / 2, this.height / 2, 8, new Velocity(5, -4));
@@ -161,7 +167,10 @@ export default class PongGame extends mixins(Game) implements IDynamicGame {
       this.firstPlayer.addScore(1);
       this._moveBallToStartPosition();
     }
-    if (this.ball.y + this.ball.getVelocityY > this.height - radius || this.ball.y + this.ball.getVelocityY < radius) {
+    if (
+      this.ball.y + this.ball.getVelocityY > this.height - radius ||
+      this.ball.y + this.ball.getVelocityY < radius
+    ) {
       this.ball.invertVelocityY();
     }
   }

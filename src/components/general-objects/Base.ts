@@ -1,4 +1,4 @@
-import { IDrawableRect } from '../interfaces';
+import { IDrawableRect } from '@/models/interfaces';
 
 export default class Base implements IDrawableRect {
   protected view: number[][] = [];

@@ -1,7 +1,7 @@
-import { IDrawableRect } from '../interfaces';
+import { IDrawableRect } from '@/models/interfaces';
 import Velocity from '../math/Velocity';
 import Ball from './Ball';
-import { BoardTanks } from '../enums';
+import { BoardTanks } from '@/models/enums';
 
 export default class Tank implements IDrawableRect {
   private view: number[][] = [];
@@ -56,7 +56,15 @@ export default class Tank implements IDrawableRect {
         positionOfGun = [1.5, 3.5];
         break;
     }
-    this.bullets.push(new Ball(this.context, this.x + positionOfGun[0], this.y + positionOfGun[1], 0.4, velocityOfBullet));
+    this.bullets.push(
+      new Ball(
+        this.context,
+        this.x + positionOfGun[0],
+        this.y + positionOfGun[1],
+        0.4,
+        velocityOfBullet,
+      ),
+    );
   }
 
   public reset(): void {
@@ -90,16 +98,32 @@ export default class Tank implements IDrawableRect {
     }
     switch (direction) {
       case 'left':
-        this.view = [[0, 1, 1], [1, 1, 0], [0, 1, 1]];
+        this.view = [
+          [0, 1, 1],
+          [1, 1, 0],
+          [0, 1, 1],
+        ];
         break;
       case 'right':
-        this.view = [[1, 1, 0], [0, 1, 1], [1, 1, 0]];
+        this.view = [
+          [1, 1, 0],
+          [0, 1, 1],
+          [1, 1, 0],
+        ];
         break;
       case 'up':
-        this.view = [[0, 1, 0], [1, 1, 1], [1, 0, 1]];
+        this.view = [
+          [0, 1, 0],
+          [1, 1, 1],
+          [1, 0, 1],
+        ];
         break;
       case 'down':
-        this.view = [[1, 0, 1], [1, 1, 1], [0, 1, 0]];
+        this.view = [
+          [1, 0, 1],
+          [1, 1, 1],
+          [0, 1, 0],
+        ];
         break;
     }
   }
@@ -129,7 +153,11 @@ export default class Tank implements IDrawableRect {
   }
 
   private _initView(): void {
-    this.view = [[0, 1, 0], [1, 1, 1], [1, 0, 1]];
+    this.view = [
+      [0, 1, 0],
+      [1, 1, 1],
+      [1, 0, 1],
+    ];
   }
 
   private _destroyBullet(): void {
@@ -138,7 +166,12 @@ export default class Tank implements IDrawableRect {
 
     if (this.bullets && this.bullets.length >= 1) {
       for (const bullet of this.bullets) {
-        if (bullet.posX >= sizeOfBoardX || bullet.posX < 0 || bullet.posY >= sizeOfBoardY || bullet.posY < 0) {
+        if (
+          bullet.posX >= sizeOfBoardX ||
+          bullet.posX < 0 ||
+          bullet.posY >= sizeOfBoardY ||
+          bullet.posY < 0
+        ) {
           this.bullets.shift();
         }
       }

@@ -3,15 +3,17 @@
     <Scores :scores="getScores" />
     <canvas ref="game"></canvas>
     <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>
+    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+      Restart
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
-import { IDynamicGame } from '@/components/interfaces';
+import { IDynamicGame } from '@/models/interfaces';
 import Utilities from '@/components/utilities';
-import { Directions, State, Control, BoardTetris } from '@/components/enums';
+import { Directions, State, Control, BoardTetris } from '@/models/enums';
 import Player from '@/components/game-objects/Player';
 import Board from '@/components/game-objects/Board';
 import Game from '@/components/mixins/Game';
@@ -53,8 +55,11 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
 
   public update(time = 0): void {
     this.board.draw();
-    drawPiece(this.context, this.arena, {x: 0, y: 0});
-    drawPiece(this.context, this.currentPiece, {x: this.currentPiecePosX, y: this.currentPiecePosY});
+    drawPiece(this.context, this.arena, { x: 0, y: 0 });
+    drawPiece(this.context, this.currentPiece, {
+      x: this.currentPiecePosX,
+      y: this.currentPiecePosY,
+    });
     const deltaTime = time - this.lastTime;
     this.lastTime = time;
     this.dropCounter += deltaTime;
@@ -129,7 +134,7 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     this.currentPiecePosY = 0;
     this.board.draw();
     this.arena.forEach((row) => row.fill(0));
-    drawPiece(this.context, this.arena, {x: 0, y: 0});
+    drawPiece(this.context, this.arena, { x: 0, y: 0 });
     this.player.scoreToZero();
   }
 
@@ -156,7 +161,10 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     this.canvas.addEventListener('keydown', this.keyListener);
     this.globalState = State.PLAY;
     this.board = new Board(this.context, this.width, this.height);
-    this.arena = Utilities.createMatrix(this.width / this.scaleContextValue, this.height / this.scaleContextValue);
+    this.arena = Utilities.createMatrix(
+      this.width / this.scaleContextValue,
+      this.height / this.scaleContextValue,
+    );
     this._generatePiece();
 
     return true;
@@ -164,9 +172,10 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
 
   private _generatePiece(): void {
     const pieces: string = 'ILJOTSZ';
-    this.currentPiece = createPiece(pieces[pieces.length * Math.random() | 0]);
+    this.currentPiece = createPiece(pieces[(pieces.length * Math.random()) | 0]);
     this.currentPiecePosY = 0;
-    this.currentPiecePosX = (this.arena[0].length / 2 | 0) - (this.currentPiece[0].length / 2 | 0);
+    this.currentPiecePosX =
+      ((this.arena[0].length / 2) | 0) - ((this.currentPiece[0].length / 2) | 0);
     if (this._checkCollision()) {
       this._over();
     }
@@ -202,10 +211,12 @@ export default class TetrisGame extends mixins(Game) implements IDynamicGame {
     const piece = this.currentPiece;
     for (let y = 0; y < piece.length; y++) {
       for (let x = 0; x < piece[y].length; x++) {
-        if (piece[y][x] !== 0 &&
-            (arena[y + this.currentPiecePosY] &&
-            arena[y + this.currentPiecePosY][x + this.currentPiecePosX]) !== 0) {
-              return true;
+        if (
+          piece[y][x] !== 0 &&
+          (arena[y + this.currentPiecePosY] &&
+            arena[y + this.currentPiecePosY][x + this.currentPiecePosX]) !== 0
+        ) {
+          return true;
         }
       }
     }

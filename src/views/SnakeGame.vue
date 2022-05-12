@@ -3,14 +3,16 @@
     <Scores :scores="getScores" />
     <canvas ref="game"></canvas>
     <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>
+    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+      Restart
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
-import { IDynamicGame } from '@/components/interfaces';
-import { Directions, State, Control, BoardSnake } from '@/components/enums';
+import { IDynamicGame } from '@/models/interfaces';
+import { Directions, State, Control, BoardSnake } from '@/models/enums';
 import Piece from '@/components/general-objects/Piece';
 import Food from '@/components/game-objects/Food';
 import Board from '@/components/game-objects/Board';
@@ -184,10 +186,12 @@ export default class SnakeGame extends mixins(Game) implements IDynamicGame {
     if (this._checkCollisionBorder() || this._checkCollisionBody()) {
       this._gameOver();
     }
-    if ((this.snake.x < this.food.x + this.food.getWidth) &&
-        (this.snake.x + this.snake.getVelocity > this.food.x - this.food.getWidth) &&
-        (this.snake.y < this.food.y + this.food.getHeight) &&
-        (this.snake.y + this.snake.getVelocity > this.food.y - this.food.getHeight)) {
+    if (
+      this.snake.x < this.food.x + this.food.getWidth &&
+      this.snake.x + this.snake.getVelocity > this.food.x - this.food.getWidth &&
+      this.snake.y < this.food.y + this.food.getHeight &&
+      this.snake.y + this.snake.getVelocity > this.food.y - this.food.getHeight
+    ) {
       this.score.increase(1);
       this.snake.add();
       this._putNewFood();

@@ -1,5 +1,5 @@
-import { IDrawable } from '../interfaces';
-import { Directions } from '../enums';
+import { IDrawable } from '@/models/interfaces';
+import { Directions } from '@/models/enums';
 import Piece from '../general-objects/Piece';
 
 export default class Snake implements IDrawable {

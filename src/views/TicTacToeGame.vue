@@ -1,14 +1,28 @@
 <template>
   <div class="tictactoe">
     <div class="modes">
-      <button type="button" class="btn-outline btn-outline--play-with-ai" @click="setOpponent('AI')">Play with AI</button>
-      <button type="button" class="btn-outline btn-outline--game-for-two" @click="setOpponent('Two')">Game for two</button>
+      <button
+        type="button"
+        class="btn-outline btn-outline--play-with-ai"
+        @click="setOpponent('AI')"
+      >
+        Play with AI
+      </button>
+      <button
+        type="button"
+        class="btn-outline btn-outline--game-for-two"
+        @click="setOpponent('Two')"
+      >
+        Game for two
+      </button>
     </div>
     <Scores :scores="getScores" />
     <div class="tictactoe__game">
       <canvas ref="game"></canvas>
       <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
-      <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>
+      <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+        Restart
+      </button>
     </div>
   </div>
 </template>
@@ -17,8 +31,8 @@
 import Component, { mixins } from 'vue-class-component';
 import { Watch } from 'vue-property-decorator';
 import Utilities from '@/components/utilities';
-import { IStaticGame } from '@/components/interfaces';
-import { BoardTicTacToe, State, Players } from '@/components/enums';
+import { IStaticGame } from '@/models/interfaces';
+import { BoardTicTacToe, State, Players } from '@/models/enums';
 import Board from '@/components/game-objects/Board';
 import Player from '@/components/game-objects/Player';
 import Message from '@/components/message.vue';
@@ -41,7 +55,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
   private aiPlayer: Player;
   private grid: number[][] = [[], [], []];
   private sizeGrid: number = 0;
-  private cell: {size: number};
+  private cell: { size: number };
   private currentOpponent: string = '';
   private scores: object[] = [];
 
@@ -50,7 +64,7 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
     this.firstPlayer = new Player();
     this.secondPlayer = new Player();
     this.aiPlayer = new Player();
-    this.cell = {size: 0};
+    this.cell = { size: 0 };
   }
 
   public run(): void {
@@ -185,17 +199,23 @@ export default class TicTacToeGame extends mixins(Game) implements IStaticGame {
   }
 
   private _drawGrid(): void {
-    const widthBoarder = this.context.lineWidth = 5;
+    const widthBoarder = (this.context.lineWidth = 5);
     this.cell = {
-      size: Math.round((Math.min(this.width, this.height) -
-                                (this.sizeGrid * 2 * widthBoarder)) /
-                                 this.sizeGrid + 2 * widthBoarder),
+      size: Math.round(
+        (Math.min(this.width, this.height) - this.sizeGrid * 2 * widthBoarder) / this.sizeGrid +
+          2 * widthBoarder,
+      ),
     };
     for (let x = 0; x < this.sizeGrid; x++) {
       for (let y = 0; y < this.sizeGrid; y++) {
         this.context.beginPath();
         this.context.strokeStyle = '#006E6D';
-        this.context.strokeRect(this.cell.size * x, this.cell.size * y, this.cell.size, this.cell.size);
+        this.context.strokeRect(
+          this.cell.size * x,
+          this.cell.size * y,
+          this.cell.size,
+          this.cell.size,
+        );
         this.context.closePath();
       }
     }

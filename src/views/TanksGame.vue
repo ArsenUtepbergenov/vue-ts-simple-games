@@ -2,14 +2,16 @@
   <div class="tanks">
     <Scores :scores="getScores" />
     <canvas ref="game"></canvas>
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>
+    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+      Restart
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
-import { IDynamicGame } from '@/components/interfaces';
-import { Directions, State, Control, BoardTanks } from '@/components/enums';
+import { IDynamicGame } from '@/models/interfaces';
+import { Directions, State, Control, BoardTanks } from '@/models/enums';
 import Board from '@/components/game-objects/Board';
 import Player from '@/components/game-objects/Player';
 import Tank from '@/components/game-objects/Tank';
@@ -127,8 +129,10 @@ export default class TanksGame extends mixins(Game) implements IDynamicGame {
     this.board = new Board(this.context, this.width, this.height);
     this.tank = new Tank(this.context);
     this.tanksBase = new TanksBase(this.context);
-    this.tanksBase.setPos((this.width / this.scaleContextValue / 2) - this.tanksBase.getWidth / 2,
-                          (this.height / this.scaleContextValue / 2) - this.tanksBase.getHeight / 2);
+    this.tanksBase.setPos(
+      this.width / this.scaleContextValue / 2 - this.tanksBase.getWidth / 2,
+      this.height / this.scaleContextValue / 2 - this.tanksBase.getHeight / 2,
+    );
 
     return true;
   }

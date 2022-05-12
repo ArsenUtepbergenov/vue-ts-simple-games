@@ -2,14 +2,16 @@
   <div class="arkanoid">
     <Scores :scores="getScores" />
     <canvas ref="game"></canvas>
-    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">Restart</button>
+    <button type="button" class="btn-outline btn-outline--restart" @click="restart()">
+      Restart
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
-import { IDynamicGame } from '@/components/interfaces';
-import { State, BoardArkanoid } from '@/components/enums';
+import { IDynamicGame } from '@/models/interfaces';
+import { State, BoardArkanoid } from '@/models/enums';
 import Utilities from '@/components/utilities';
 import Board from '@/components/game-objects/Board';
 import Ball from '@/components/game-objects/Ball';
@@ -156,9 +158,20 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
     const startBallVelocityY: number = Utilities.randomIntByInterval(-4, 4);
 
     this.board = new Board(this.context, this.width, this.height);
-    this.ball = new Ball(this.context, this.width / 2, this.height / 2, 8,
-                        new Velocity(startBallVelocityX, startBallVelocityY));
-    this.paddle = new Paddle(this.context, this.startPosXPaddle, this.startPosYPaddle, widthPaddle, heightPaddle);
+    this.ball = new Ball(
+      this.context,
+      this.width / 2,
+      this.height / 2,
+      8,
+      new Velocity(startBallVelocityX, startBallVelocityY),
+    );
+    this.paddle = new Paddle(
+      this.context,
+      this.startPosXPaddle,
+      this.startPosYPaddle,
+      widthPaddle,
+      heightPaddle,
+    );
 
     this._generateBricks();
 
@@ -190,7 +203,10 @@ export default class ArkanoidGame extends mixins(Game) implements IDynamicGame {
 
   private _checkCollisionBallOfBorder(): void {
     const radius = this.ball.getRadius;
-    if (this.ball.x + this.ball.getVelocityX > this.width - radius || this.ball.x + this.ball.getVelocityX < radius) {
+    if (
+      this.ball.x + this.ball.getVelocityX > this.width - radius ||
+      this.ball.x + this.ball.getVelocityX < radius
+    ) {
       this.ball.invertVelocityX();
     }
     if (this.ball.y + this.ball.getVelocityY < radius) {

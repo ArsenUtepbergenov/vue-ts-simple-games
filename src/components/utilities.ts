@@ -1,6 +1,6 @@
 import Rect from './general-objects/Rect';
 import Circle from './general-objects/Circle';
-import { IRect, IMouseCoordinates } from './interfaces';
+import { IRect, IMouseCoordinates } from '@/models/interfaces';
 
 export default class Utilities {
   public static div(numerator: number, denominator: number): number {

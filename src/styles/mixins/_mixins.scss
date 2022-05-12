@@ -14,12 +14,11 @@
   @include flex-center(column);
   margin: auto;
   overflow-x: hidden;
-  max-width: $max-width;  
+  max-width: $max-width;
   height: 100%;
 }
 
 @mixin main-element {
-  box-sizing: border-box;
   outline: 0;
   border: 0;
   cursor: pointer;
@@ -32,4 +31,3 @@
 @mixin border($width: 1px, $style: solid, $color: $primary) {
   border: $width $style $color;
 }
-

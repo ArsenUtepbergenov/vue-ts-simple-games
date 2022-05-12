@@ -1,6 +1,6 @@
 import Rect from '../general-objects/Rect';
-import { IDrawable } from '../interfaces';
-import { Directions, VelocityPaddle } from '../enums';
+import { IDrawable } from '@/models/interfaces';
+import { Directions, VelocityPaddle } from '@/models/enums';
 import Velocity from '../math/Velocity';
 
 export default class Paddle extends Rect implements IDrawable {
