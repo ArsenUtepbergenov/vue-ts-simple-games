@@ -1,4 +1,11 @@
 // base
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 body {
   background: url(../assets/img/bg.jpg) no-repeat center;
   background-size: cover;
@@ -10,18 +17,18 @@ canvas {
   outline: 0;
 }
 // variables
-@import "./variables";
+@import './variables';
 // mixins
-@import "./mixins/bem-mixins";
-@import "./mixins/mixins";
+@import './mixins/bem-mixins';
+@import './mixins/mixins';
 // pages
-@import "./pages/home";
+@import './pages/home';
 // base elements
-@import "./components/menu";
-@import "./components/scores";
-@import "./components/button";
-@import "./components/message";
-@import "./components/modes";
+@import './components/menu';
+@import './components/scores';
+@import './components/button';
+@import './components/message';
+@import './components/modes';
 // games
-@import "./games";
-@import "./tictactoe";
+@import './games';
+@import './tictactoe';

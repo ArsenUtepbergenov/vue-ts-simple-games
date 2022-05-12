@@ -3,7 +3,6 @@ import App from './App.vue';
 import router from './router';
 import VueCompositionApi from '@vue/composition-api';
 
-import 'normalize.css';
 import './styles/index.scss';
 
 Vue.use(VueCompositionApi);
