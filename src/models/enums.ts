@@ -42,6 +42,7 @@ export const enum BoardSnake {
 export const enum BoardTicTacToe {
   WIDTH = 450,
   HEIGHT = 450,
+  SIZE_GRID = 3,
 }
 
 export const enum BoardTetris {

@@ -5,7 +5,9 @@
     <Button @click="restart" class="btn btn--bg-green m-2">
       Restart
     </Button>
-    <Message v-if="isMessage" :message="getMessage" :state="getStyleOfMessage" />
+    <template v-if="isMessage">
+      <Message :message="getMessage" :type="getStyleOfMessage" />
+    </template>
   </div>
 </template>
 

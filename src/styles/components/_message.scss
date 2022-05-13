@@ -1,10 +1,9 @@
 .message {
   position: absolute;
-  bottom: 40px;
+  top: 24px;
 
   &__p {
-    color: #616cad;
-    font-size: 1.4em;
+    font-size: 18px;
   }
 
   &--default {

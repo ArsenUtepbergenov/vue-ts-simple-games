@@ -50,7 +50,7 @@ export default class TicTacToeGame extends Game implements IStaticGame {
   private aiPlayer: Player;
   private grid: number[][] = [[], [], []];
   private sizeGrid: number = 0;
-  private cell: { size: number };
+  private cellSize: number = 0;
   private currentOpponent: string = '';
   private scores: object[] = [];
 
@@ -59,7 +59,6 @@ export default class TicTacToeGame extends Game implements IStaticGame {
     this.firstPlayer = new Player();
     this.secondPlayer = new Player();
     this.aiPlayer = new Player();
-    this.cell = { size: 0 };
   }
 
   public run(): void {
@@ -87,7 +86,7 @@ export default class TicTacToeGame extends Game implements IStaticGame {
     this.run();
   }
 
-  get getScores(): object[] {
+  get getScores() {
     this.scores = [
       {
         message: 'First player',
@@ -156,7 +155,7 @@ export default class TicTacToeGame extends Game implements IStaticGame {
       }
     }
 
-    this.sizeGrid = 3;
+    this.sizeGrid = BoardTicTacToe.SIZE_GRID;
     this._generateCurrentPlayer();
 
     this.board = new Board(this.context, this.width, this.height);
@@ -194,25 +193,24 @@ export default class TicTacToeGame extends Game implements IStaticGame {
   }
 
   private _drawGrid(): void {
-    const widthBoarder = (this.context.lineWidth = 5);
-    this.cell = {
-      size: Math.round(
-        (Math.min(this.width, this.height) - this.sizeGrid * 2 * widthBoarder) / this.sizeGrid +
-          2 * widthBoarder,
-      ),
-    };
-    for (let x = 0; x < this.sizeGrid; x++) {
-      for (let y = 0; y < this.sizeGrid; y++) {
-        this.context.beginPath();
-        this.context.strokeStyle = '#006E6D';
-        this.context.strokeRect(
-          this.cell.size * x,
-          this.cell.size * y,
-          this.cell.size,
-          this.cell.size,
-        );
-        this.context.closePath();
-      }
+    this.context.lineWidth = 3;
+    const canvasSize = Math.min(this.width, this.height);
+    this.cellSize = Math.floor(canvasSize / this.sizeGrid);
+
+    this.context.strokeStyle = '#607d8b';
+
+    for (let x = 1; x < this.sizeGrid; x++) {
+      this.context.beginPath();
+      this.context.moveTo(x * this.cellSize, 0);
+      this.context.lineTo(x * this.cellSize, this.cellSize * this.sizeGrid);
+      this.context.stroke();
+    }
+
+    for (let y = 1; y < this.sizeGrid; y++) {
+      this.context.beginPath();
+      this.context.moveTo(0, y * this.cellSize);
+      this.context.lineTo(this.cellSize * this.sizeGrid, y * this.cellSize);
+      this.context.stroke();
     }
   }
 
@@ -291,24 +289,24 @@ export default class TicTacToeGame extends Game implements IStaticGame {
   }
 
   private _drawCross(x: number, y: number): void {
-    this.context.beginPath();
+    const step = this.cellSize / 3;
     this.context.strokeStyle = '#6B5B95';
-    const step = this.cell.size / 3;
+    this.context.beginPath();
     this.context.moveTo(x - step, y - step);
     this.context.lineTo(x + step, y + step);
+    this.context.stroke();
+    this.context.beginPath();
     this.context.moveTo(x + step, y - step);
     this.context.lineTo(x - step, y + step);
     this.context.stroke();
-    this.context.closePath();
   }
 
   private _drawCircle(x: number, y: number): void {
-    this.context.beginPath();
+    const radius = this.cellSize / 3;
     this.context.strokeStyle = '#FF6F61';
-    const radius = this.cell.size / 3;
+    this.context.beginPath();
     this.context.arc(x, y, radius, 0, 2 * Math.PI);
     this.context.stroke();
-    this.context.closePath();
   }
 
   private _setCurrentPlayer(player: Players): void {
@@ -319,15 +317,15 @@ export default class TicTacToeGame extends Game implements IStaticGame {
     const rect = event.target.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    const indexCellX = Utilities.div(x, this.cell.size);
-    const indexCellY = Utilities.div(y, this.cell.size);
+    const indexCellX = Utilities.div(x, this.cellSize);
+    const indexCellY = Utilities.div(y, this.cellSize);
 
     if (this.grid[indexCellY][indexCellX] !== 0) {
       return;
     }
 
-    const posXSymbol = indexCellX * this.cell.size + this.cell.size / 2;
-    const posYSymbol = indexCellY * this.cell.size + this.cell.size / 2;
+    const posXSymbol = indexCellX * this.cellSize + this.cellSize / 2;
+    const posYSymbol = indexCellY * this.cellSize + this.cellSize / 2;
 
     if (this.currentPlayer === Players.FIRST) {
       this._drawCircle(posXSymbol, posYSymbol);

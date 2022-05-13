@@ -18,8 +18,14 @@ export default class Snake implements IDrawable {
 
   public draw(): void {
     this.context.fillStyle = '#114444';
+
     for (const piece of this.body) {
-      this.context.fillRect(piece.x, piece.y, Piece.size, Piece.size);
+      this.context.fillRect(
+        piece.x + Piece.size - this.velocity,
+        piece.y + Piece.size - this.velocity,
+        Piece.size,
+        Piece.size,
+      );
     }
   }
 
