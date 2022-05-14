@@ -12,13 +12,14 @@ import { CharacterAnimation, DevConfig, KeyCodes, State } from '@/models/enums'
 import Board from '@/components/game-objects/Board'
 import Sprite from '@/components/general-objects/Sprite'
 import { CharacterMetadata } from '@/models/meta'
+import KeyboardState from '@/components/controls/KeyboardState'
 
 @Component
 export default class Dev extends Game implements IDynamicGame {
   private loop = 0
   private spriteCharacter: Sprite | null = null
-  private keyListener: ((event: KeyboardEvent) => void) | null = null
   private currentAnimation = CharacterAnimation.STAND
+  private input = new KeyboardState()
 
   constructor() {
     super()
@@ -60,7 +61,6 @@ export default class Dev extends Game implements IDynamicGame {
       cancelAnimationFrame(this.loop)
       this.globalState = State.OVER
     }
-    this.canvas.removeEventListener('keydown', this.keyListener)
   }
 
   private _initCharacter(): void {
@@ -82,24 +82,16 @@ export default class Dev extends Game implements IDynamicGame {
     }
 
     this.globalState = State.PLAY
-    this.keyListener = (event: KeyboardEvent) => {
-      this._handleKey(event)
-    }
-    this.canvas.addEventListener('keydown', this.keyListener)
+
+    this.input.addMapping(KeyCodes.RIGHT, (keyState) => {
+      keyState ? (this.currentAnimation = CharacterAnimation.STAND_RIGHT) : undefined
+    })
+    this.input.listenTo(this.canvas?.instance)
 
     this.board = new Board(this.context, this.width, this.height)
     this.board.draw()
 
     this._initCharacter()
-  }
-
-  private _handleKey(event: KeyboardEvent): void {
-    const key = event.code
-
-    if (key === KeyCodes.RIGHT) this.currentAnimation = CharacterAnimation.STAND_RIGHT
-    else if (key === KeyCodes.DOWN) this.currentAnimation = CharacterAnimation.STAND
-    else if (key === KeyCodes.UP) this.currentAnimation = CharacterAnimation.STAND_BACK
-    else if (key === KeyCodes.LEFT) this.currentAnimation = CharacterAnimation.STAND_LEFT
   }
 }
 </script>

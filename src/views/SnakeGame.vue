@@ -74,7 +74,7 @@ export default class SnakeGame extends Game implements IDynamicGame {
     if (this.loop) {
       cancelAnimationFrame(this.loop)
       this.globalState = State.OVER
-      this.canvas.removeEventListener('keydown', this.keyListener)
+      this.canvas?.removeEventListener('keydown', this.keyListener)
     }
   }
 
@@ -133,7 +133,7 @@ export default class SnakeGame extends Game implements IDynamicGame {
     this.keyListener = (event: any) => {
       this._handleKey(event)
     }
-    this.canvas.addEventListener('keydown', this.keyListener)
+    this.canvas?.addEventListener('keydown', this.keyListener)
     this.globalState = State.PLAY
 
     const startPosX: number = 300

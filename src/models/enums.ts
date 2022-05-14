@@ -86,6 +86,7 @@ export enum CharacterAnimation {
   STAND_BACK,
   STAND_LEFT,
 }
+
 export const CharacterAnimations = {
   [CharacterAnimation.STAND]: [1, 0],
   [CharacterAnimation.STAND_RIGHT]: [1, 1],

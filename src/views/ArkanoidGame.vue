@@ -72,7 +72,7 @@ export default class ArkanoidGame extends Game implements IDynamicGame {
     if (this.loop) {
       cancelAnimationFrame(this.loop)
       this.globalState = State.OVER
-      this.canvas.removeEventListener('mousemove', this.mousemoveListener)
+      this.canvas?.removeEventListener('mousemove', this.mousemoveListener)
     }
   }
 
@@ -149,7 +149,7 @@ export default class ArkanoidGame extends Game implements IDynamicGame {
     this.mousemoveListener = (event: any) => {
       this._handleMouseMove(event)
     }
-    this.canvas.addEventListener('mousemove', this.mousemoveListener)
+    this.canvas?.addEventListener('mousemove', this.mousemoveListener)
     this.globalState = State.PLAY
 
     const widthPaddle: number = 160

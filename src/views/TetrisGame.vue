@@ -81,7 +81,7 @@ export default class TetrisGame extends Game implements IDynamicGame {
     if (this.loop) {
       cancelAnimationFrame(this.loop)
       this.globalState = State.OVER
-      this.canvas.removeEventListener('keydown', this.keyListener)
+      this.canvas?.removeEventListener('keydown', this.keyListener)
     }
   }
 
@@ -160,7 +160,7 @@ export default class TetrisGame extends Game implements IDynamicGame {
     this.keyListener = (event: any) => {
       this._handleKey(event)
     }
-    this.canvas.addEventListener('keydown', this.keyListener)
+    this.canvas?.addEventListener('keydown', this.keyListener)
     this.globalState = State.PLAY
     this.board = new Board(this.context, this.width, this.height)
     this.arena = Utilities.createMatrix(

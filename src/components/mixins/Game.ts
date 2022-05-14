@@ -4,7 +4,7 @@ import Canvas from '../general-objects/Canvas'
 
 @Component
 export default class Game extends Vue {
-  public canvas: any
+  public canvas: Canvas | null = null
   public context: any
   public width = 0
   public height = 0
@@ -14,24 +14,29 @@ export default class Game extends Vue {
   public message: string = ''
   public styleOfMessage: string = ''
 
-  public _initCanvas(width: number, height: number): boolean {
-    if (!this.$refs.game) {
+  protected _initCanvas(width: number, height: number): boolean {
+    try {
+      if (!this.$refs.game) {
+        throw new Error(`Can't find canvas node element`)
+      }
+      this.width = width
+      this.height = height
+      this.canvas = new Canvas(this.$refs.game as HTMLCanvasElement, width, height)
+      this.context = this.canvas.context
+      this.isInitedCanvas = true
+      return true
+    } catch (error) {
+      console.error(error)
       return false
     }
-    this.width = width
-    this.height = height
-    this.canvas = new Canvas(this.$refs.game, width, height)
-    this.context = this.canvas.context
-    this.isInitedCanvas = true
-    return true
   }
 
   public clearContext(): void {
     if (this.isInitedCanvas) {
-      this.context?.save()
-      this.context?.setTransform(1, 0, 0, 1, 0, 0)
-      this.context?.clearRect(0, 0, this.width, this.height)
-      this.context?.restore()
+      this.context.save()
+      this.context.setTransform(1, 0, 0, 1, 0, 0)
+      this.context.clearRect(0, 0, this.width, this.height)
+      this.context.restore()
     }
   }
 

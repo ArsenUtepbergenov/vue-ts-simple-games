@@ -127,13 +127,13 @@ export default class TicTacToeGame extends Game implements IStaticGame {
 
   private _playWithHuman(): void {
     const clickListener = (event: any) => this._move(event)
-    this.canvas.addEventListener('click', clickListener)
+    this.canvas?.addEventListener('click', clickListener)
 
     this.globalState = State.PLAY
 
     const timerId = setInterval(() => {
       if (this.globalState === State.OVER) {
-        this.canvas.removeEventListener('click', clickListener)
+        this.canvas?.removeEventListener('click', clickListener)
         clearInterval(timerId)
         return
       }
