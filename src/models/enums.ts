@@ -5,6 +5,13 @@ export const enum Directions {
   DOWN = 40,
 }
 
+export const enum KeyCodes {
+  LEFT = 'ArrowLeft',
+  RIGHT = 'ArrowRight',
+  DOWN = 'ArrowDown',
+  UP = 'ArrowUp',
+}
+
 export const enum State {
   START,
   PLAY,
@@ -66,4 +73,22 @@ export const enum VelocityPaddle {
 export enum MsgType {
   DEFAULT = 'message--default',
   OVER = 'message--over',
+}
+
+export enum DevConfig {
+  BOARD_WIDTH = 720,
+  BOARD_HEIGHT = 500,
+}
+
+export enum CharacterAnimation {
+  STAND,
+  STAND_RIGHT,
+  STAND_BACK,
+  STAND_LEFT,
+}
+export const CharacterAnimations = {
+  [CharacterAnimation.STAND]: [1, 0],
+  [CharacterAnimation.STAND_RIGHT]: [1, 1],
+  [CharacterAnimation.STAND_BACK]: [1, 3],
+  [CharacterAnimation.STAND_LEFT]: [0, 2],
 }

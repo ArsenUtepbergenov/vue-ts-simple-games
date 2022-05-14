@@ -9,14 +9,16 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '*',
-      component: Home,
-    },
-    {
       path: '/',
       name: 'home',
       component: Home,
+      redirect: { name: 'Dev' },
       children: [
+        {
+          path: 'dev',
+          name: 'Dev',
+          component: () => import('./views/Dev.vue'),
+        },
         {
           path: 'snake',
           component: () => import('./views/SnakeGame.vue'),
